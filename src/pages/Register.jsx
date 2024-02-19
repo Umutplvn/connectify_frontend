@@ -10,7 +10,8 @@ import { FormGroup, Modal } from "@mui/material";
 import Agreement from "../components/Agreement";
 import useAuthCall from "../hooks/useAuthCall";
 import PasswordStrengthBar from "react-password-strength-bar";
-
+import Header from "../components/Header";
+import bgImage from "../assets/background.jpeg"
 const Register = () => {
  
   const { register } = useAuthCall();
@@ -63,8 +64,28 @@ const Register = () => {
   };
 
   return (
-    <Box>
-      <Box sx={{ textAlign: "center", mt: "3rem" }}>
+
+    <Box  style={{
+      position: "relative",
+      height: "100vh",
+    }}>
+
+   
+    <Box style={{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    opacity:"0.5",
+    zIndex: -1 }}>
+<img src={bgImage} alt="background" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+</Box>
+
+
+      <Header/>
+
+      <Box sx={{ textAlign: "center", mt: "1rem"}}  >
         <Typography sx={{ color: "#3B9387", fontSize: "1.5rem", mb: "1rem" }}>
           Register to the Connectify
         </Typography>
@@ -91,7 +112,7 @@ const Register = () => {
 
         <Box component="form" onSubmit={(e) => handleSubmit(e)} sx={{ mt: 3 }}>
           <Box container spacing={2}>
-            <Box sx={{ mb: "1rem" }}>
+            <Box sx={{ mb: "1rem"}}>
               <TextField
                 autoComplete="given-name"
                 name="name"
@@ -101,6 +122,9 @@ const Register = () => {
                 label="Name"
                 autoFocus
                 onChange={(e) => handleChange(e)}
+                InputLabelProps={{
+                  style: { color: "black" },
+                }}
               />
             </Box>
 
@@ -114,6 +138,9 @@ const Register = () => {
                 label="Username"
                 autoFocus
                 onChange={(e) => handleChange(e)}
+                InputLabelProps={{
+                  style: { color: "black" },
+                }}
               />
             </Box>
 
@@ -127,6 +154,9 @@ const Register = () => {
                 name="email"
                 autoComplete="email"
                 onChange={(e) => handleChange(e)}
+                InputLabelProps={{
+                  style: { color: "black" },
+                }}
               />
             </Box>
             <Box sx={{ mb: "1rem" }}>
@@ -139,6 +169,9 @@ const Register = () => {
                 id="password"
                 autoComplete="new-password"
                 onChange={handleChange}
+                InputLabelProps={{
+                  style: { color: "black" },
+                }}
               />
               <Box sx={{ width: "100%" }}>
                 <PasswordStrengthBar
@@ -177,9 +210,11 @@ const Register = () => {
               pl: 4,
               pr: 4,
               backgroundColor: "#41D463",
-              "&:hover": { backgroundColor: "#2daa4a" },
+              "&:hover": { backgroundColor: "#2daa4a" 
+            },
             }}
             disabled={passwordError}
+            
           >
             Sign Up
           </Button>
@@ -222,6 +257,7 @@ const Register = () => {
           <Agreement onClose={handleCloseModal} />
         </Box>
       </Modal>
+    
     </Box>
   );
 };

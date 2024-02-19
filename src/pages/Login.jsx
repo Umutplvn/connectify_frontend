@@ -5,8 +5,9 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useState } from "react";
 import useAuthCall from "../hooks/useAuthCall";
-import { toastErrorNotify, toastWarnNotify } from "../helper/ToastNotify";
+import bgImage from "../assets/background.jpeg"
 import { useSelector } from "react-redux";
+import Header from "../components/Header";
 
 const Login = () => {
 
@@ -25,7 +26,24 @@ const handleSubmit=(e)=>{
 }
 
   return (
-    <Box>
+         <Box  style={{
+      position: "relative",
+      height: "100vh",
+    }}>
+
+   
+    <Box style={{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    opacity:"0.5",
+    zIndex: -1 }}>
+<img src={bgImage} alt="background" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+</Box>
+
+      <Header/>
     <Box sx={{ textAlign:"center", mt:"3rem"}}>
       <Typography sx={{color:"#3B9387", fontSize:"1.5rem", mb:"1rem"}}>Login to the Connectify</Typography>
       <Typography>Welcome to Connectify! Please enter your credentials to access your account.</Typography>
@@ -37,11 +55,15 @@ const handleSubmit=(e)=>{
             <TextField
               required
               fullWidth
+              type="email"
               id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
               onChange={handleChange}
+              InputLabelProps={{
+                style: { color: "black" },
+              }}
 
             />
           </Box>
@@ -55,6 +77,9 @@ const handleSubmit=(e)=>{
               id="password"
               autoComplete="new-password"
               onChange={handleChange}
+              InputLabelProps={{
+                style: { color: "black" },
+              }}
 
             />
           </Box>
