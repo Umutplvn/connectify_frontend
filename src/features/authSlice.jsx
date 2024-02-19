@@ -6,6 +6,7 @@ export const authSlice = createSlice({
     loading: false,
     error: false,
     currentUser: null,
+    username: null,
     token: null,
     userId: null,
     email:null,
@@ -31,6 +32,7 @@ export const authSlice = createSlice({
       state.token = payload?.Token;
       state.userId = payload?.result?._id;
       state.email=payload?.result?.email;
+      state.username=payload?.result?.username;
       state.password=payload?.result?.password;
       state.passcode = payload?.passcode;
       state.verified=payload?.result?.verified
@@ -53,6 +55,7 @@ export const authSlice = createSlice({
       state.token = payload?.Token;
       state.userId = payload?.result?._id;
       state.email = payload?.result?.email;
+      state.username=payload?.result?.username;
       state.verified = payload?.result?.verified;
     },
 

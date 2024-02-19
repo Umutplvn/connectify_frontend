@@ -1,20 +1,8 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import {
-  fetchStart,
-  fetchFail,
-  loginSuccess,
-  registerSuccess,
-  logoutSuccess,
-  passwordUpdateSuccess,
-  deleteSuccess,
-} from "../features/authSlice";
+import {fetchStart,fetchFail,loginSuccess,registerSuccess,logoutSuccess,passwordUpdateSuccess,deleteSuccess,} from "../features/authSlice";
 import { useNavigate } from "react-router";
-import {
-  toastErrorNotify,
-  toastSuccessNotify,
-  toastWarnNotify,
-} from "../helper/ToastNotify";
+import {toastErrorNotify,toastSuccessNotify, toastWarnNotify,} from "../helper/ToastNotify";
 import useAxios from "./useAxios";
 
 const useAuthCall = () => {
@@ -22,6 +10,7 @@ const useAuthCall = () => {
   const navigate = useNavigate();
   const { axiosWithToken } = useAxios();
 
+  
   const register = async (userData) => {
     dispatch(fetchStart);
     try {
@@ -34,7 +23,7 @@ const useAuthCall = () => {
       navigate("/verification");
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify("Register failed");
+      toastErrorNotify(error?.response?.data?.message);
     }
   };
 
@@ -69,12 +58,12 @@ const useAuthCall = () => {
   const login = async (userData) => {
     dispatch(fetchStart);
     try {
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/auth/login/`,
         userData
       );
       console.log(data.result.verified);
-      if (!(data?.result?.verified)) {
+      if (!data?.result?.verified) {
         deleteUser(data?.result?._id);
         toastWarnNotify("No such account found!");
       } else {
