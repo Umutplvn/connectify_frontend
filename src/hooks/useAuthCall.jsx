@@ -69,7 +69,7 @@ const useAuthCall = () => {
       } else {
         dispatch(loginSuccess(data));
         toastSuccessNotify("Welcome to the Connectify.");
-        navigate("/main");
+        navigate("/chats");
       }
     } catch (error) {
       dispatch(fetchFail());

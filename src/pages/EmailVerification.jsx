@@ -38,7 +38,7 @@ const EmailVerification = () => {
     e.preventDefault();
     if (passcode == pass) {
       update(userId, { verified: true });
-      navigate("/main");
+      navigate("/chats");
       toastSuccessNotify("Welcome to Connectify");
     } else {
       toastErrorNotify("Passcode is wrong");
@@ -81,7 +81,7 @@ const EmailVerification = () => {
 
 
       </Box>
-      <Box sx={{ textAlign: "center", mt: "9rem" }}>
+      <Box sx={{ textAlign: "center", mt: "9rem", p:"0.5rem" }}>
         <Typography sx={{ color: "#3B9387", fontSize: "1.5rem", mb: "1rem" }}>
           Verify your email address
         </Typography>

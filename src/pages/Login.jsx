@@ -6,45 +6,54 @@ import Typography from '@mui/material/Typography';
 import { useState } from "react";
 import useAuthCall from "../hooks/useAuthCall";
 import bgImage from "../assets/background.jpeg"
-import { useSelector } from "react-redux";
 import Header from "../components/Header";
 
 const Login = () => {
 
 const {login}=useAuthCall()
 
-const {error}=useSelector((state)=>state.auth)
+const [loading, setLoading] = useState(false);
 const [info, setInfo] = useState({email:"", password:""});
 const handleChange = (e) => {
   e.preventDefault();
   setInfo({...info, [e.target.name]:e.target.value});
 };
 
-const handleSubmit=(e)=>{
+
+const handleSubmit = async (e) => {
   e.preventDefault();
-    login(info)
-}
+  setLoading(true);
+  try {
+    await  login(info)
+    setLoading(false);
+  } catch (error) {
+    setLoading(false);
+  }
+};
+
 
   return (
          <Box  style={{
       position: "relative",
-      height: "100vh",
+      height: "105vh",
     }}>
 
    
-    <Box style={{
+<Box style={{
     position: "absolute",
     top: 0,
     left: 0,
     width: "100%",
     height: "100%",
     opacity:"0.5",
+    backgroundImage: `url(${bgImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
     zIndex: -1 }}>
-<img src={bgImage} alt="background" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
 </Box>
-
       <Header/>
-    <Box sx={{ textAlign:"center", mt:"3rem"}}>
+    <Box sx={{ textAlign:"center", mt:"2rem", p:"0.5rem"}}>
       <Typography sx={{color:"#3B9387", fontSize:"1.5rem", mb:"1rem"}}>Login to the Connectify</Typography>
       <Typography>Welcome to Connectify! Please enter your credentials to access your account.</Typography>
 
@@ -94,6 +103,23 @@ const handleSubmit=(e)=>{
         >
           Login
         </Button>
+        <Box>
+          <Box
+            display={{ position: "relative" }}
+            sx={{ width: "%100", display: "flex", justifyContent: "center" }}
+          >
+            {loading && (
+              <img
+                src="https://i.gifer.com/ZKZg.gif"
+                alt="loading"
+                style={{width: "5rem",
+                position: "absolute",
+                zIndex:"3",
+                top: "50%"}}
+              />
+            )}
+          </Box>
+        </Box>
 
         <Box container justifyContent="flex-end">
           <Box >

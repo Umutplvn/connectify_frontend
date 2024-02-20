@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -67,7 +67,8 @@ const Register = () => {
 
     <Box  style={{
       position: "relative",
-      height: "100vh",
+      height: "105vh",
+
     }}>
 
    
@@ -78,14 +79,17 @@ const Register = () => {
     width: "100%",
     height: "100%",
     opacity:"0.5",
+    backgroundImage: `url(${bgImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
     zIndex: -1 }}>
-<img src={bgImage} alt="background" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
 </Box>
 
 
       <Header/>
 
-      <Box sx={{ textAlign: "center", mt: "1rem"}}  >
+      <Box sx={{ textAlign: "center", padding:"0.5rem"}}  >
         <Typography sx={{ color: "#3B9387", fontSize: "1.5rem", mb: "1rem" }}>
           Register to the Connectify
         </Typography>
@@ -100,6 +104,7 @@ const Register = () => {
                 alt="loading"
                 style={{width: "5rem",
                 position: "absolute",
+                zIndex:"3",
                 top: "50%"}}
               />
             )}
