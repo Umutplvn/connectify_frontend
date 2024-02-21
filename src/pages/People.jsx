@@ -5,17 +5,16 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useDataCall from "../hooks/useDataCall";
 import usernone from "../assets/nouser.png";
-import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
-import RemoveIcon from '@mui/icons-material/Remove';
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import RemoveIcon from "@mui/icons-material/Remove";
 
-const Status = ({setContacts, contacts}) => {
+const People =  ({ setContacts, contacts }) => {
   const { users } = useSelector((state) => state?.appData);
   useEffect(() => {
     getUsers();
   }, []);
 
   const [display, setDisplay] = useState([]);
-  const [selected, setSelected] = useState();
   const { getUsers } = useDataCall();
 
   const handleSearch = (e) => {
@@ -26,30 +25,39 @@ const Status = ({setContacts, contacts}) => {
     } else {
       filteredData = users?.data?.result?.filter((item) => {
         return (
-          item.username.toLowerCase().includes(searchKeyword) ||
-          item.name.toLowerCase().includes(searchKeyword)
+          item?.username?.toLowerCase()?.includes(searchKeyword) ||
+          item?.name?.toLowerCase()?.includes(searchKeyword)
         );
       });
     }
     setDisplay(filteredData);
   };
 
-
-  const addFriend = (item) => {
-    if (!contacts.some(contact => contact._id === item._id)) {
+  const addContact = (item) => {
+    if (!contacts.some((contact) => contact._id === item._id)) {
       setContacts([...contacts, item]);
     }
-    setSelected(item?._id)
-
   };
 
-  
+  const removeContact = (item) => {
+    const updatedContacts = contacts.filter(
+      (contact) => contact._id !== item._id
+    );
+    setContacts(updatedContacts);
+  };
+
+  console.log(contacts);
 
   return (
     <Box>
       {/* Title */}
       <Typography
-        sx={{ padding: "0.5rem", fontSize: "24px", fontWeight: "700", backgroundColor:"#f8fcfb" }}
+        sx={{
+          padding: "0.5rem",
+          fontSize: "24px",
+          fontWeight: "700",
+          backgroundColor: "#f8fcfb",
+        }}
       >
         People
       </Typography>
@@ -59,7 +67,7 @@ const Status = ({setContacts, contacts}) => {
         component="form"
         sx={{
           "& .MuiTextField-root": { p: "0 0.5rem", width: "100%" },
-          mt:"0.5rem"
+          mt: "0.5rem",
         }}
         noValidate
         autoComplete="off"
@@ -71,7 +79,6 @@ const Status = ({setContacts, contacts}) => {
           type="search"
           size="small"
           autoComplete="search"
-          
           InputProps={{
             startAdornment: (
               <InputAdornment position="start" sx={{ alignSelf: "center" }}>
@@ -107,32 +114,61 @@ const Status = ({setContacts, contacts}) => {
           <Box
             sx={{
               width: "100%",
-              display:"flex",
+              display: "flex",
               p: "0.3rem",
               borderBottom: "0.5px solid #e0e4eb",
-              justifyContent:"space-between"
+              justifyContent: "space-between",
             }}
           >
-            <Box display={"flex"} flexDirection={"column"} width={"85%"} justifyContent={"space-between"}>
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              width={"85%"}
+              justifyContent={"space-between"}
+            >
               <Typography sx={{ fontWeight: "700" }}>
                 {item?.name.charAt(0).toUpperCase() +
                   item?.name.slice(1).toLowerCase()}
               </Typography>
-              <Typography>
-                @{item?.username}
-              </Typography>
+              <Typography>@{item?.username}</Typography>
             </Box>
-            <Box onClick={()=>addFriend(item)}  sx={{width:"3rem", backgroundColor:"#f7f7f8", color:"#3C9387", border:"0.1px solid #e7e4e4", borderRadius:"50%", display:"flex", justifyContent:"center", alignItems:"center"}}>
-
-{(contacts.map((check)=>check.includes(item._id)) ? <RemoveIcon
-              sx={{ cursor: "pointer", fontSize:30, rotate:(item._id==selected ?`360deg`: "0deg"), transition:"1s" }}
-            /> : <AddCircleRoundedIcon
-            sx={{ cursor: "pointer", fontSize:30, rotate:(item._id==selected ?`360deg`: "0deg"), transition:"1s" }}
-          /> 
+            <Box
+              onClick={() => {
+                if (contacts.some((contact) => contact._id === item._id)) {
+                  removeContact(item);
+                } else {
+                  addContact(item);
+                }
+              }}
+              sx={{
+                width: "3rem",
+                backgroundColor: "#f7f7f8",
+                color: "#3C9387",
+                border: "0.1px solid #e7e4e4",
+                borderRadius: "50%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {contacts.some((contact) => contact._id === item._id) ? (
+                <RemoveIcon
+                  sx={{
+                    cursor: "pointer",
+                    fontSize: 30,
+                    transition: "1s",
+                  }}
+                />
+              ) : (
+                <AddCircleRoundedIcon
+                  sx={{
+                    cursor: "pointer",
+                    fontSize: 30,
+                    transition: "1s",
+                  }}
+                />
               )}
-             </Box>
-
-
+            </Box>
           </Box>
         </Box>
       ))}
@@ -142,4 +178,4 @@ const Status = ({setContacts, contacts}) => {
   );
 };
 
-export default Status;
+export default People;

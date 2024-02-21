@@ -28,7 +28,7 @@ const AppRouter = () => {
           <Route path="/main" element={<MainPage />} />
           <Route path="/chats" element={<Chats/>} />
           <Route path="/chat/:_id" element={<Chat/>} />
-          <Route path="/contacts" element={<Contacts contacts={contacts}/>} />
+          <Route path="/contacts" element={<Contacts setContacts={setContacts}  contacts={contacts}/>} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/status" element={<Status contacts={contacts}/>} />
           <Route path="/people" element={<People setContacts={setContacts} contacts={contacts} />} />
