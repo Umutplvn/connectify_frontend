@@ -29,7 +29,6 @@ const Register = () => {
 
   const handleChange = (e) => {
     e.preventDefault();
-    console.log();
     const { name, value } = e.target;
     setInfo({ ...info, [name]: value });
     if (

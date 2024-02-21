@@ -7,7 +7,7 @@ const Status = () => {
     <Box>
       {/* Title */}
       <Typography
-        sx={{ padding: "0.5rem", fontSize: "24px", fontWeight: "700" }}
+        sx={{ padding: "0.5rem", fontSize: "24px", fontWeight: "700", backgroundColor:"#f8fcfb" }}
       >
         Status
       </Typography>

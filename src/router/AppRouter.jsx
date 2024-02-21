@@ -12,8 +12,10 @@ import Settings from "../pages/Settings"
 import Status from "../pages/Status"
 import People from "../pages/People"
 import Chat from "../pages/Chat"
+import { useState } from "react";
 
 const AppRouter = () => {
+  const [contacts, setContacts] = useState([])
   return (
     <>
       <Routes>
@@ -26,10 +28,10 @@ const AppRouter = () => {
           <Route path="/main" element={<MainPage />} />
           <Route path="/chats" element={<Chats/>} />
           <Route path="/chat/:_id" element={<Chat/>} />
-          <Route path="/contacts" element={<Contacts />} />
+          <Route path="/contacts" element={<Contacts contacts={contacts}/>} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/status" element={<Status />} />
-          <Route path="/people" element={<People />} />
+          <Route path="/status" element={<Status contacts={contacts}/>} />
+          <Route path="/people" element={<People setContacts={setContacts} contacts={contacts} />} />
 
 
         </Route>

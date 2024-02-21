@@ -33,6 +33,13 @@ const appDataSlice = createSlice({
       state.messages = payload;
     },
 
+    getUsersSuccess: (state, { payload }) => {
+      state.loading = false;
+      state.error = false;
+      state.users = payload;
+    },
+
+
 
     // postDataSuccess: (state, { payload }) => {
     //   state.loading = false;
@@ -52,7 +59,8 @@ export const {
   getChatsSuccess,
   fetchStart,
   fetchFail,
-  getMessagesSuccess
+  getMessagesSuccess,
+  getUsersSuccess
   // getDataLikeSuccess,
   // postDataSuccess,
   // getDraftSuccess,

@@ -32,7 +32,7 @@ const Chats = () => {
     const filterName = chats
       .filter((item) => item?.show == true)
       ?.filter((item) =>
-        item?.toWho?.username
+        item?.toWho?.name
           .toLowerCase()
           .includes(e.target.value.toLowerCase())
       );
@@ -43,7 +43,7 @@ const Chats = () => {
     <Box>
       {/* Title */}
       <Typography
-        sx={{ padding: "0.5rem", fontSize: "24px", fontWeight: "700" }}
+        sx={{ padding: "0.5rem", fontSize: "24px", fontWeight: "700", backgroundColor:"#f8fcfb" }}
       >
         Chats
       </Typography>
@@ -53,6 +53,8 @@ const Chats = () => {
         component="form"
         sx={{
           "& .MuiTextField-root": { p: "0 0.5rem", width: "100%" },
+          mt:"0.5rem"
+
         }}
         noValidate
         autoComplete="off"
@@ -61,6 +63,7 @@ const Chats = () => {
           onChange={(e) => {
             setSearch(e);
           }}
+          placeholder="Search"
           id="outlined-password-input"
           type="search"
           size="small"
@@ -114,7 +117,6 @@ const Chats = () => {
                 {item?.toWho?.name.charAt(0).toUpperCase() +
                   item?.toWho?.name.slice(1).toLowerCase()}
 
-                {/* name.charAt(0).toUpperCase() + name.slice(1).toLowerCase(); */}
               </Typography>
               <Box
                 sx={{

@@ -1,5 +1,5 @@
 import useAxios from "./useAxios";
-import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess} from "../features/appDataSlice";
+import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess, getUsersSuccess} from "../features/appDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 import axios from "axios";
@@ -28,6 +28,18 @@ const useDataCall = () => {
       const { data } = await axiosWithToken(`message/${chatId}`);
       dispatch(getMessagesSuccess({data}));
       console.log(data);
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toastErrorNotify(error);
+    }
+  };
+
+  const getUsers = async () => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken("auth/users");
+      dispatch(getUsersSuccess({data}));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -110,7 +122,7 @@ const useDataCall = () => {
   //   }
   // };
 
-  return {getChats, getMessages, deleteChat};
+  return {getChats, getMessages, deleteChat, getUsers};
 };
 
 export default useDataCall;
