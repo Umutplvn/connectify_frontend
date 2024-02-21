@@ -15,7 +15,6 @@ const useDataCall = () => {
     try {
       const { data } = await axiosWithToken("chats/findall");
       dispatch(getChatsSuccess({data }));
-      console.log(data);
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -36,6 +35,17 @@ const useDataCall = () => {
     }
   };
 
+  const deleteChat = async (chatId) => {    
+    dispatch(fetchStart());
+    try {
+      await axiosWithToken.delete(`chats/deletechat/${chatId}` );
+      toastSuccessNotify("Successfully deleted");
+      getChats();
+    } catch (error) {
+      toastErrorNotify(error);
+      dispatch(fetchFail());
+    }
+  }
   // const getDrafts = async (userId) => {
   //   dispatch(fetchStart());
   //   try {
@@ -100,7 +110,7 @@ const useDataCall = () => {
   //   }
   // };
 
-  return {getChats, getMessages};
+  return {getChats, getMessages, deleteChat};
 };
 
 export default useDataCall;
