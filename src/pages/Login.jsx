@@ -11,7 +11,6 @@ import Header from "../components/Header";
 const Login = () => {
 
 const {login}=useAuthCall()
-
 const [loading, setLoading] = useState(false);
 const [info, setInfo] = useState({email:"", password:""});
 const handleChange = (e) => {
@@ -26,6 +25,7 @@ const handleSubmit = async (e) => {
   try {
     await  login(info)
     setLoading(false);
+
   } catch (error) {
     setLoading(false);
   }

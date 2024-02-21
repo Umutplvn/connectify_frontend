@@ -11,6 +11,7 @@ import Contacts from "../pages/Contacts"
 import Settings from "../pages/Settings"
 import Status from "../pages/Status"
 import People from "../pages/People"
+import Chat from "../pages/Chat"
 
 const AppRouter = () => {
   return (
@@ -24,6 +25,7 @@ const AppRouter = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/chats" element={<Chats/>} />
+          <Route path="/chat/:_id" element={<Chat/>} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/status" element={<Status />} />

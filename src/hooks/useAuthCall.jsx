@@ -62,7 +62,6 @@ const useAuthCall = () => {
         `${process.env.REACT_APP_BASE_URL}/auth/login/`,
         userData
       );
-      console.log(data.result.verified);
       if (!data?.result?.verified) {
         deleteUser(data?.result?._id);
         toastWarnNotify("No such account found!");
@@ -80,11 +79,10 @@ const useAuthCall = () => {
     }
   };
 
-  ///
   const logout = async () => {
     dispatch(fetchStart);
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_URL}users/auth/logout/`);
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout/`);
       dispatch(logoutSuccess());
       toastSuccessNotify("Logout successfull");
       navigate("/login");
@@ -93,6 +91,8 @@ const useAuthCall = () => {
       toastErrorNotify(error);
     }
   };
+
+    ///
 
   const passwordUpdate = async (data) => {
     try {

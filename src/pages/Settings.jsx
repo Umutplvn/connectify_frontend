@@ -1,8 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import Footer from "../components/Footer";
+import useAuthCall from "../hooks/useAuthCall";
 
 const Status = () => {
+
+  const {logout}=useAuthCall()
+
   return (
     <Box>
       {/* Title */}
@@ -11,6 +15,7 @@ const Status = () => {
       >
         Settings
       </Typography>
+      <Button onClick={()=>logout()}>Logout</Button>
       <Footer />
     </Box>
   );

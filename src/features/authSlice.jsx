@@ -67,7 +67,11 @@ export const authSlice = createSlice({
       state.currentUser = null;
       state.token = null;
       state.userId = null;
-      state.avatar = "";
+      state.avatar =null;
+      state.email = null;
+      state.username = null;
+      state.verified = null;
+      state.password = null;
     },
 
   
