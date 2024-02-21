@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import useDataCall from "../hooks/useDataCall";
 import usernone from "../assets/nouser.png";
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
-import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const Status = ({setContacts, contacts}) => {
   const { users } = useSelector((state) => state?.appData);
@@ -15,6 +15,7 @@ const Status = ({setContacts, contacts}) => {
   }, []);
 
   const [display, setDisplay] = useState([]);
+  const [selected, setSelected] = useState();
   const { getUsers } = useDataCall();
 
   const handleSearch = (e) => {
@@ -38,9 +39,10 @@ const Status = ({setContacts, contacts}) => {
     if (!contacts.some(contact => contact._id === item._id)) {
       setContacts([...contacts, item]);
     }
+    setSelected(item?._id)
+
   };
 
-  console.log("object");
   
 
   return (
@@ -122,10 +124,12 @@ const Status = ({setContacts, contacts}) => {
             </Box>
             <Box onClick={()=>addFriend(item)}  sx={{width:"3rem", backgroundColor:"#f7f7f8", color:"#3C9387", border:"0.1px solid #e7e4e4", borderRadius:"50%", display:"flex", justifyContent:"center", alignItems:"center"}}>
 
-
-            <AddCircleRoundedIcon
-                sx={{ cursor: "pointer", fontSize:30, rotate:(item._id==item._id ?`360deg`: "0deg"), transition:"1s" }}
-              />
+{(contacts.map((check)=>check.includes(item._id)) ? <RemoveIcon
+              sx={{ cursor: "pointer", fontSize:30, rotate:(item._id==selected ?`360deg`: "0deg"), transition:"1s" }}
+            /> : <AddCircleRoundedIcon
+            sx={{ cursor: "pointer", fontSize:30, rotate:(item._id==selected ?`360deg`: "0deg"), transition:"1s" }}
+          /> 
+              )}
              </Box>
 
 
