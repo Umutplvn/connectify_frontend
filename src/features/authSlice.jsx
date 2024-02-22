@@ -12,6 +12,7 @@ export const authSlice = createSlice({
     email:null,
     verified:null,
     password:null,
+    contacts:[],
     avatar: "",
   },
 
@@ -57,9 +58,22 @@ export const authSlice = createSlice({
       state.email = payload?.result?.email;
       state.username=payload?.result?.username;
       state.verified = payload?.result?.verified;
+      state.contacts=payload?.result?.contacts
     },
 
-    //////////
+
+
+    addContactSuccess: (state, { payload }) => {
+      state.loading = false;
+      state.error = true;
+      state.contacts = payload?.contacts;
+    },
+
+    removeContactSuccess: (state, { payload }) => {
+      state.loading = false;
+      state.error = true;
+      state.contacts = payload?.contacts;
+    },
 
     logoutSuccess: (state) => {
       state.loading = false;
@@ -75,6 +89,7 @@ export const authSlice = createSlice({
     },
 
   
+    //////////
 
     passwordUpdateSuccess:(state, {payload})=>{
       state.loading = false;
@@ -91,7 +106,9 @@ export const {
   logoutSuccess,
   registerSuccess,
   passwordUpdateSuccess,
-  deleteSuccess
+  deleteSuccess,
+  addContactSuccess,
+  removeContactSuccess
 } = authSlice.actions;
 
 export default authSlice.reducer;

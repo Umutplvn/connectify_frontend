@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import {fetchStart,fetchFail,loginSuccess,registerSuccess,logoutSuccess,passwordUpdateSuccess,deleteSuccess,} from "../features/authSlice";
+import {fetchStart,fetchFail,loginSuccess,registerSuccess,logoutSuccess,passwordUpdateSuccess,deleteSuccess, addContactSuccess, removeContactSuccess} from "../features/authSlice";
 import { useNavigate } from "react-router";
 import {toastErrorNotify,toastSuccessNotify, toastWarnNotify,} from "../helper/ToastNotify";
 import useAxios from "./useAxios";
@@ -94,6 +94,29 @@ const useAuthCall = () => {
 
     ///
 
+
+   const addContact = async (info) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.post(`auth/users/addcontact`, info);
+      dispatch(addContactSuccess({ data }));
+    } catch (error) {
+      dispatch(fetchFail());
+      console.log(error);
+    }
+  };
+
+  const removeContact = async (info) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.post(`auth/users/removecontact`, info);
+      dispatch(addContactSuccess({ data }));
+    } catch (error) {
+      dispatch(fetchFail());
+      console.log(error);
+    }
+  };
+
   const passwordUpdate = async (data) => {
     try {
       const res = await axiosWithToken.put(
@@ -109,7 +132,7 @@ const useAuthCall = () => {
     }
   };
 
-  return { login, register, logout, passwordUpdate, deleteUser, update };
+  return { login, register, logout, passwordUpdate, deleteUser, update, addContact, removeContact };
 };
 
 export default useAuthCall;

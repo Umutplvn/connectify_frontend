@@ -15,6 +15,7 @@ const useDataCall = () => {
     try {
       const { data } = await axiosWithToken("chats/findall");
       dispatch(getChatsSuccess({data }));
+      console.log("chat data");
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -57,7 +58,8 @@ const useDataCall = () => {
       toastErrorNotify(error);
       dispatch(fetchFail());
     }
-  }
+  };
+
   // const getDrafts = async (userId) => {
   //   dispatch(fetchStart());
   //   try {

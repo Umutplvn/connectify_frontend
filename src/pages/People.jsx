@@ -5,18 +5,25 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useDataCall from "../hooks/useDataCall";
 import usernone from "../assets/nouser.png";
-import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import RemoveIcon from "@mui/icons-material/Remove";
+import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
+import IndeterminateCheckBoxRoundedIcon from '@mui/icons-material/IndeterminateCheckBoxRounded';
+import BasicModal from "../components/addContactModal";
 
-const People =  ({ setContacts, contacts }) => {
+const People = () => {
   const { users } = useSelector((state) => state?.appData);
+  const { contacts } = useSelector((state) => state?.auth);
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   useEffect(() => {
     getUsers();
   }, []);
 
   const [display, setDisplay] = useState([]);
-  const { getUsers } = useDataCall();
-
+  const { getUsers, addContact, removeContact } = useDataCall();
+  
   const handleSearch = (e) => {
     const searchKeyword = e.target.value.toLowerCase();
     let filteredData;
@@ -33,20 +40,16 @@ const People =  ({ setContacts, contacts }) => {
     setDisplay(filteredData);
   };
 
-  const addContact = (item) => {
-    if (!contacts.some((contact) => contact._id === item._id)) {
-      setContacts([...contacts, item]);
-    }
+  const addContactState = (item) => {
+handleOpen()
+setName(item?.name)
   };
 
-  const removeContact = (item) => {
-    const updatedContacts = contacts.filter(
-      (contact) => contact._id !== item._id
-    );
-    setContacts(updatedContacts);
+  const removeContactState = (item) => {
+console.log("remove", item);
   };
 
-  console.log(contacts);
+  const contactsData = contacts.map((item) => item?._id);
 
   return (
     <Box>
@@ -88,90 +91,89 @@ const People =  ({ setContacts, contacts }) => {
           }}
         />
       </Box>
-      {/* People Data*/}
 
-      {display?.map((item) => (
-        <Box
-          sx={{
-            display: "flex",
-            p: "0.5rem",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          key={item?._id}
-        >
-          <img
-            style={{
-              width: "50px",
-              height: "50px",
-              border: "1px solid #e0e4eb",
-              borderRadius: "50%",
-              overflow: "hidden",
-            }}
-            src={item?.image ? item.image : usernone}
-            alt="PP"
-          />
+      {/* People Data*/}
+      {display?.map((item) => {
+        const matchIndex = contactsData.indexOf(item._id);
+        const isMatched = matchIndex >= 0;
+
+        return (
           <Box
             sx={{
-              width: "100%",
               display: "flex",
-              p: "0.3rem",
-              borderBottom: "0.5px solid #e0e4eb",
-              justifyContent: "space-between",
+              p: "0.5rem",
+              justifyContent: "center",
+              alignItems: "center",
             }}
+            key={item?._id}
           >
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              width={"85%"}
-              justifyContent={"space-between"}
-            >
-              <Typography sx={{ fontWeight: "700" }}>
-                {item?.name.charAt(0).toUpperCase() +
-                  item?.name.slice(1).toLowerCase()}
-              </Typography>
-              <Typography>@{item?.username}</Typography>
-            </Box>
-            <Box
-              onClick={() => {
-                if (contacts.some((contact) => contact._id === item._id)) {
-                  removeContact(item);
-                } else {
-                  addContact(item);
-                }
-              }}
-              sx={{
-                width: "3rem",
-                backgroundColor: "#f7f7f8",
-                color: "#3C9387",
-                border: "0.1px solid #e7e4e4",
+            <img
+              style={{
+                width: "50px",
+                height: "50px",
+                border: "1px solid #e0e4eb",
                 borderRadius: "50%",
+                overflow: "hidden",
+              }}
+              src={item?.image ? item.image : usernone}
+              alt="PP"
+            />
+            <Box
+              sx={{
+                width: "100%",
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                p: "0.3rem",
+                borderBottom: "0.5px solid #e0e4eb",
+                justifyContent: "space-between",
               }}
             >
-              {contacts.some((contact) => contact._id === item._id) ? (
-                <RemoveIcon
-                  sx={{
-                    cursor: "pointer",
-                    fontSize: 30,
-                    transition: "1s",
-                  }}
-                />
-              ) : (
-                <AddCircleRoundedIcon
-                  sx={{
-                    cursor: "pointer",
-                    fontSize: 30,
-                    transition: "1s",
-                  }}
-                />
-              )}
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                width={"85%"}
+                justifyContent={"space-between"}
+              >
+                <Typography sx={{ fontWeight: "700" }}>
+                  {item?.name.charAt(0).toUpperCase() +
+                    item?.name.slice(1).toLowerCase()}
+                </Typography>
+                <Typography>@{item?.username}</Typography>
+              </Box>
+
+              <BasicModal  open={open} setOpen={setOpen} handleClose={handleClose} handleOpen={handleOpen} name={name}/>
+              
+              <Box
+                onClick={() => isMatched ? removeContactState(item) : addContactState(item)}
+                sx={{
+                  width: "3rem",
+                  color: "#4f9bbf",         
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {isMatched ? (
+                  <IndeterminateCheckBoxRoundedIcon
+                    sx={{
+                      cursor: "pointer",
+                      fontSize: 30,
+                      transition: "1s",
+                    }}
+                  />
+                ) : (
+                  <AddBoxRoundedIcon
+                    sx={{
+                      cursor: "pointer",
+                      fontSize: 30,
+                      transition: "1s",
+                    }}
+                  />
+                )}
+              </Box>
             </Box>
           </Box>
-        </Box>
-      ))}
+        );
+      })}
 
       <Footer />
     </Box>

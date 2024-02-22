@@ -39,14 +39,6 @@ const appDataSlice = createSlice({
       state.users = payload;
     },
 
-
-
-    // postDataSuccess: (state, { payload }) => {
-    //   state.loading = false;
-    //   state.error = true;
-    //   state[payload?.blog] = payload?.data;
-    // },
-
     // getDraftSuccess: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = true;
@@ -60,7 +52,8 @@ export const {
   fetchStart,
   fetchFail,
   getMessagesSuccess,
-  getUsersSuccess
+  getUsersSuccess,
+
   // getDataLikeSuccess,
   // postDataSuccess,
   // getDraftSuccess,

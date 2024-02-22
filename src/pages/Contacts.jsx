@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useDataCall from "../hooks/useDataCall";
 import usernone from "../assets/nouser.png";
-import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 const Contacts =  ({ setContacts, contacts }) => {
@@ -156,5 +155,4 @@ const Contacts =  ({ setContacts, contacts }) => {
     </Box>
   );
 };
-
 export default Contacts;
