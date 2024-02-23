@@ -136,7 +136,6 @@ console.log(display);
                   alignItems: "center",
                   borderBottomLeftRadius: "0.5rem",
                   borderTopLeftRadius: "0.5rem",
-                  backgroundColor: "red",
                   right: swipe === item._id ? "0rem" : "-7rem",
                   transition: "1s",
                 }}
@@ -147,7 +146,7 @@ console.log(display);
                     borderTopLeftRadius: "0.5rem",
                     width: "55%",
                     height: "101%",
-                    backgroundColor: "#ED5E68",
+                    backgroundColor: "#919090",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -166,7 +165,7 @@ console.log(display);
                     width: "50%",
                     height: "101%",
                     fontWeight: "700",
-                    backgroundColor: "#3DC864",
+                    backgroundColor: "#547aa4",
                     cursor: "pointer",
                   }}
                 >

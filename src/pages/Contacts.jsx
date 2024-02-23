@@ -1,4 +1,4 @@
-import { Box, InputAdornment, TextField, Typography } from "@mui/material";
+import { Box, Button, InputAdornment, TextField, Typography } from "@mui/material";
 import Footer from "../components/Footer";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import usernone from "../assets/nouser.png";
 import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
 import BasicModal from "../components/ContactModal";
 import useAuthCall from "../hooks/useAuthCall";
+import { useNavigate } from "react-router-dom";
 
 const People = () => {
   const { contacts } = useSelector((state) => state?.auth);
@@ -21,7 +22,7 @@ const People = () => {
   const [search, setSearch] = useState();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const navigate=useNavigate()
   useEffect(() => {
     getUsers();
     getMyContacts();
@@ -57,7 +58,7 @@ const People = () => {
   }, [contacts]);
 
   console.log(contacts);
-  
+
   const contactsData = contacts?.map((item) => item?._id);
 
   return (
@@ -143,11 +144,15 @@ const People = () => {
                 width={"85%"}
                 justifyContent={"space-between"}
               >
-                <Typography sx={{ fontWeight: "700" }}>
+                <Typography sx={{ fontWeight: "700" }}
+                onClick={() => navigate(`/chat/${item?._id}`)}
+                >
                   {item?.name.charAt(0).toUpperCase() +
                     item?.name.slice(1).toLowerCase()}
                 </Typography>
-                <Typography>@{item?.username}</Typography>
+                <Typography
+                
+                onClick={() => navigate(`/chat/${item?._id}`)}>@{item?.username}</Typography>
               </Box>
 
               <BasicModal
