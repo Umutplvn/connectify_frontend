@@ -15,7 +15,6 @@ import useAuthCall from "../hooks/useAuthCall";
 const Chats = () => {
   const { getChats, deleteChat } = useDataCall();
   const {getMyContacts}=useAuthCall()
-  const { contacts } = useAuthCall();
 
   useEffect(() => {
     getChats();
@@ -28,6 +27,7 @@ const Chats = () => {
   const [swipe, setSwipe] = useState();
   const navigate = useNavigate();
 
+console.log(chats);
 
   useEffect(() => {
     const data = chats.filter((item) => item?.show == true);
@@ -44,7 +44,7 @@ const Chats = () => {
       );
     setDisplay(filterName);
   };
-
+console.log(display);
   return (
     <Box>
       {/* Title */}
@@ -85,6 +85,7 @@ const Chats = () => {
           }}
         />
       </Box>
+    
 
       {/* Chats */}
       {display?.map((item) => (
@@ -105,7 +106,7 @@ const Chats = () => {
               borderRadius: "50%",
               overflow: "hidden",
             }}
-            src={item?.toWho?.image ? item.toWho.image : usernone}
+            src={item?.toWho?.image ? item?.toWho?.image : usernone}
             alt="PP"
           />
           <Box

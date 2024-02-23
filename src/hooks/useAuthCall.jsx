@@ -8,8 +8,7 @@ import {
   logoutSuccess,
   passwordUpdateSuccess,
   deleteSuccess,
-  addContactSuccess,
-  removeContactSuccess,
+  updateContactSuccess,
   getMyContactsSuccess,
 } from "../features/authSlice";
 import { useNavigate } from "react-router";
@@ -123,7 +122,7 @@ const useAuthCall = () => {
       const { data } = await axiosWithToken.post(`auth/users/addcontact`, {
         contactId: contactId,
       });
-      dispatch(addContactSuccess({ data }));
+      dispatch(updateContactSuccess({ data }));
       getMyContacts();
     } catch (error) {
       dispatch(fetchFail());
@@ -131,14 +130,17 @@ const useAuthCall = () => {
     }
   };
 
-  const removeContact = async (info) => {
+  const removeContact = async (contactId) => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.post(
         `auth/users/removecontact`,
-        info
+        {
+          contactId: contactId,
+        }
       );
-      dispatch(addContactSuccess({ data }));
+      dispatch(updateContactSuccess({ data }));
+      getMyContacts();
     } catch (error) {
       dispatch(fetchFail());
       console.log(error);

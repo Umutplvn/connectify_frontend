@@ -68,17 +68,12 @@ export const authSlice = createSlice({
     },
 
 
-    addContactSuccess: (state, { payload }) => {
+    updateContactSuccess: (state, { payload }) => {
       state.loading = false;
       state.error = true;
       state.contacts = payload?.data?.contacts;
     },
 
-    removeContactSuccess: (state, { payload }) => {
-      state.loading = false;
-      state.error = true;
-      state.contacts = payload?.data?.contacts;
-    },
 
     logoutSuccess: (state) => {
       state.loading = false;
@@ -112,8 +107,7 @@ export const {
   registerSuccess,
   passwordUpdateSuccess,
   deleteSuccess,
-  addContactSuccess,
-  removeContactSuccess,
+  updateContactSuccess,
   getMyContactsSuccess
 } = authSlice.actions;
 

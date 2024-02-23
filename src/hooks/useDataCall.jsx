@@ -2,7 +2,6 @@ import useAxios from "./useAxios";
 import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess, getUsersSuccess} from "../features/appDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
-import axios from "axios";
 
 const useDataCall = () => {
   const { axiosWithToken, axiosPublic } = useAxios();

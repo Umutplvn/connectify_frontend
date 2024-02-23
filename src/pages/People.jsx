@@ -9,11 +9,14 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
 import BasicModal from "../components/ContactModal";
 import useAuthCall from "../hooks/useAuthCall";
+import { toastWarnNotify } from "../helper/ToastNotify";
 
 const People = () => {
   const { users } = useSelector((state) => state?.appData);
   const { contacts } = useSelector((state) => state?.auth);
   const { getMyContacts } = useAuthCall();
+  const { getUsers } = useDataCall();
+  const [display, setDisplay] = useState([]);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [contactId, setContactId] = useState("");
@@ -26,8 +29,6 @@ const People = () => {
     getMyContacts();
   }, []);
 
-  const [display, setDisplay] = useState([]);
-  const { getUsers } = useDataCall();
 
   const handleSearch = (e) => {
     const searchKeyword = e.target.value.toLowerCase();
@@ -46,19 +47,22 @@ const People = () => {
   };
 
   const addContactState = (item) => {
-    setCheck(false)
+    setCheck(false);
     handleOpen();
     setName(item?.name);
     setContactId(item?._id);
   };
 
   const removeContactState = (item) => {
-setCheck(true)
+    setCheck(true);
     handleOpen();
     setName(item?.name);
     setContactId(item?._id);
   };
 
+  const handleWarn = ()=>{
+    return toastWarnNotify("Messaging is only available for your contacts.")
+  }
   const contactsData = contacts?.map((item) => item?._id);
 
   return (
@@ -143,11 +147,15 @@ setCheck(true)
                 width={"85%"}
                 justifyContent={"space-between"}
               >
-                <Typography sx={{ fontWeight: "700" }}>
+                <Typography sx={{ fontWeight: "700" }}
+                onClick={()=>handleWarn()}
+                >
                   {item?.name.charAt(0).toUpperCase() +
                     item?.name.slice(1).toLowerCase()}
                 </Typography>
-                <Typography>@{item?.username}</Typography>
+                <Typography
+                 onClick={()=>handleWarn()}
+                >@{item?.username}</Typography>
               </Box>
 
               <BasicModal

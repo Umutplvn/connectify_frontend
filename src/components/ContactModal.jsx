@@ -28,10 +28,16 @@ export default function BasicModal({
 }) {
   const { addContact, removeContact } = useAuthCall();
 
-  const handleAddFrined = () => {
-    addContact(contactId);
-    handleClose();
+  const handleAddFriend = () => {
+      addContact(contactId);
+      handleClose();    
+ 
   };
+
+  const handleRemoveFriend =()=>{
+    removeContact(contactId)
+    handleClose()
+  }
 
 
   return (
@@ -62,7 +68,7 @@ export default function BasicModal({
             >
               <Button
                 sx={btnGreen}
-                // onClick={() => handleAddFrined()}
+                onClick={handleRemoveFriend}
                 variant="contained"
               >
                 YES
@@ -92,7 +98,7 @@ export default function BasicModal({
             >
               <Button
                 sx={btnGreen}
-                onClick={() => handleAddFrined()}
+                onClick={() => handleAddFriend()}
                 variant="contained"
               >
                 YES

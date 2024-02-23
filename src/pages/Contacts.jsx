@@ -5,16 +5,27 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useDataCall from "../hooks/useDataCall";
 import usernone from "../assets/nouser.png";
-import RemoveIcon from "@mui/icons-material/Remove";
+import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
+import BasicModal from "../components/ContactModal";
+import useAuthCall from "../hooks/useAuthCall";
 
-const Contacts =  ({ setContacts, contacts }) => {
-  const { users } = useSelector((state) => state?.appData);
+const People = () => {
+  const { contacts } = useSelector((state) => state?.auth);
+  const { getMyContacts } = useAuthCall();
+  const { getUsers } = useDataCall();
+  const [display, setDisplay] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [contactId, setContactId] = useState("");
+  const [check, setCheck] = useState(null);
+  const [search, setSearch] = useState();
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   useEffect(() => {
     getUsers();
+    getMyContacts();
   }, []);
-
-  const [display, setDisplay] = useState(contacts);
-  const { getUsers } = useDataCall();
 
   const handleSearch = (e) => {
     const searchKeyword = e.target.value.toLowerCase();
@@ -22,7 +33,7 @@ const Contacts =  ({ setContacts, contacts }) => {
     if (searchKeyword.trim() === "") {
       filteredData = contacts;
     } else {
-      filteredData = users?.data?.result?.filter((item) => {
+      filteredData = contacts?.filter((item) => {
         return (
           item?.username?.toLowerCase()?.includes(searchKeyword) ||
           item?.name?.toLowerCase()?.includes(searchKeyword)
@@ -30,16 +41,24 @@ const Contacts =  ({ setContacts, contacts }) => {
       });
     }
     setDisplay(filteredData);
+    setSearch(e.target.value);
   };
 
-
-
-  const removeContact = (item) => {
-    const updatedContacts = contacts?.filter(
-      (contact) => contact?._id !== item._id
-    );
-    setContacts(updatedContacts);
+  const removeContactState = (item) => {
+    setCheck(true);
+    handleOpen();
+    setName(item?.name);
+    setContactId(item?._id);
+    setSearch("");
   };
+
+  useEffect(() => {
+    setDisplay(contacts);
+  }, [contacts]);
+
+  console.log(contacts);
+  
+  const contactsData = contacts?.map((item) => item?._id);
 
   return (
     <Box>
@@ -67,6 +86,7 @@ const Contacts =  ({ setContacts, contacts }) => {
       >
         <TextField
           onChange={(e) => handleSearch(e)}
+          value={search}
           placeholder="Search"
           id="outlined-password-input"
           type="search"
@@ -82,77 +102,90 @@ const Contacts =  ({ setContacts, contacts }) => {
         />
       </Box>
 
-      {contacts?.map((item) => (
-        <Box
-          sx={{
-            display: "flex",
-            p: "0.5rem",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          key={item?._id}
-        >
-          <img
-            style={{
-              width: "50px",
-              height: "50px",
-              border: "1px solid #e0e4eb",
-              borderRadius: "50%",
-              overflow: "hidden",
-            }}
-            src={item?.image ? item.image : usernone}
-            alt="PP"
-          />
+      {/* People Data*/}
+      {display?.map((item) => {
+        const matchIndex = contactsData?.indexOf(item._id);
+        const isMatched = matchIndex >= 0;
+
+        return (
           <Box
             sx={{
-              width: "100%",
               display: "flex",
-              p: "0.3rem",
-              borderBottom: "0.5px solid #e0e4eb",
-              justifyContent: "space-between",
+              p: "0.5rem",
+              justifyContent: "center",
+              alignItems: "center",
             }}
+            key={item?._id}
           >
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              width={"85%"}
-              justifyContent={"space-between"}
-            >
-              <Typography sx={{ fontWeight: "700" }}>
-                {item?.name.charAt(0).toUpperCase() +
-                  item?.name.slice(1).toLowerCase()}
-              </Typography>
-              <Typography>@{item?.username}</Typography>
-            </Box>
-            <Box
-              onClick={() => {removeContact(item)}}
-              sx={{
-                width: "3rem",
-                backgroundColor: "#f7f7f8",
-                color: "#3C9387",
-                border: "0.1px solid #e7e4e4",
+            <img
+              style={{
+                width: "50px",
+                height: "50px",
+                border: "1px solid #e0e4eb",
                 borderRadius: "50%",
+                overflow: "hidden",
+              }}
+              src={item?.image ? item.image : usernone}
+              alt="PP"
+            />
+            <Box
+              sx={{
+                width: "100%",
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                p: "0.3rem",
+                borderBottom: "0.5px solid #e0e4eb",
+                justifyContent: "space-between",
               }}
             >
-              
-                <RemoveIcon
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                width={"85%"}
+                justifyContent={"space-between"}
+              >
+                <Typography sx={{ fontWeight: "700" }}>
+                  {item?.name.charAt(0).toUpperCase() +
+                    item?.name.slice(1).toLowerCase()}
+                </Typography>
+                <Typography>@{item?.username}</Typography>
+              </Box>
+
+              <BasicModal
+                open={open}
+                setOpen={setOpen}
+                handleClose={handleClose}
+                handleOpen={handleOpen}
+                name={name}
+                contactId={contactId}
+                check={check}
+              />
+
+              <Box
+                onClick={() => removeContactState(item)}
+                sx={{
+                  width: "3rem",
+                  color: "#4f9bbf",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <IndeterminateCheckBoxRoundedIcon
                   sx={{
                     cursor: "pointer",
                     fontSize: 30,
                     transition: "1s",
                   }}
                 />
-             
+              </Box>
             </Box>
           </Box>
-        </Box>
-      ))}
+        );
+      })}
 
       <Footer />
     </Box>
   );
 };
-export default Contacts;
+
+export default People;
