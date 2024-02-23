@@ -58,21 +58,26 @@ export const authSlice = createSlice({
       state.email = payload?.result?.email;
       state.username=payload?.result?.username;
       state.verified = payload?.result?.verified;
-      state.contacts=payload?.result?.contacts
     },
 
+
+    getMyContactsSuccess: (state, { payload }) => {
+      state.loading = false;
+      state.error = true;
+      state.contacts = payload?.data?.contacts;
+    },
 
 
     addContactSuccess: (state, { payload }) => {
       state.loading = false;
       state.error = true;
-      state.contacts = payload?.contacts;
+      state.contacts = payload?.data?.contacts;
     },
 
     removeContactSuccess: (state, { payload }) => {
       state.loading = false;
       state.error = true;
-      state.contacts = payload?.contacts;
+      state.contacts = payload?.data?.contacts;
     },
 
     logoutSuccess: (state) => {
@@ -108,7 +113,8 @@ export const {
   passwordUpdateSuccess,
   deleteSuccess,
   addContactSuccess,
-  removeContactSuccess
+  removeContactSuccess,
+  getMyContactsSuccess
 } = authSlice.actions;
 
 export default authSlice.reducer;

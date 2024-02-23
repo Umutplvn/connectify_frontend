@@ -5,25 +5,30 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useDataCall from "../hooks/useDataCall";
 import usernone from "../assets/nouser.png";
-import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
-import IndeterminateCheckBoxRoundedIcon from '@mui/icons-material/IndeterminateCheckBoxRounded';
-import BasicModal from "../components/addContactModal";
+import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
+import BasicModal from "../components/ContactModal";
+import useAuthCall from "../hooks/useAuthCall";
 
 const People = () => {
   const { users } = useSelector((state) => state?.appData);
   const { contacts } = useSelector((state) => state?.auth);
+  const { getMyContacts } = useAuthCall();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
+  const [contactId, setContactId] = useState("");
+  const [check, setCheck] = useState(null);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
     getUsers();
+    getMyContacts();
   }, []);
 
   const [display, setDisplay] = useState([]);
-  const { getUsers, addContact, removeContact } = useDataCall();
-  
+  const { getUsers } = useDataCall();
+
   const handleSearch = (e) => {
     const searchKeyword = e.target.value.toLowerCase();
     let filteredData;
@@ -41,15 +46,20 @@ const People = () => {
   };
 
   const addContactState = (item) => {
-handleOpen()
-setName(item?.name)
+    setCheck(false)
+    handleOpen();
+    setName(item?.name);
+    setContactId(item?._id);
   };
 
   const removeContactState = (item) => {
-console.log("remove", item);
+setCheck(true)
+    handleOpen();
+    setName(item?.name);
+    setContactId(item?._id);
   };
 
-  const contactsData = contacts.map((item) => item?._id);
+  const contactsData = contacts?.map((item) => item?._id);
 
   return (
     <Box>
@@ -94,7 +104,7 @@ console.log("remove", item);
 
       {/* People Data*/}
       {display?.map((item) => {
-        const matchIndex = contactsData.indexOf(item._id);
+        const matchIndex = contactsData?.indexOf(item._id);
         const isMatched = matchIndex >= 0;
 
         return (
@@ -140,13 +150,23 @@ console.log("remove", item);
                 <Typography>@{item?.username}</Typography>
               </Box>
 
-              <BasicModal  open={open} setOpen={setOpen} handleClose={handleClose} handleOpen={handleOpen} name={name}/>
-              
+              <BasicModal
+                open={open}
+                setOpen={setOpen}
+                handleClose={handleClose}
+                handleOpen={handleOpen}
+                name={name}
+                contactId={contactId}
+                check={check}
+              />
+
               <Box
-                onClick={() => isMatched ? removeContactState(item) : addContactState(item)}
+                onClick={() =>
+                  isMatched ? removeContactState(item) : addContactState(item)
+                }
                 sx={{
                   width: "3rem",
-                  color: "#4f9bbf",         
+                  color: "#4f9bbf",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",

@@ -1,8 +1,23 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import {fetchStart,fetchFail,loginSuccess,registerSuccess,logoutSuccess,passwordUpdateSuccess,deleteSuccess, addContactSuccess, removeContactSuccess} from "../features/authSlice";
+import {
+  fetchStart,
+  fetchFail,
+  loginSuccess,
+  registerSuccess,
+  logoutSuccess,
+  passwordUpdateSuccess,
+  deleteSuccess,
+  addContactSuccess,
+  removeContactSuccess,
+  getMyContactsSuccess,
+} from "../features/authSlice";
 import { useNavigate } from "react-router";
-import {toastErrorNotify,toastSuccessNotify, toastWarnNotify,} from "../helper/ToastNotify";
+import {
+  toastErrorNotify,
+  toastSuccessNotify,
+  toastWarnNotify,
+} from "../helper/ToastNotify";
 import useAxios from "./useAxios";
 
 const useAuthCall = () => {
@@ -10,7 +25,6 @@ const useAuthCall = () => {
   const navigate = useNavigate();
   const { axiosWithToken } = useAxios();
 
-  
   const register = async (userData) => {
     dispatch(fetchStart);
     try {
@@ -92,14 +106,25 @@ const useAuthCall = () => {
     }
   };
 
-    ///
-
-
-   const addContact = async (info) => {
+  const getMyContacts = async () => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosWithToken.post(`auth/users/addcontact`, info);
+      const { data } = await axiosWithToken.get(`auth/users/getmycontacts`);
+      dispatch(getMyContactsSuccess({ data }));
+    } catch (error) {
+      dispatch(fetchFail());
+      console.log(error);
+    }
+  };
+
+  const addContact = async (contactId) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.post(`auth/users/addcontact`, {
+        contactId: contactId,
+      });
       dispatch(addContactSuccess({ data }));
+      getMyContacts();
     } catch (error) {
       dispatch(fetchFail());
       console.log(error);
@@ -109,7 +134,10 @@ const useAuthCall = () => {
   const removeContact = async (info) => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosWithToken.post(`auth/users/removecontact`, info);
+      const { data } = await axiosWithToken.post(
+        `auth/users/removecontact`,
+        info
+      );
       dispatch(addContactSuccess({ data }));
     } catch (error) {
       dispatch(fetchFail());
@@ -117,22 +145,32 @@ const useAuthCall = () => {
     }
   };
 
-  const passwordUpdate = async (data) => {
-    try {
-      const res = await axiosWithToken.put(
-        `${process.env.REACT_APP_BASE_URL}users/auth/password/change`,
-        data
-      );
-      dispatch(passwordUpdateSuccess(res));
-      toastSuccessNotify("Password Changed Successfully");
-    } catch (error) {
-      dispatch(fetchFail());
-      toastErrorNotify("Failed to change password");
-      toastErrorNotify(error);
-    }
-  };
+  ///
+  // const passwordUpdate = async (data) => {
+  //   try {
+  //     const res = await axiosWithToken.put(
+  //       `${process.env.REACT_APP_BASE_URL}users/auth/password/change`,
+  //       data
+  //     );
+  //     dispatch(passwordUpdateSuccess(res));
+  //     toastSuccessNotify("Password Changed Successfully");
+  //   } catch (error) {
+  //     dispatch(fetchFail());
+  //     toastErrorNotify("Failed to change password");
+  //     toastErrorNotify(error);
+  //   }
+  // };
 
-  return { login, register, logout, passwordUpdate, deleteUser, update, addContact, removeContact };
+  return {
+    login,
+    register,
+    logout,
+    deleteUser,
+    update,
+    addContact,
+    removeContact,
+    getMyContacts,
+  };
 };
 
 export default useAuthCall;

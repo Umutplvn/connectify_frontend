@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { btnGreen, btnRed } from "../styles/globalStyle";
+import useAuthCall from "../hooks/useAuthCall";
 
 const style = {
   position: "absolute",
@@ -18,9 +19,16 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal({ open, name, handleClose }) {
 
-  console.log(name);
+
+export default function BasicModal({ open, name, handleClose, contactId }) {
+
+const { addContact, removeContact } = useAuthCall();
+  
+const handleAddFrined = () => {
+    addContact(contactId);
+    handleClose()
+}
   
   return (
     <div>
@@ -49,8 +57,8 @@ export default function BasicModal({ open, name, handleClose }) {
               gap:"1rem"
             }}
           >
-              <Button sx={btnGreen}  variant="contained">YES</Button>
-              <Button sx={btnRed}  variant="contained">NO</Button>
+              <Button sx={btnGreen} onClick={()=>handleAddFrined()} variant="contained">YES</Button>
+              <Button sx={btnRed}  onClick={handleClose} variant="contained">NO</Button>
           </Box>
         </Box>
       </Modal>

@@ -10,11 +10,16 @@ import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import formatDateTime from "../helper/formatDateTime"; 
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import useAuthCall from "../hooks/useAuthCall";
 
 const Chats = () => {
   const { getChats, deleteChat } = useDataCall();
+  const {getMyContacts}=useAuthCall()
+  const { contacts } = useAuthCall();
+
   useEffect(() => {
     getChats();
+    getMyContacts()
   }, []);
 
   const { chats } = useSelector((state) => state?.appData);
@@ -22,6 +27,7 @@ const Chats = () => {
   const [changed, setChanged] = useState(true);
   const [swipe, setSwipe] = useState();
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const data = chats.filter((item) => item?.show == true);
