@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toastErrorNotify, toastSuccessNotify, toastWarnNotify } from "../helper/ToastNotify";
+import toast from 'react-hot-toast';
 import useAuthCall from "../hooks/useAuthCall";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
@@ -22,7 +22,7 @@ const EmailVerification = () => {
         deleteUser(userId);
         setExpired(true);
         navigate("/register")
-        toastWarnNotify("Time is up!")
+        toast("Time is up!")
       }, 60000);
     }
 
@@ -39,9 +39,9 @@ const EmailVerification = () => {
     if (passcode == pass) {
       update(userId, { verified: true });
       navigate("/chats");
-      toastSuccessNotify("Welcome to Connectify");
+      toast("Welcome to Connectify");
     } else {
-      toastErrorNotify("Passcode is wrong");
+      toast("Passcode is wrong");
       setPass("");
     }
   };

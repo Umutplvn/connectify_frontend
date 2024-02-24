@@ -31,7 +31,7 @@ export default function BasicModal({
   const handleAddFriend = () => {
       addContact(contactId);
       handleClose();    
- 
+    
   };
 
   const handleRemoveFriend =()=>{

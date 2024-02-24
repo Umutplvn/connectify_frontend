@@ -12,12 +12,9 @@ import {
   getMyContactsSuccess,
 } from "../features/authSlice";
 import { useNavigate } from "react-router";
-import {
-  toastErrorNotify,
-  toastSuccessNotify,
-  toastWarnNotify,
-} from "../helper/ToastNotify";
+import toast from 'react-hot-toast';
 import useAxios from "./useAxios";
+
 
 const useAuthCall = () => {
   const dispatch = useDispatch();
@@ -36,7 +33,7 @@ const useAuthCall = () => {
       navigate("/verification");
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify(error?.response?.data?.message);
+      toast(error?.response?.data?.message);
     }
   };
 
@@ -49,7 +46,7 @@ const useAuthCall = () => {
       dispatch(deleteSuccess(data));
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify("User delete failed");
+      toast("User delete failed! ✖️");
     }
   };
 
@@ -64,7 +61,7 @@ const useAuthCall = () => {
       dispatch(registerSuccess(data));
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify("Verification failed.");
+      toast("Verification failed! ✖️");
     }
   };
 
@@ -77,16 +74,16 @@ const useAuthCall = () => {
       );
       if (!data?.result?.verified) {
         deleteUser(data?.result?._id);
-        toastWarnNotify("No such account found!");
+        toast("No such account found!");
       } else {
         dispatch(loginSuccess(data));
-        toastSuccessNotify("Welcome to the Connectify.");
+        toast("Welcome to the Connectify.");
         navigate("/chats");
       }
     } catch (error) {
       dispatch(fetchFail());
       console.log(error);
-      toastErrorNotify(
+      toast(
         "Incorrect login. Double check your details and try again.  "
       );
     }
@@ -97,11 +94,11 @@ const useAuthCall = () => {
     try {
       await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout/`);
       dispatch(logoutSuccess());
-      toastSuccessNotify("Logout successfull");
+      toast("Logout successfull");
       navigate("/login");
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify(error);
+      toast(error);
     }
   };
 
@@ -124,6 +121,7 @@ const useAuthCall = () => {
       });
       dispatch(updateContactSuccess({ data }));
       getMyContacts();
+      toast('Person has been added to your contacts.')
     } catch (error) {
       dispatch(fetchFail());
       console.log(error);
@@ -141,6 +139,8 @@ const useAuthCall = () => {
       );
       dispatch(updateContactSuccess({ data }));
       getMyContacts();
+      toast('Person has been removed from your contacts.')
+
     } catch (error) {
       dispatch(fetchFail());
       console.log(error);
@@ -155,11 +155,11 @@ const useAuthCall = () => {
   //       data
   //     );
   //     dispatch(passwordUpdateSuccess(res));
-  //     toastSuccessNotify("Password Changed Successfully");
+  //     toast("Password Changed Successfully");
   //   } catch (error) {
   //     dispatch(fetchFail());
-  //     toastErrorNotify("Failed to change password");
-  //     toastErrorNotify(error);
+  //     toast("Failed to change password");
+  //     toast(error);
   //   }
   // };
 

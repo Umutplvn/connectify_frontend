@@ -9,7 +9,8 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
 import BasicModal from "../components/ContactModal";
 import useAuthCall from "../hooks/useAuthCall";
-import { toastWarnNotify } from "../helper/ToastNotify";
+import toast from 'react-hot-toast';
+
 
 const People = () => {
   const { users } = useSelector((state) => state?.appData);
@@ -51,7 +52,7 @@ const People = () => {
     handleOpen();
     setName(item?.name);
     setContactId(item?._id);
-  };
+    };
 
   const removeContactState = (item) => {
     setCheck(true);
@@ -61,7 +62,7 @@ const People = () => {
   };
 
   const handleWarn = ()=>{
-    return toastWarnNotify("Messaging is only available for your contacts.")
+    return toast("Messaging is only available for your contacts.")
   }
   const contactsData = contacts?.map((item) => item?._id);
 
@@ -107,7 +108,7 @@ const People = () => {
       </Box>
 
       {/* People Data*/}
-      {display?.map((item) => {
+      {display?.slice(0, 5)?.map((item) => {
         const matchIndex = contactsData?.indexOf(item._id);
         const isMatched = matchIndex >= 0;
 
@@ -180,6 +181,7 @@ const People = () => {
                   alignItems: "center",
                 }}
               >
+
                 {isMatched ? (
                   <IndeterminateCheckBoxRoundedIcon
                     sx={{

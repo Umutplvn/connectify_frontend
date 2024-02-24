@@ -7,6 +7,12 @@ const Status = () => {
 
   const {logout}=useAuthCall()
 
+  const loggedOut = ()=>{
+    logout()
+    localStorage.removeItem('selected'); // Kullanıcı bilgilerini localStorage'den kaldır
+
+  }
+
   return (
     <Box>
       {/* Title */}
@@ -15,7 +21,7 @@ const Status = () => {
       >
         Settings
       </Typography>
-      <Button onClick={()=>logout()}>Logout</Button>
+      <Button onClick={loggedOut}>Logout</Button>
       <Footer />
     </Box>
   );

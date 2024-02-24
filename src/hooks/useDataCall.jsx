@@ -1,11 +1,10 @@
 import useAxios from "./useAxios";
 import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess, getUsersSuccess} from "../features/appDataSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
+import { useDispatch } from "react-redux";
+import toast from 'react-hot-toast';
 
 const useDataCall = () => {
-  const { axiosWithToken, axiosPublic } = useAxios();
-  const { token, userId } = useSelector((state) => state.auth);
+  const { axiosWithToken } = useAxios();
   const dispatch = useDispatch();
 
 
@@ -17,7 +16,7 @@ const useDataCall = () => {
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
-      toastErrorNotify(error);
+      toast(error);
     }
   };
 
@@ -30,7 +29,7 @@ const useDataCall = () => {
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
-      toastErrorNotify(error);
+      toast(error);
     }
   };
 
@@ -42,7 +41,7 @@ const useDataCall = () => {
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
-      toastErrorNotify(error);
+      toast(error);
     }
   };
 
@@ -50,10 +49,10 @@ const useDataCall = () => {
     dispatch(fetchStart());
     try {
       await axiosWithToken.delete(`chats/deletechat/${chatId}` );
-      toastSuccessNotify("Successfully deleted");
+      toast("Successfully deleted");
       getChats();
     } catch (error) {
-      toastErrorNotify(error);
+      toast(error);
       dispatch(fetchFail());
     }
   };
@@ -68,7 +67,7 @@ const useDataCall = () => {
 
   //   } catch (error) {
   //     dispatch(fetchFail());
-  //     toastErrorNotify(error);
+  //     toast(error);
   //   }
   // };
 
@@ -79,7 +78,7 @@ const useDataCall = () => {
   //     });
   //     getData("blogs")
   //   } catch (error) {
-  //     toastErrorNotify(error);
+  //     toast(error);
   //   }
   // };
 
@@ -92,7 +91,7 @@ const useDataCall = () => {
       
   //   } catch (error) {
   //     dispatch(fetchFail());
-  //     toastErrorNotify(error.response.data.detail);
+  //     toast(error.response.data.detail);
   //     console.log(error);
   //   }
   // };
@@ -106,7 +105,7 @@ const useDataCall = () => {
 
   //   } catch (error) {
   //     dispatch(fetchFail());
-  //     toastErrorNotify(error.response.data.detail);
+  //     toast(error.response.data.detail);
   //   }
   // };
 
@@ -114,10 +113,10 @@ const useDataCall = () => {
   //   dispatch(fetchStart());
   //   try {
   //     await axiosWithToken.delete(`blogs/${id}`);
-  //     toastSuccessNotify("Successfully deleted");
+  //     toast("Successfully deleted");
   //     getData("blogs");
   //   } catch (error) {
-  //     toastErrorNotify(error);
+  //     toast(error);
   //     dispatch(fetchFail());
   //   }
   // };
