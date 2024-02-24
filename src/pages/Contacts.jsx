@@ -9,6 +9,8 @@ import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateC
 import BasicModal from "../components/ContactModal";
 import useAuthCall from "../hooks/useAuthCall";
 import { useNavigate } from "react-router-dom";
+import Notes from "../components/Notes";
+import { addRemoveStyle } from "../styles/globalStyle";
 
 const People = () => {
   const { contacts } = useSelector((state) => state?.auth);
@@ -65,11 +67,7 @@ const People = () => {
     <Box>
       {/* Title */}
       <Typography
-        sx={{
-          padding: "0.5rem",
-          fontSize: "24px",
-          fontWeight: "700",
-          backgroundColor: "#f8fcfb",
+         sx={{ padding: "1rem 0.5rem", fontSize: "24px", fontWeight: "700", boxShadow:" rgba(17, 17, 26, 0.1) 0px 1px 0px ", backgroundColor:"#fdffff", mb:"1rem"
         }}
       >
         Contacts
@@ -118,7 +116,7 @@ const People = () => {
             }}
             key={item?._id}
           >
-            <img
+                        <img
               style={{
                 width: "50px",
                 height: "50px",
@@ -167,13 +165,7 @@ const People = () => {
 
               <Box
                 onClick={() => removeContactState(item)}
-                sx={{
-                  width: "3rem",
-                  color: "#4f9bbf",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+                sx={addRemoveStyle}
               >
                 <IndeterminateCheckBoxRoundedIcon
                   sx={{

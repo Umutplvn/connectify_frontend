@@ -50,18 +50,17 @@ const useAuthCall = () => {
     }
   };
 
-  const update = async (userId, info) => {
+  const update = async (info) => {
     dispatch(fetchStart);
     try {
-      const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/auth/users/${userId}`,
+      const { data } = await axiosWithToken.put(
+        `${process.env.REACT_APP_BASE_URL}/auth/users/update`,
         info
       );
-      console.log("update ", data);
       dispatch(registerSuccess(data));
+      
     } catch (error) {
       dispatch(fetchFail());
-      toast("Verification failed! ✖️");
     }
   };
 
@@ -80,6 +79,8 @@ const useAuthCall = () => {
         toast("Welcome to the Connectify.");
         navigate("/chats");
       }
+      console.log("login data", data);
+      
     } catch (error) {
       dispatch(fetchFail());
       console.log(error);

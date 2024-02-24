@@ -16,11 +16,11 @@ function App() {
           <ToastBar
             toast={t}
             style={{
-              transition: "0.4s",
+              transition: "0.1s",
               ...t.style,
               animation: t.visible
-                ? "custom-enter 1s ease"
-                : "custom-exit 1s ease",
+                ? "custom-enter 0.5s ease"
+                : "custom-exit 0.5s ease",
             }}
           />
         )}

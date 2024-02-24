@@ -7,18 +7,18 @@ import useDataCall from "../hooks/useDataCall";
 import usernone from "../assets/nouser.png";
 import { useNavigate } from "react-router-dom";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import formatDateTime from "../helper/formatDateTime"; 
+import formatDateTime from "../helper/formatDateTime";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import useAuthCall from "../hooks/useAuthCall";
 
 const Chats = () => {
   const { getChats, deleteChat } = useDataCall();
-  const {getMyContacts}=useAuthCall()
+  const { getMyContacts } = useAuthCall();
 
   useEffect(() => {
     getChats();
-    getMyContacts()
+    getMyContacts();
   }, []);
 
   const { chats } = useSelector((state) => state?.appData);
@@ -27,7 +27,6 @@ const Chats = () => {
   const [swipe, setSwipe] = useState();
   const navigate = useNavigate();
 
-console.log(chats);
 
   useEffect(() => {
     const data = chats.filter((item) => item?.show == true);
@@ -38,18 +37,17 @@ console.log(chats);
     const filterName = chats
       .filter((item) => item?.show == true)
       ?.filter((item) =>
-        item?.toWho?.name
-          .toLowerCase()
-          .includes(e.target.value.toLowerCase())
+        item?.toWho?.name.toLowerCase().includes(e.target.value.toLowerCase())
       );
     setDisplay(filterName);
   };
-console.log(display);
+
   return (
     <Box>
       {/* Title */}
       <Typography
-        sx={{ padding: "0.5rem", fontSize: "24px", fontWeight: "700", backgroundColor:"#f8fcfb" }}
+          sx={{ padding: "1rem 0.5rem", fontSize: "24px", fontWeight: "700", boxShadow:"rgba(17, 17, 26, 0.1) 0px 1px 0px ", backgroundColor:"#fdffff", mb:"1rem"
+        }}
       >
         Chats
       </Typography>
@@ -59,8 +57,7 @@ console.log(display);
         component="form"
         sx={{
           "& .MuiTextField-root": { p: "0 0.5rem", width: "100%" },
-          mt:"0.5rem"
-
+          mt: "0.5rem",
         }}
         noValidate
         autoComplete="off"
@@ -85,7 +82,6 @@ console.log(display);
           }}
         />
       </Box>
-    
 
       {/* Chats */}
       {display?.map((item) => (
@@ -123,7 +119,6 @@ console.log(display);
               >
                 {item?.toWho?.name.charAt(0).toUpperCase() +
                   item?.toWho?.name.slice(1).toLowerCase()}
-
               </Typography>
               <Box
                 sx={{

@@ -17,8 +17,8 @@ const Status = () => {
     <Box>
       {/* Title */}
       <Typography
-        sx={{ padding: "0.5rem", fontSize: "24px", fontWeight: "700", backgroundColor:"#f8fcfb" }}
-      >
+  sx={{ padding: "1rem 0.5rem", fontSize: "24px", fontWeight: "700", boxShadow:" rgba(17, 17, 26, 0.1) 0px 1px 0px ", backgroundColor:"#fdffff", mb:"1rem"
+}}      >
         Settings
       </Typography>
       <Button onClick={loggedOut}>Logout</Button>

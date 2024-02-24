@@ -1,17 +1,24 @@
 export const btnRed ={
-    backgroundColor:"#d6322f", 
+    backgroundColor:"#cb5b5b", 
     color:"white", 
     "&:hover":{backgroundColor:"#b71c1c"}
   }
   
   export const btnGreen ={
-    backgroundColor: "#159724", 
+    backgroundColor: "#3ea17b", 
     color:"white", 
     "&:hover":{backgroundColor:"success.dark"},
   
   }
   
-  
+  export const addRemoveStyle ={
+      width: "3rem",
+      color: "#4f9bbf",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+
+  }
   
   
   export const btnLead= {

@@ -9,8 +9,8 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
 import BasicModal from "../components/ContactModal";
 import useAuthCall from "../hooks/useAuthCall";
-import toast from 'react-hot-toast';
-
+import toast from "react-hot-toast";
+import { addRemoveStyle } from "../styles/globalStyle";
 
 const People = () => {
   const { users } = useSelector((state) => state?.appData);
@@ -29,7 +29,6 @@ const People = () => {
     getUsers();
     getMyContacts();
   }, []);
-
 
   const handleSearch = (e) => {
     const searchKeyword = e.target.value.toLowerCase();
@@ -52,7 +51,7 @@ const People = () => {
     handleOpen();
     setName(item?.name);
     setContactId(item?._id);
-    };
+  };
 
   const removeContactState = (item) => {
     setCheck(true);
@@ -61,9 +60,12 @@ const People = () => {
     setContactId(item?._id);
   };
 
-  const handleWarn = ()=>{
-    return toast("Messaging is only available for your contacts.")
-  }
+  const handleWarn = (isMatched) => {
+    // return toast("Messaging is only available for your contacts.");
+
+    // Kisilerimde ekliyse Navigate(chat) yoksa warn
+  };
+
   const contactsData = contacts?.map((item) => item?._id);
 
   return (
@@ -71,10 +73,12 @@ const People = () => {
       {/* Title */}
       <Typography
         sx={{
-          padding: "0.5rem",
+          padding: "1rem 0.5rem",
           fontSize: "24px",
           fontWeight: "700",
-          backgroundColor: "#f8fcfb",
+          boxShadow: " rgba(17, 17, 26, 0.1) 0px 1px 0px ",
+          backgroundColor: "#fdffff",
+          mb: "1rem",
         }}
       >
         People
@@ -148,15 +152,16 @@ const People = () => {
                 width={"85%"}
                 justifyContent={"space-between"}
               >
-                <Typography sx={{ fontWeight: "700" }}
-                onClick={()=>handleWarn()}
+                <Typography
+                  sx={{ fontWeight: "700" }}
+                  onClick={() => handleWarn()}
                 >
                   {item?.name.charAt(0).toUpperCase() +
                     item?.name.slice(1).toLowerCase()}
                 </Typography>
-                <Typography
-                 onClick={()=>handleWarn()}
-                >@{item?.username}</Typography>
+                <Typography onClick={() => handleWarn(isMatched)}>
+                  @{item?.username}
+                </Typography>
               </Box>
 
               <BasicModal
@@ -173,15 +178,8 @@ const People = () => {
                 onClick={() =>
                   isMatched ? removeContactState(item) : addContactState(item)
                 }
-                sx={{
-                  width: "3rem",
-                  color: "#4f9bbf",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+                sx={addRemoveStyle}
               >
-
                 {isMatched ? (
                   <IndeterminateCheckBoxRoundedIcon
                     sx={{

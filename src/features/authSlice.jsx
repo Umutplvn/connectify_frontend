@@ -11,9 +11,11 @@ export const authSlice = createSlice({
     userId: null,
     email:null,
     verified:null,
-    password:null,
     contacts:[],
-    avatar: "",
+    note:"",
+    image:"",
+    name:"",
+    image: "",
   },
 
   reducers: {
@@ -34,9 +36,12 @@ export const authSlice = createSlice({
       state.userId = payload?.result?._id;
       state.email=payload?.result?.email;
       state.username=payload?.result?.username;
-      state.password=payload?.result?.password;
+      state.image=payload?.result?.image;
+      state.name=payload?.result?.name;
       state.passcode = payload?.passcode;
       state.verified=payload?.result?.verified
+      state.contacts=payload?.result?.contacts
+      state.note=payload?.result?.note
     },
 
 
@@ -46,7 +51,7 @@ export const authSlice = createSlice({
       state.currentUser = "";
       state.token = "";
       state.userId ="";
-      state.avatar ="";
+      state.image ="";
     },
 
     loginSuccess: (state, { payload }) => {
@@ -57,7 +62,12 @@ export const authSlice = createSlice({
       state.userId = payload?.result?._id;
       state.email = payload?.result?.email;
       state.username=payload?.result?.username;
+      state.image=payload?.result?.image;
+      state.name=payload?.result?.name;
+      state.contacts=payload?.result?.contacts;
       state.verified = payload?.result?.verified;
+      state.note=payload?.result?.note
+
     },
 
 
@@ -69,29 +79,32 @@ export const authSlice = createSlice({
 
 
     updateContactSuccess: (state, { payload }) => {
-      state.loading = false;
-      state.error = true;
-      state.contacts = payload?.data?.contacts;
+      // state.loading = false;
+      // state.error = true;
+      // state.contacts = payload?.data?.contacts;
     },
 
 
     logoutSuccess: (state) => {
-      state.loading = false;
-      state.error = false;
-      state.currentUser = null;
-      state.token = null;
-      state.userId = null;
-      state.avatar =null;
-      state.email = null;
-      state.username = null;
-      state.verified = null;
-      state.password = null;
+      state.loading= false;
+      state.error= false;
+      state.currentUser= null;
+      state.username= null;
+      state.token= null;
+      state.userId= null;
+      state.email=null;
+      state.verified=null;
+      state.contacts=[];
+      state.user=[];
+      state.image="";
+      state.name="";
+      state.image= "";
     },
 
   
     //////////
 
-    passwordUpdateSuccess:(state, {payload})=>{
+    UpdateSuccess:(state, {payload})=>{
       state.loading = false;
       state.error = false;
 
@@ -105,7 +118,7 @@ export const {
   loginSuccess,
   logoutSuccess,
   registerSuccess,
-  passwordUpdateSuccess,
+  UpdateSuccess,
   deleteSuccess,
   updateContactSuccess,
   getMyContactsSuccess
