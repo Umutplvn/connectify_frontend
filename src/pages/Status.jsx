@@ -1,9 +1,16 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "../components/Footer";
 import Notes from "../components/Notes";
+import useDataCall from "../hooks/useDataCall";
 
 const Status = () => {
+  const {getNotes}=useDataCall()
+useEffect(() => {
+ getNotes()
+}, [])
+
+
   return (
     <Box>
       {/* Title */}

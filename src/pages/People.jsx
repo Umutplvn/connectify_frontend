@@ -11,6 +11,7 @@ import BasicModal from "../components/ContactModal";
 import useAuthCall from "../hooks/useAuthCall";
 import toast from "react-hot-toast";
 import { addRemoveStyle } from "../styles/globalStyle";
+import { useNavigate } from "react-router-dom";
 
 const People = () => {
   const { users } = useSelector((state) => state?.appData);
@@ -29,6 +30,8 @@ const People = () => {
     getUsers();
     getMyContacts();
   }, []);
+
+  const navigate=useNavigate()
 
   const handleSearch = (e) => {
     const searchKeyword = e.target.value.toLowerCase();
@@ -60,9 +63,12 @@ const People = () => {
     setContactId(item?._id);
   };
 
-  const handleWarn = (isMatched) => {
-    // return toast("Messaging is only available for your contacts.");
-
+  const handleWarn = (isMatched, item) => {
+    if(isMatched){
+      navigate(`/chat/${item._id}`)
+    }else{
+      return toast("Messaging is only available for your contacts.");
+    }
     // Kisilerimde ekliyse Navigate(chat) yoksa warn
   };
 
@@ -154,12 +160,12 @@ const People = () => {
               >
                 <Typography
                   sx={{ fontWeight: "700" }}
-                  onClick={() => handleWarn()}
+                  onClick={() => handleWarn(isMatched, item)}
                 >
                   {item?.name.charAt(0).toUpperCase() +
                     item?.name.slice(1).toLowerCase()}
                 </Typography>
-                <Typography onClick={() => handleWarn(isMatched)}>
+                <Typography onClick={() => handleWarn(isMatched, item)}>
                   @{item?.username}
                 </Typography>
               </Box>

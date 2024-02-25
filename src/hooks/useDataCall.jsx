@@ -1,5 +1,5 @@
 import useAxios from "./useAxios";
-import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess, getUsersSuccess} from "../features/appDataSlice";
+import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess, getUsersSuccess, noteSuccess} from "../features/appDataSlice";
 import { useDispatch } from "react-redux";
 import toast from 'react-hot-toast';
 
@@ -25,7 +25,6 @@ const useDataCall = () => {
     try {
       const { data } = await axiosWithToken(`message/${chatId}`);
       dispatch(getMessagesSuccess({data}));
-      console.log(data);
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -45,6 +44,45 @@ const useDataCall = () => {
     }
   };
 
+  const getNotes = async () => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken("app/getnotes");
+      dispatch(noteSuccess({data}));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toast(error);
+    }
+  };
+
+  const createNote = async (content) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.post("app/createnote", content);
+      dispatch(noteSuccess({data}));
+      getNotes()
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toast(error);
+    }
+  };
+
+
+  const deleteNote = async () => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.delete("app/deletenote");
+      dispatch(noteSuccess({data}));
+      getNotes()
+      } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toast(error);
+    }
+  };
+
   const deleteChat = async (chatId) => {    
     dispatch(fetchStart());
     try {
@@ -57,71 +95,8 @@ const useDataCall = () => {
     }
   };
 
-  // const getDrafts = async (userId) => {
-  //   dispatch(fetchStart());
-  //   try {
-  //     const { data } = await axiosWithToken(`/blogs/?author=${userId}`);
-      
-  //     const info = data?.filter((item) => item?.status == "d");
-  //     dispatch(getDraftSuccess({ info }));
 
-  //   } catch (error) {
-  //     dispatch(fetchFail());
-  //     toast(error);
-  //   }
-  // };
-
-  // const getViews =async (id) => {
-  //   try {
-  //     await axios(`${process.env.REACT_APP_BASE_URL}api/blogs/${id}/`, {
-  //       headers: { Authorization: `${token}` }
-  //     });
-  //     getData("blogs")
-  //   } catch (error) {
-  //     toast(error);
-  //   }
-  // };
-
-  // const postData = async (url, id, info) => {
-  //   dispatch(fetchStart());
-  //   try {
-  //     const { data } = await axiosWithToken.post(`${url}/${id}`, info);
-  //     dispatch(postDataSuccess({ url, data }));
-  //     getData("blogs");
-      
-  //   } catch (error) {
-  //     dispatch(fetchFail());
-  //     toast(error.response.data.detail);
-  //     console.log(error);
-  //   }
-  // };
-
-  // const putData = async (url, id, info) => {
-  //   dispatch(fetchStart());
-  //   try {
-  //      await axiosWithToken.put(`${url}/${id}/`, info);
-  //     getData("blogs");
-  //     getDrafts(userId);
-
-  //   } catch (error) {
-  //     dispatch(fetchFail());
-  //     toast(error.response.data.detail);
-  //   }
-  // };
-
-  // const deleteData = async (id) => {
-  //   dispatch(fetchStart());
-  //   try {
-  //     await axiosWithToken.delete(`blogs/${id}`);
-  //     toast("Successfully deleted");
-  //     getData("blogs");
-  //   } catch (error) {
-  //     toast(error);
-  //     dispatch(fetchFail());
-  //   }
-  // };
-
-  return {getChats, getMessages, deleteChat, getUsers};
+  return {getChats, getMessages, deleteChat, getUsers, createNote, deleteNote, getNotes};
 };
 
 export default useDataCall;

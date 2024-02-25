@@ -39,22 +39,9 @@ const handleSubmit = async (e) => {
     }}>
 
    
-<Box style={{
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    opacity:"0.5",
-    backgroundImage: `url(${bgImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundAttachment: 'fixed',
-    zIndex: -1 }}>
-</Box>
       <Header/>
     <Box sx={{ textAlign:"center", mt:"2rem", p:"0.5rem"}}>
-      <Typography sx={{color:"#3B9387", fontSize:"1.5rem", mb:"1rem"}}>Login to the Connectify</Typography>
+      <Typography sx={{color:"#265b54", fontSize:"1.5rem", mb:"1rem"}}>Login to the Connectify</Typography>
       <Typography>Welcome to Connectify! Please enter your credentials to access your account.</Typography>
 
       <Box component="form" onSubmit={(e)=>handleSubmit(e)} sx={{ mt: 3 }}>

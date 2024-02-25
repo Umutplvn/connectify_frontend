@@ -11,6 +11,8 @@ import {
   updateContactSuccess,
   getMyContactsSuccess,
 } from "../features/authSlice";
+import {logoutDataSuccess} from "../features/appDataSlice"
+
 import { useNavigate } from "react-router";
 import toast from 'react-hot-toast';
 import useAxios from "./useAxios";
@@ -95,6 +97,7 @@ const useAuthCall = () => {
     try {
       await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout/`);
       dispatch(logoutSuccess());
+      dispatch(logoutDataSuccess())
       toast("Logout successfull");
       navigate("/login");
     } catch (error) {
@@ -114,7 +117,7 @@ const useAuthCall = () => {
     }
   };
 
-  const addContact = async (contactId) => {
+  const addContact = async (contactId, name) => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.post(`auth/users/addcontact`, {
@@ -122,14 +125,14 @@ const useAuthCall = () => {
       });
       dispatch(updateContactSuccess({ data }));
       getMyContacts();
-      toast('Person has been added to your contacts.')
+      toast(`${name} has been added to your contacts.`)
     } catch (error) {
       dispatch(fetchFail());
       console.log(error);
     }
   };
 
-  const removeContact = async (contactId) => {
+  const removeContact = async (contactId, name) => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.post(
@@ -140,7 +143,7 @@ const useAuthCall = () => {
       );
       dispatch(updateContactSuccess({ data }));
       getMyContacts();
-      toast('Person has been removed from your contacts.')
+      toast(`${name} has been removed from your contacts.`)
 
     } catch (error) {
       dispatch(fetchFail());

@@ -5,8 +5,8 @@ import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import { btnGreen, btnRed } from "../styles/globalStyle";
 import { useState } from "react";
-import useAuthCall from "../hooks/useAuthCall";
 import toast from 'react-hot-toast';
+import useDataCall from "../hooks/useDataCall";
 
 const style = {
   position: "absolute",
@@ -25,13 +25,12 @@ const style = {
 export default function BasicModal({ open, handleClose }) {
 
 const [note, setNote] = useState("")
-const {update}=useAuthCall()
+const {createNote}=useDataCall()
 
 const handleAddNote=()=>{
-update({note:note})
+  createNote({content:note})
 handleClose()
 setNote("")
-toast("Your note has been successfully shared.")
 }
 
   return (
@@ -47,13 +46,14 @@ toast("Your note has been successfully shared.")
             sx={{
               width: "100%",
               height: "3rem",
-              mb:"1.5rem"
+              mb:"1.5rem",
             }}
             value={note}
             onChange={(e)=>setNote(e.target.value)}
             multiline
-            inputProps={{ maxLength: 50 }}
+            inputProps={{ maxLength: 40 }}
             placeholder="Notes..."
+            
           />
 
           <Box

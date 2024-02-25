@@ -29,13 +29,13 @@ export default function BasicModal({
   const { addContact, removeContact } = useAuthCall();
 
   const handleAddFriend = () => {
-      addContact(contactId);
+      addContact(contactId, name);
       handleClose();    
     
   };
 
   const handleRemoveFriend =()=>{
-    removeContact(contactId)
+    removeContact(contactId, name)
     handleClose()
   }
 
