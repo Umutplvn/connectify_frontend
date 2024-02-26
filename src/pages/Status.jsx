@@ -1,47 +1,54 @@
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import { Avatar, Box, Button, Input, InputLabel, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Notes from "../components/Notes";
 import useDataCall from "../hooks/useDataCall";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import { useSelector } from "react-redux";
+import usernone from "../assets/upload.svg";
+import { statusStyle } from "../styles/globalStyle";
 
 const Status = () => {
+  const { userId } = useSelector((state) => state.auth);
+  const { stories } = useSelector((state) => state.appData);
   const { getNotes, createStory } = useDataCall();
+
   useEffect(() => {
     getNotes();
   }, []);
+
   const gradientBackground = {
-    background: "linear-gradient(to right, #b5b5e3, #c5f2d9)",
+    background: "linear-gradient(to bottom right, #e7e7f3, #cee2d7)",
   };
 
-  const gradientBackgroundIcon = {
-    background: "linear-gradient(to right, #ea8e47, #dd697c)",
+
+  const [postImage, setPostImage] = useState({ content: "", userId: userId });
+
+  const handleFileUpload = async (e) => {
+    const file = e?.target?.files[0];
+    const base64 = await convertToBase64(file);
+    setPostImage({ ...postImage, content: base64 });
+    console.log(postImage);
   };
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const handleImageChange = (event) => {
-    setSelectedImage(event.target.files[0]);
-    console.log(selectedImage);
+  const handleSubmit = (e) => {
+    // e.preventDefault();
+    createStory("postImage");
   };
 
-  const handleStory = async () => {
-    try {
-      // Görsel seçilmiş mi kontrol edin
-      if (!selectedImage) {
-        alert("Please select an image.");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("image", selectedImage);
-
-      await createStory(formData); // Seçilen görseli içeren FormData nesnesini kullanarak hikaye oluşturun
-    } catch (error) {
-      console.error("Error creating story:", error);
-      // Hata durumunda uygun bir şekilde işleyin (toast, alert, vb.)
-    }
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
   };
+
 
   return (
     <Box>
@@ -80,65 +87,49 @@ const Status = () => {
             display: "flex",
             justifyContent: "center",
             m: "1rem",
-            display: "flex",
             borderRadius: "0.5rem",
           }}
         >
+    
+          {/* Upload Image */}
+
           <Box
-            sx={{
-              position: "absolute",
-              width: "100%",
-              height: "4rem",
-              color: "#F37715",
-              fontSize: "1rem",
-              fontWeight: "900",
-            }}
+            type="form"
+            // sx={{
+            //   display: "flex",
+            //   flexDirection: "column",
+             // position: "absolute",
+            //   alignItems:"center",
+            //   gap: 1,
+            //   zIndex:2
+              
+              // width: "100%",
+              // height: "100%",
+              // backgroundColor:"red"
+            // }}
+            onSubmit={handleSubmit}
           >
-            <Box
-              sx={{
-                rotate: "-30deg",
-                display: "flex",
-                backgroundColor: "white",
-                alignItems: "center",
-                justifyContent: "center",
-                p: "0.1rem",
-                gap: 1,
-                borderRadius: "0.5rem",
-                mt: "4rem",
-              }}
+            <InputLabel
+              htmlFor="file-upload" sx={{color:"blue", mt:"5rem"}}
             >
-              <AddAPhotoIcon sx={{ fontSize: "1.2rem" }} />
-              <Typography sx={{ fontSize: "1.2rem", fontWeight: "900" }}>
-                Add Yours
-              </Typography>
-            </Box>
+           <img src={usernone}    width={"40rem"} height={"40rem"}/>
+            </InputLabel>
 
-            <Typography sx={{ ml: "4rem", mt: "0.5rem", fontSize: "3.5rem" }}>
-              😜
-            </Typography>
-          </Box>
-
-          <Box>
-            <input
+            <Input
               type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              style={{ display: "none" }}
-              id="upload-image"
+              label="Image"
+              name="myFile"
+              id="file-upload"
+              accept=".jpeg, .png, .jpg"
+              sx={{ display: "none" }}
+              onChange={(e) => handleFileUpload(e)}
             />
-            <label htmlFor="upload-image">
-              <Button
-                variant="contained"
-                component="span"
-                startIcon={<AddAPhotoIcon />}
-              >
-                Select Image
-              </Button>
-            </label>
-            <Button variant="contained" onClick={handleStory}>
-              Upload Story
+            <Button sx={statusStyle} type="Submit">
+                POST
             </Button>
           </Box>
+
+          {/* Upload Image */}
         </Box>
 
         {/* Friends */}
@@ -153,6 +144,11 @@ const Status = () => {
             boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
           }}
         >
+          {/* <img
+            src={stories?.data?.response[0]?.content || usernone}
+            alt=""
+            width={"100px"}
+          /> */}
           <Avatar
             sx={{ position: "absolute", bottom: "0.5rem", left: "0.5rem" }}
             variant="contained"
@@ -167,3 +163,43 @@ const Status = () => {
 };
 
 export default Status;
+
+
+
+
+
+
+
+//    <Box
+// sx={{
+//   rotate: "-30deg",
+//   display: "flex",
+//   backgroundColor: "#ef781e",
+//   color:"white",
+//   p: "0.3rem",
+//   gap: 1,
+//   borderRadius: "0.5rem",
+//   mt: "2.3rem",
+//   ml: "0.5rem",
+//   position: "absolute",
+// }}
+// >
+// <AddAPhotoIcon sx={{ fontSize: "1.5rem" }} />
+// <Typography sx={{ fontSize: "1.2rem", fontWeight: "900" }}>
+//   Add Yours
+// </Typography>
+// </Box>
+
+// <Box>
+// <Typography
+//   sx={{ ml: "1rem", mt: "-0.8rem", fontSize: "3.5rem" }}
+// >
+//   😍
+// </Typography>
+
+// <Typography
+//   sx={{ ml: "5rem", mt: "-1rem", fontSize: "3.5rem" }}
+// >
+//   😜
+// </Typography>
+// </Box>

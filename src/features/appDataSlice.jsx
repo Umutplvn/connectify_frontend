@@ -35,7 +35,7 @@ const appDataSlice = createSlice({
       state.messages = payload;
     },
 
-    getUsersSuccess: (state, { payload }) => {
+    getUsersSuccess: (state, {payload }) => {
       state.loading = false;
       state.error = false;
       state.users = payload;
@@ -50,7 +50,7 @@ const appDataSlice = createSlice({
     storySuccess: (state, { payload }) => {
       state.loading = false;
       state.error = false;
-      state.notes = payload?.data?.result;
+      state.stories = payload
     },
 
     logoutDataSuccess: (state) => {
