@@ -89,7 +89,6 @@ const useDataCall = () => {
     try {
       const { data } = await axiosWithToken.post("app/createstory", info);
       dispatch(storySuccess({data}));
-      console.log(data);
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());

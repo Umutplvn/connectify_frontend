@@ -1,4 +1,11 @@
-import { Avatar, Box, Button, Input, InputLabel, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Input,
+  InputLabel,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Notes from "../components/Notes";
@@ -21,19 +28,17 @@ const Status = () => {
     background: "linear-gradient(to bottom right, #e7e7f3, #cee2d7)",
   };
 
-
   const [postImage, setPostImage] = useState({ content: "", userId: userId });
 
   const handleFileUpload = async (e) => {
-    const file = e?.target?.files[0];
+    const file = e.target.files[0];
     const base64 = await convertToBase64(file);
     setPostImage({ ...postImage, content: base64 });
-    console.log(postImage);
   };
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    createStory("postImage");
+    e.preventDefault();
+    createStory(postImage);
   };
 
   const convertToBase64 = (file) => {
@@ -48,7 +53,6 @@ const Status = () => {
       };
     });
   };
-
 
   return (
     <Box>
@@ -90,29 +94,17 @@ const Status = () => {
             borderRadius: "0.5rem",
           }}
         >
-    
           {/* Upload Image */}
 
-          <Box
-            type="form"
-            // sx={{
-            //   display: "flex",
-            //   flexDirection: "column",
-             // position: "absolute",
-            //   alignItems:"center",
-            //   gap: 1,
-            //   zIndex:2
-              
-              // width: "100%",
-              // height: "100%",
-              // backgroundColor:"red"
-            // }}
+          <form
+            // type="form"
+            display={"flex"}
+            flexDirection={"column"}
+            sx={{ justifyContent: "space-between" }}
             onSubmit={handleSubmit}
           >
-            <InputLabel
-              htmlFor="file-upload" sx={{color:"blue", mt:"5rem"}}
-            >
-           <img src={usernone}    width={"40rem"} height={"40rem"}/>
+            <InputLabel htmlFor="file-upload">
+              <Typography sx={{ fontSize: "4rem", mt: "3rem" }}>📷</Typography>
             </InputLabel>
 
             <Input
@@ -125,9 +117,9 @@ const Status = () => {
               onChange={(e) => handleFileUpload(e)}
             />
             <Button sx={statusStyle} type="Submit">
-                POST
+              POST
             </Button>
-          </Box>
+          </form>
 
           {/* Upload Image */}
         </Box>
@@ -163,12 +155,6 @@ const Status = () => {
 };
 
 export default Status;
-
-
-
-
-
-
 
 //    <Box
 // sx={{
