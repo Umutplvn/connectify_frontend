@@ -47,6 +47,12 @@ const appDataSlice = createSlice({
       state.notes = payload?.data?.result;
     },
 
+    storySuccess: (state, { payload }) => {
+      state.loading = false;
+      state.error = false;
+      state.notes = payload?.data?.result;
+    },
+
     logoutDataSuccess: (state) => {
       state.loading= false;
       state.error= false;
@@ -75,7 +81,8 @@ export const {
   getMessagesSuccess,
   getUsersSuccess,
   noteSuccess,
-  logoutDataSuccess
+  logoutDataSuccess,
+  storySuccess
   // getDataLikeSuccess,
   // postDataSuccess,
   // getDraftSuccess,

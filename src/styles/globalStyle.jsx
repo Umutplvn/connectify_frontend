@@ -32,3 +32,5 @@ export const btnRed ={
     "&:hover":{backgroundColor:"primary.dark",  boxShadow:  "rgba(0, 0, 0, 0.24) 2px 3px 3px"}
     
   };
+
+

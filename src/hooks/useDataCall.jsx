@@ -1,5 +1,5 @@
 import useAxios from "./useAxios";
-import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess, getUsersSuccess, noteSuccess} from "../features/appDataSlice";
+import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess, getUsersSuccess, noteSuccess, storySuccess} from "../features/appDataSlice";
 import { useDispatch } from "react-redux";
 import toast from 'react-hot-toast';
 
@@ -82,6 +82,21 @@ const useDataCall = () => {
       toast(error);
     }
   };
+// burdayim
+
+  const createStory = async (content) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.post("app/createstory", content);
+      // dispatch(storySuccess({data}));
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toast(error);
+    }
+  };
+
 
   const deleteChat = async (chatId) => {    
     dispatch(fetchStart());
@@ -96,7 +111,7 @@ const useDataCall = () => {
   };
 
 
-  return {getChats, getMessages, deleteChat, getUsers, createNote, deleteNote, getNotes};
+  return {getChats, getMessages, deleteChat, getUsers, createNote, deleteNote, getNotes, createStory};
 };
 
 export default useDataCall;
