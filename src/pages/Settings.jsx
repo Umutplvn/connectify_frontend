@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import Footer from "../components/Footer";
 import { Box } from "@mui/material";
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -40,8 +39,7 @@ const AccordionSummary = styled((props) => (
     transition:"0.5s"
   },
   "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1),
-  },
+    marginLeft: theme.spacing(1)}
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({

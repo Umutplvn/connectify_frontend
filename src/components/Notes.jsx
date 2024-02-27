@@ -20,6 +20,7 @@ const Notes = () => {
     getNotes();
   }, []);
 
+  console.log(image);
   
 
   const cancelStyle = {
@@ -92,7 +93,7 @@ const Notes = () => {
                 color: "#716868",
               }}
             >
-              {name}
+              {name?.charAt(0).toUpperCase()+name.slice(1).toLowerCase()}
             </Typography>
           </Box>
         ) : (
@@ -167,7 +168,7 @@ const Notes = () => {
                 color: "#716868",
               }}
             >
-              {item?.userId?.name}
+              {item?.userId?.name?.charAt(0).toUpperCase()+item?.userId?.name.slice(1).toLowerCase()}
             </Typography>
           </Box>
         ))}

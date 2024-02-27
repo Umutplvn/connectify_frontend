@@ -11,7 +11,8 @@ import Agreement from "../components/Agreement";
 import useAuthCall from "../hooks/useAuthCall";
 import PasswordStrengthBar from "react-password-strength-bar";
 import Header from "../components/Header";
-import bgImage from "../assets/background.jpeg"
+
+
 const Register = () => {
  
   const { register } = useAuthCall();
@@ -195,6 +196,7 @@ const Register = () => {
           <Button
             type="submit"
             variant="contained"
+            disabled={loading} 
             sx={{
               mt: 3,
               mb: 2,

@@ -5,8 +5,8 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useState } from "react";
 import useAuthCall from "../hooks/useAuthCall";
-import bgImage from "../assets/background.jpeg"
 import Header from "../components/Header";
+
 
 const Login = () => {
 
@@ -86,6 +86,7 @@ const handleSubmit = async (e) => {
         <Button
           type="submit"
           variant="contained"
+          disabled={loading} 
           sx={{ mt: 3, mb: 2, pl:4, pr:4, backgroundColor:"#41D463", "&:hover": { backgroundColor: "#2daa4a"} }}
         >
           Login

@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 import usernone from "../assets/upload.svg";
 import clickIcon from "../assets/click.png";
 import { statusStyle } from "../styles/globalStyle";
-import { toast } from "react-hot-toast";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 const Status = () => {
@@ -40,7 +39,6 @@ const Status = () => {
       setCheck(true)
       if (!file) {
         throw new Error("No file selected");
-        toast("No file selected!");
       }
 
       const base64 = await convertToBase64(file);
@@ -77,14 +75,13 @@ const Status = () => {
   };
 
   return (
-    <Box>
+    <Box  >
       {/* Title */}
       <Typography
         sx={{
           padding: "1rem 0.5rem",
           fontSize: "24px",
           fontWeight: "700",
-          boxShadow: " rgba(17, 17, 26, 0.1) 0px 1px 0px ",
           backgroundColor: "#fdffff",
         }}
       >
@@ -95,13 +92,13 @@ const Status = () => {
       <Box
         sx={{
           display: "flex",
-          width: "100wh",
-          height: "100vh",
+          flexWrap:"wrap",
+          width: "100%",
           p: "1rem",
           gap:4,
+          mb:"5rem",
           backgroundColor: "white",
-          boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
-          justifyContent: !myStory ? "flex-start" : "center", // Eğer myStory varsa sola yasla, yoksa ortala
+          justifyContent: "flex-start", // Eğer myStory varsa sola yasla, yoksa ortala
         }}
       >
         {/* Photo */}
@@ -110,6 +107,7 @@ const Status = () => {
             sx={{
               flex: "0 0 45%", 
               height: "15rem",
+              width:"100%",
               position: "relative",
               boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
               borderRadius: "1rem",
@@ -131,6 +129,7 @@ const Status = () => {
             />
             <img
               src={myStory?.content || usernone}
+              alt="myStory"
               width={"100%"}
               height={"100%"}
               style={{ borderRadius: "1rem" }}
@@ -154,6 +153,8 @@ const Status = () => {
               justifyContent: "center",
               borderRadius: "0.5rem",
               overflow: "hidden",
+              boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+
             }}
           >
             <Typography
@@ -230,9 +231,12 @@ const Status = () => {
         >
           <img
             src={item?.content || usernone}
+            alt="friendStory"
             width={"100%"}
             height={"100%"}
             style={{ borderRadius: "1rem" }}
+            boxShadow= "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+
           />
 
           <Avatar
