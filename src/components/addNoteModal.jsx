@@ -27,10 +27,12 @@ export default function BasicModal({ open, handleClose }) {
 const [note, setNote] = useState("")
 const {createNote}=useDataCall()
 
-const handleAddNote=()=>{
+const handleAddNote=(e)=>{
+  e.preventDefault()
   createNote({content:note})
 handleClose()
 setNote("")
+toast("Your note has successfully shared.")
 }
 
   return (

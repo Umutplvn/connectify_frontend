@@ -69,7 +69,6 @@ const People = () => {
     }else{
       return toast("Messaging is only available for your contacts.");
     }
-    // Kisilerimde ekliyse Navigate(chat) yoksa warn
   };
 
   const contactsData = contacts?.map((item) => item?._id);

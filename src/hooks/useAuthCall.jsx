@@ -30,7 +30,6 @@ const useAuthCall = () => {
         `${process.env.REACT_APP_BASE_URL}/auth/register/`,
         userData
       );
-      console.log("register data ", data);
       dispatch(registerSuccess(data));
       navigate("/verification");
     } catch (error) {
@@ -60,7 +59,7 @@ const useAuthCall = () => {
         info
       );
       dispatch(registerSuccess(data));
-      
+      console.log("update data", data);
     } catch (error) {
       dispatch(fetchFail());
     }
@@ -125,7 +124,7 @@ const useAuthCall = () => {
       });
       dispatch(updateContactSuccess({ data }));
       getMyContacts();
-      toast(`${name} has been added to your contacts.`)
+      toast(`${name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()} has been added to your contacts.`)
     } catch (error) {
       dispatch(fetchFail());
       console.log(error);
@@ -143,7 +142,7 @@ const useAuthCall = () => {
       );
       dispatch(updateContactSuccess({ data }));
       getMyContacts();
-      toast(`${name} has been removed from your contacts.`)
+      toast(`${name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()} has been removed from your contacts.`)
 
     } catch (error) {
       dispatch(fetchFail());

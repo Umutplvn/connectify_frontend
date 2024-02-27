@@ -37,7 +37,7 @@ const EmailVerification = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (passcode == pass) {
-      update(userId, { verified: true });
+      update({ verified: true });
       navigate("/chats");
       toast("Welcome to Connectify");
     } else {

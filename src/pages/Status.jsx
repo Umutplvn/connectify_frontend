@@ -10,18 +10,22 @@ import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Notes from "../components/Notes";
 import useDataCall from "../hooks/useDataCall";
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { useSelector } from "react-redux";
 import usernone from "../assets/upload.svg";
+import clickIcon from "../assets/click.png";
 import { statusStyle } from "../styles/globalStyle";
+import { toast } from "react-hot-toast";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const Status = () => {
-  const { userId } = useSelector((state) => state.auth);
-  const { stories } = useSelector((state) => state.appData);
-  const { getNotes, createStory } = useDataCall();
+  const { userId, image } = useSelector((state) => state?.auth);
+  const { stories, myStory } = useSelector((state) => state?.appData);
+  const [check, setCheck] = useState(false)
+  const { getNotes, createStory, getStories, deleteStory } = useDataCall();
 
   useEffect(() => {
     getNotes();
+    getStories();
   }, []);
 
   const gradientBackground = {
@@ -31,15 +35,33 @@ const Status = () => {
   const [postImage, setPostImage] = useState({ content: "", userId: userId });
 
   const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    const base64 = await convertToBase64(file);
-    setPostImage({ ...postImage, content: base64 });
+    try {
+      const file = e.target.files[0];
+      setCheck(true)
+      if (!file) {
+        throw new Error("No file selected");
+        toast("No file selected!");
+      }
+
+      const base64 = await convertToBase64(file);
+      setPostImage({ ...postImage, content: base64 });
+    } catch (error) {
+      console.error("Error handling file upload:", error);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     createStory(postImage);
+    
   };
+
+
+  const deleteStoryFucn=(e)=>{
+    e.preventDefault()
+    deleteStory()
+    setCheck(true)
+  }
 
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -75,78 +97,153 @@ const Status = () => {
           display: "flex",
           width: "100wh",
           height: "100vh",
+          p: "1rem",
+          gap:4,
           backgroundColor: "white",
           boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
-          p: "0.5rem",
+          justifyContent: !myStory ? "flex-start" : "center", // Eğer myStory varsa sola yasla, yoksa ortala
         }}
       >
         {/* Photo */}
-
-        <Box
-          style={gradientBackground}
-          sx={{
-            width: "50%",
-            height: "15rem",
-            position: "relative",
-            display: "flex",
-            justifyContent: "center",
-            m: "1rem",
-            borderRadius: "0.5rem",
-          }}
-        >
-          {/* Upload Image */}
-
-          <form
-            // type="form"
-            display={"flex"}
-            flexDirection={"column"}
-            sx={{ justifyContent: "space-between" }}
-            onSubmit={handleSubmit}
+        {myStory ? (
+          <Box
+            sx={{
+              flex: "0 0 45%", 
+              height: "15rem",
+              position: "relative",
+              boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+              borderRadius: "1rem",
+            }}
           >
-            <InputLabel htmlFor="file-upload">
-              <Typography sx={{ fontSize: "4rem", mt: "3rem" }}>📷</Typography>
-            </InputLabel>
-
-            <Input
-              type="file"
-              label="Image"
-              name="myFile"
-              id="file-upload"
-              accept=".jpeg, .png, .jpg"
-              sx={{ display: "none" }}
-              onChange={(e) => handleFileUpload(e)}
+            <CancelIcon
+              sx={{
+                color: "red",
+                position: "absolute",
+                right: "-0.5rem",
+                top: "-0.5rem",
+                backgroundColor:"white",
+                borderRadius:"50%",
+                fontSize:"1.5rem",
+                cursor:"pointer"
+                
+              }}
+              onClick={deleteStoryFucn}
             />
-            <Button sx={statusStyle} type="Submit">
-              POST
-            </Button>
-          </form>
+            <img
+              src={myStory?.content || usernone}
+              width={"100%"}
+              height={"100%"}
+              style={{ borderRadius: "1rem" }}
+            />
 
-          {/* Upload Image */}
-        </Box>
+            <Avatar
+              src={image}
+              sx={{ position: "absolute", bottom: "0.5rem", left: "0.5rem" }}
+              variant="contained"
+              component="label"
+            />
+          </Box>
+        ) : (
+          <Box
+            style={gradientBackground}
+            sx={{
+              flex: "0 0 45%", 
+              height: "15rem",
+              position: "relative",
+              display: "flex",
+              justifyContent: "center",
+              borderRadius: "0.5rem",
+              overflow: "hidden",
+            }}
+          >
+            <Typography
+              sx={{
+                position: "absolute",
+                zIndex: "2",
+                fontSize: "4rem",
+                mt: "-1rem",
+                ml: "-8rem",
+              }}
+            >
+              🤣
+            </Typography>
+            <Typography
+              sx={{
+                position: "absolute",
+                zIndex: "0",
+                fontSize: "4rem",
+                mt: "1rem",
+                ml: "8rem",
+              }}
+            >
+              😍
+            </Typography>
+            <Typography
+              sx={{
+                position: "absolute",
+                zIndex: "0",
+                fontSize: "4rem",
+                mt: "7rem",
+                ml: "-5rem",
+                rotate: "-30deg",
+              }}
+            >
+              😜
+            </Typography>
+            <form flexDirection={"column"} onSubmit={handleSubmit}>
+              <InputLabel htmlFor="file-upload" sx={{mt:"4rem"}} >
+                {/* <Typography sx={{ fontSize: "4rem", mt: "3rem" }}>
+                  📷
+                </Typography> */}
+                <img src={clickIcon} alt="click" width={"60px"} />
+                  
+              </InputLabel>
+
+              <Input
+                type="file"
+                label="Image"
+                name="myFile"
+                id="file-upload"
+                accept=".jpeg, .png, .jpg"
+                sx={{ display: "none" }}
+                onChange={(e) => handleFileUpload(e)}
+              />
+              <Button sx={statusStyle} disabled={!check} type="Submit">
+                POST
+              </Button>
+            </form>
+          </Box>
+        )}
 
         {/* Friends */}
 
+ {stories?.map((item)=>
+
         <Box
           sx={{
-            width: "50%",
+            flex: "0 0 45%",
             height: "15rem",
-            backgroundColor: "white",
-            m: "1rem",
             position: "relative",
             boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+            borderRadius: "1rem",
           }}
         >
-          {/* <img
-            src={stories?.data?.response[0]?.content || usernone}
-            alt=""
-            width={"100px"}
-          /> */}
+          <img
+            src={item?.content || usernone}
+            width={"100%"}
+            height={"100%"}
+            style={{ borderRadius: "1rem" }}
+          />
+
           <Avatar
             sx={{ position: "absolute", bottom: "0.5rem", left: "0.5rem" }}
             variant="contained"
             component="label"
+            src={item?.userId?.image}
           />
         </Box>
+
+      )  }
       </Box>
 
       <Footer />
@@ -155,37 +252,3 @@ const Status = () => {
 };
 
 export default Status;
-
-//    <Box
-// sx={{
-//   rotate: "-30deg",
-//   display: "flex",
-//   backgroundColor: "#ef781e",
-//   color:"white",
-//   p: "0.3rem",
-//   gap: 1,
-//   borderRadius: "0.5rem",
-//   mt: "2.3rem",
-//   ml: "0.5rem",
-//   position: "absolute",
-// }}
-// >
-// <AddAPhotoIcon sx={{ fontSize: "1.5rem" }} />
-// <Typography sx={{ fontSize: "1.2rem", fontWeight: "900" }}>
-//   Add Yours
-// </Typography>
-// </Box>
-
-// <Box>
-// <Typography
-//   sx={{ ml: "1rem", mt: "-0.8rem", fontSize: "3.5rem" }}
-// >
-//   😍
-// </Typography>
-
-// <Typography
-//   sx={{ ml: "5rem", mt: "-1rem", fontSize: "3.5rem" }}
-// >
-//   😜
-// </Typography>
-// </Box>

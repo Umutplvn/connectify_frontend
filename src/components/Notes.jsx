@@ -20,6 +20,8 @@ const Notes = () => {
     getNotes();
   }, []);
 
+  
+
   const cancelStyle = {
     color: "#d32828",
     position: "absolute",

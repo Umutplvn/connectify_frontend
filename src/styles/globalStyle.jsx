@@ -44,5 +44,6 @@ export const statusStyle = {
   fontWeight:"800",
   background: "linear-gradient(to bottom right, #b7f2df, #daa26e)",
   cursor:"pointer",
-  mb:"0.5rem"
+  mt:"4rem",
+  color:"black"
 };

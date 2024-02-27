@@ -1,12 +1,12 @@
 import useAxios from "./useAxios";
-import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess, getUsersSuccess, noteSuccess, storySuccess} from "../features/appDataSlice";
-import { useDispatch } from "react-redux";
+import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess, getUsersSuccess, noteSuccess, storySuccess, createStorySuccess} from "../features/appDataSlice";
+import { useDispatch, useSelector } from "react-redux";
 import toast from 'react-hot-toast';
 
 const useDataCall = () => {
   const { axiosWithToken } = useAxios();
   const dispatch = useDispatch();
-
+  const {name} =useSelector((state)=>state.auth)
 
   const getChats = async () => {
     dispatch(fetchStart());
@@ -82,19 +82,53 @@ const useDataCall = () => {
       toast(error);
     }
   };
-// burdayim
 
+
+
+const getStories = async () => {
+  dispatch(fetchStart());
+  try {
+    const { data } = await axiosWithToken("app/getstories");
+    dispatch(storySuccess({data}));
+  } catch (error) {
+    console.log(error);
+    dispatch(fetchFail());
+    toast(error);
+  }
+};
+  
   const createStory = async (info) => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.post("app/createstory", info);
-      dispatch(storySuccess({data}));
+      dispatch(createStorySuccess({data}));
+      console.log("creeate data", data);
+      getStories()
+      toast(`${name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}, great story!!! 🚀`)
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
       toast(error);
     }
   };
+
+  const deleteStory = async () => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.delete("app/deletestory");
+      dispatch(storySuccess({data}));
+      getStories()
+
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toast(error);
+    }
+  };
+
+  // 
+
+
 
 
   const deleteChat = async (chatId) => {    
@@ -110,7 +144,7 @@ const useDataCall = () => {
   };
 
 
-  return {getChats, getMessages, deleteChat, getUsers, createNote, deleteNote, getNotes, createStory};
+  return {getChats, getMessages, deleteChat, getUsers, createNote, deleteNote, getNotes, createStory, getStories, deleteStory};
 };
 
 export default useDataCall;
