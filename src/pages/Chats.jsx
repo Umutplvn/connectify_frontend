@@ -13,12 +13,14 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import useAuthCall from "../hooks/useAuthCall";
 
 const Chats = () => {
-  const { getChats, deleteChat } = useDataCall();
+  const { getChats, deleteChat, getNotes, getStories } = useDataCall();
   const { getMyContacts } = useAuthCall();
 
   useEffect(() => {
     getChats();
     getMyContacts();
+    getNotes();
+    getStories();
   }, []);
 
   const { chats } = useSelector((state) => state?.appData);
@@ -41,6 +43,7 @@ const Chats = () => {
       );
     setDisplay(filterName);
   };
+
 
   return (
     <Box>

@@ -59,7 +59,6 @@ const useAuthCall = () => {
         info
       );
       dispatch(registerSuccess(data));
-      console.log("update data", data);
     } catch (error) {
       dispatch(fetchFail());
     }
@@ -80,7 +79,6 @@ const useAuthCall = () => {
         toast("Welcome to the Connectify.");
         navigate("/chats");
       }
-      console.log("login data", data);
       
     } catch (error) {
       dispatch(fetchFail());

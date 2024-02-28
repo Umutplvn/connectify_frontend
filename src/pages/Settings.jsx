@@ -1,49 +1,121 @@
-import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionActions from '@mui/material/AccordionActions';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Button from '@mui/material/Button';
-import Footer from '../components/Footer';
-import { Box, Typography } from '@mui/material';
-
+import React, { useState } from "react";
+import Card from "@mui/material/Card";
+import Collapse from "@mui/material/Collapse";
+import CardHeader from "@mui/material/CardHeader";
+import Container from "@mui/material/Container";
+import CardContent from "@mui/material/CardContent";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import IconButton from "@mui/material/IconButton";
+import Footer from "../components/Footer";
+import { Box, Typography } from "@mui/material";
 
 const Settings = () => {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const handleToggle = (index) => {
+    setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
+
   return (
-   <Box>
-         <Typography
+    <Box>
+      <Typography
         sx={{
           padding: "1rem 0.5rem",
           fontSize: "24px",
           fontWeight: "700",
-          boxShadow: " rgba(17, 17, 26, 0.1) 0px 1px 0px ",
           backgroundColor: "#fdffff",
-          mb: "1rem",
         }}
       >
         Settings
       </Typography>
 
-    <Box>
+      <Card
+        sx={{
+          minWidth: 300,
+          border: "1px solid rgba(211,211,211,0.6)",
+        }}
+      >
+        <CardHeader
+          title="Complete Interview Preparation"
+          action={
+            <IconButton
+              onClick={() => handleToggle(1)}
+              aria-label="expand"
+              size="small"
+            >
+              {openIndex === 1 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          }
+        ></CardHeader>
+        <Box
+          sx={{
+            backgroundColor: "rgba(211,211,211,0.4)",
+          }}
+        >
+          <Collapse in={openIndex === 1} timeout="auto" unmountOnExit>
+            <CardContent>
+              <Container
+                sx={{
+                  height: 100,
+                  lineHeight: 2,
+                }}
+              >
+                An interview-centric course designed to prepare you for the role
+                of SDE for both product and service-based companies. A placement
+                preparation pack built with years of expertise. Learn Resume
+                Building, C++, Java, DSA, CS Theory concepts, Aptitude,
+                Reasoning, LLD, and much more!
+              </Container>
+            </CardContent>
+          </Collapse>
+        </Box>
+      </Card>
 
-<Accordion>
-     <AccordionSummary
-       expandIcon={<ExpandMoreIcon />}
-       aria-controls="panel1-content"
-       id="panel1-header"
-     >
-       Accordion 1
-     </AccordionSummary>
-     <AccordionDetails>
-       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-       malesuada lacus ex, sit amet blandit leo lobortis eget.
-     </AccordionDetails>
-   </Accordion>
-   <Footer />
- </Box>
-   </Box>
-  )
-}
+      <Card
+        sx={{
+          minWidth: 300,
+          border: "1px solid rgba(211,211,211,0.6)",
+        }}
+      >
+        <CardHeader
+          title="Complete Interview Preparation"
+          action={
+            <IconButton
+              onClick={() => handleToggle(2)}
+              aria-label="expand"
+              size="small"
+            >
+              {openIndex === 2 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          }
+        ></CardHeader>
+        <Box
+          sx={{
+            backgroundColor: "rgba(211,211,211,0.4)",
+          }}
+        >
+          <Collapse in={openIndex === 2} timeout="auto" unmountOnExit>
+            <CardContent>
+              <Container
+                sx={{
+                  height: 100,
+                  lineHeight: 2,
+                }}
+              >
+                An interview-centric course designed to prepare you for the role
+                of SDE for both product and service-based companies. A placement
+                preparation pack built with years of expertise. Learn Resume
+                Building, C++, Java, DSA, CS Theory concepts, Aptitude,
+                Reasoning, LLD, and much more!
+              </Container>
+            </CardContent>
+          </Collapse>
+        </Box>
+      </Card>
+      <Footer />
+    </Box>
+  );
+};
 
-export default Settings
+export default Settings;
