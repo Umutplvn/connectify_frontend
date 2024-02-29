@@ -47,3 +47,22 @@ export const statusStyle = {
   mt:"4rem",
   color:"black"
 };
+
+export const logStyle = {
+  position: "fixed",
+  bottom: "7rem",
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  gap: "0.1rem",
+  cursor:"pointer",
+  position: "absolute", 
+  zIndex:-1,
+  alignItems:"center",
+    fontWeight: "600", fontSize: "1.1rem",
+    transition: "color 0.3s, transform 0.3s",
+    "&:hover": {
+      transform: "scale(1.05)",
+    },
+
+};
