@@ -16,6 +16,7 @@ export const authSlice = createSlice({
     bio:"",
     name:"",
     image: "",
+    password:""
   },
 
   reducers: {
@@ -42,6 +43,7 @@ export const authSlice = createSlice({
       state.verified=payload?.result?.verified
       state.contacts=payload?.result?.contacts
       state.bio=payload?.result?.bio
+      state.password=payload?.result?.password
     },
 
 
@@ -67,9 +69,14 @@ export const authSlice = createSlice({
       state.contacts=payload?.result?.contacts;
       state.verified = payload?.result?.verified;
       state.bio=payload?.result?.bio
+      state.password=payload?.result?.password
+
 
     },
 
+    passwordUpdateSuccess:(state, { payload }) => {
+      state.password=payload?.data?.result?.password
+    },
 
     getMyContactsSuccess: (state, { payload }) => {
       state.loading = false;
@@ -121,7 +128,8 @@ export const {
   UpdateSuccess,
   deleteSuccess,
   updateContactSuccess,
-  getMyContactsSuccess
+  getMyContactsSuccess,
+  passwordUpdateSuccess
 } = authSlice.actions;
 
 export default authSlice.reducer;

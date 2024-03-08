@@ -27,7 +27,6 @@ export default function BasicModal({ setOpen, open, image }) {
     }
   };
 
-  console.log(postImage);
 
   const handleYes = async () => {
     await update(postImage);

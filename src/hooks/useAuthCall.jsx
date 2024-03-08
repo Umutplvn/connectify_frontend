@@ -148,21 +148,21 @@ const useAuthCall = () => {
     }
   };
 
-  ///
-  // const passwordUpdate = async (data) => {
-  //   try {
-  //     const res = await axiosWithToken.put(
-  //       `${process.env.REACT_APP_BASE_URL}users/auth/password/change`,
-  //       data
-  //     );
-  //     dispatch(passwordUpdateSuccess(res));
-  //     toast("Password Changed Successfully");
-  //   } catch (error) {
-  //     dispatch(fetchFail());
-  //     toast("Failed to change password");
-  //     toast(error);
-  //   }
-  // };
+  
+  const passwordUpdate = async (data) => {
+    try {
+      const res = await axiosWithToken.put(
+        `${process.env.REACT_APP_BASE_URL}/auth/changepassword`,
+        data
+      );
+      dispatch(passwordUpdateSuccess(res));
+      toast("Password Changed Successfully");
+    } catch (error) {
+      dispatch(fetchFail());
+      toast("Failed to change password");
+      toast(error);
+    }
+  };
 
   return {
     login,
@@ -173,6 +173,7 @@ const useAuthCall = () => {
     addContact,
     removeContact,
     getMyContacts,
+    passwordUpdate
   };
 };
 

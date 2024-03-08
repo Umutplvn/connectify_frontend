@@ -7,7 +7,14 @@ export const btnRed = {
 export const btnGreen = {
   backgroundColor: "#3ea17b",
   color: "white",
-  "&:hover": { backgroundColor: "success.dark" },
+  "&:hover": { backgroundColor: "#2f8061" },
+};
+
+export const btnGreen1 = {
+  backgroundColor: "#3ea17b",
+  color: "white",
+  "&:hover": { backgroundColor: "#2f8061" },
+  mt:"1rem"
 };
 
 export const addRemoveStyle = {
