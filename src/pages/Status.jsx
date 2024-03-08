@@ -28,7 +28,7 @@ const Status = () => {
   }, []);
 
   const gradientBackground = {
-    background: "linear-gradient(to bottom right, #e7e7f3, #cee2d7)",
+    background: "linear-gradient(to bottom right, #ffffff, #d6e7e6)",
   };
 
   const [postImage, setPostImage] = useState({ content: "", userId: userId });
@@ -157,7 +157,7 @@ const Status = () => {
 
             }}
           >
-            <Typography
+            {/* <Typography
               sx={{
                 position: "absolute",
                 zIndex: "2",
@@ -190,7 +190,7 @@ const Status = () => {
               }}
             >
               😜
-            </Typography>
+            </Typography> */}
             <form flexDirection={"column"} onSubmit={handleSubmit}>
               <InputLabel htmlFor="file-upload" sx={{mt:"4rem"}} >
                 {/* <Typography sx={{ fontSize: "4rem", mt: "3rem" }}>

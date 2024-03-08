@@ -80,11 +80,7 @@ const FavoriteMessages = ({ handleToggle, openIndex }) => {
                 lineHeight: 2,
               }}
             >
-              An interview-centric course designed to prepare you for the role
-              of SDE for both product and service-based companies. A placement
-              preparation pack built with years of expertise. Learn Resume
-              Building, C++, Java, DSA, CS Theory concepts, Aptitude, Reasoning,
-              LLD, and much more!
+              Favorite messages will be placed here!
             </Container>
           </CardContent>
         </Collapse>
