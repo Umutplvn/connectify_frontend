@@ -13,6 +13,7 @@ export const authSlice = createSlice({
     verified:null,
     contacts:[],
     image:"",
+    bio:"",
     name:"",
     image: "",
   },
@@ -40,6 +41,7 @@ export const authSlice = createSlice({
       state.passcode = payload?.passcode;
       state.verified=payload?.result?.verified
       state.contacts=payload?.result?.contacts
+      state.bio=payload?.result?.bio
     },
 
 
@@ -64,6 +66,8 @@ export const authSlice = createSlice({
       state.name=payload?.result?.name;
       state.contacts=payload?.result?.contacts;
       state.verified = payload?.result?.verified;
+      state.bio=payload?.result?.bio
+
     },
 
 

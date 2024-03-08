@@ -41,11 +41,11 @@ export const statusStyle = {
   borderRadius: "0.5rem",
   width: "4rem",
   height: "2.5rem",
-  fontWeight:"800",
+  fontWeight: "800",
   background: "linear-gradient(to bottom right, #b7f2df, #daa26e)",
-  cursor:"pointer",
-  mt:"4rem",
-  color:"black"
+  cursor: "pointer",
+  mt: "4rem",
+  color: "black",
 };
 
 export const logStyle = {
@@ -55,14 +55,25 @@ export const logStyle = {
   display: "flex",
   justifyContent: "center",
   gap: "0.1rem",
-  cursor:"pointer",
-  position: "absolute", 
-  zIndex:-1,
-  alignItems:"center",
-    fontWeight: "600", fontSize: "1.1rem",
-    transition: "color 0.3s, transform 0.3s",
-    "&:hover": {
-      transform: "scale(1.05)",
-    },
+  cursor: "pointer",
+  position: "absolute",
+  zIndex: -1,
+  alignItems: "center",
+  fontWeight: "600",
+  fontSize: "1.1rem",
+  transition: "color 0.3s, transform 0.3s",
+  "&:hover": {
+    transform: "scale(1.05)",
+  },
+};
 
+export const ProfileBox = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 2,
+  margin: "0.5rem",
+  padding: "0.5rem",
+  borderRadius: "0.5rem",
+  boxShadow: " rgba(189, 189, 189, 0.35) 0px 5px 15px; ",
 };

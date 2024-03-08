@@ -140,7 +140,7 @@ const People = () => {
                 display={"flex"}
                 flexDirection={"column"}
                 width={"85%"}
-                justifyContent={"space-between"}
+                justifyContent={"space-evenly"}
               >
                 <Typography sx={{ fontWeight: "700" }}
                 onClick={() => navigate(`/chat/${item?._id}`)}
@@ -149,8 +149,8 @@ const People = () => {
                     item?.name.slice(1).toLowerCase()}
                 </Typography>
                 <Typography
-                
-                onClick={() => navigate(`/chat/${item?._id}`)}>@{item?.username}</Typography>
+                sx={{fontSize:"0.8rem", color:"#323232dd"}}
+                onClick={() => navigate(`/chat/${item?._id}`)}>{item?.bio}</Typography>
               </Box>
 
               <BasicModal
