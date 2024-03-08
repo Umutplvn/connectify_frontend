@@ -130,7 +130,7 @@ const UpdateProfile = ({ handleToggle, openIndex }) => {
 
                 }}
               >
-                <Typography sx={{ fontWeight: 700, color: "#e52f2f", height:"2rem", display:"flex", alignItems:"center" }}>
+                <Typography sx={{ fontWeight: 700, color: "#2f84e5", height:"2rem", display:"flex", alignItems:"center" }}>
                   Name:
                 </Typography>
 
@@ -211,7 +211,7 @@ const UpdateProfile = ({ handleToggle, openIndex }) => {
                   gap: "0.3rem",
                 }}
               >
-                <Typography sx={{ fontWeight: 700, color: "#e52f2f", height:"2rem", display:"flex", alignItems:"center" }}>
+                <Typography sx={{ fontWeight: 700, color: "#2f84e5", height:"2rem", display:"flex", alignItems:"center" }}>
                   Username:
                 </Typography>
 

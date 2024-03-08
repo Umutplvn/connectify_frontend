@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useDataCall from "../hooks/useDataCall";
 import usernone from "../assets/nouser.png";
-import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
+import { IoPersonRemoveSharp } from "react-icons/io5";
 import BasicModal from "../components/ContactModal";
 import useAuthCall from "../hooks/useAuthCall";
 import toast from "react-hot-toast";
 import { addRemoveStyle } from "../styles/globalStyle";
 import { useNavigate } from "react-router-dom";
+import { IoMdPersonAdd } from "react-icons/io";
 
 const People = () => {
   const { users } = useSelector((state) => state?.appData);
@@ -186,19 +186,19 @@ const People = () => {
                 sx={addRemoveStyle}
               >
                 {isMatched ? (
-                  <IndeterminateCheckBoxRoundedIcon
-                    sx={{
-                      cursor: "pointer",
-                      fontSize: 30,
-                      transition: "1s",
+                  <IoPersonRemoveSharp
+                  size={27}
+                  cursor= "pointer"
+                  sx={{
+                    transition: "1s",   
                     }}
                   />
                 ) : (
-                  <AddBoxRoundedIcon
+                  <IoMdPersonAdd
+                  size={30}
+                  cursor= "pointer"
                     sx={{
-                      cursor: "pointer",
-                      fontSize: 30,
-                      transition: "1s",
+                      transition: "1s",                      
                     }}
                   />
                 )}

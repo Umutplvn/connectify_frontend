@@ -8,7 +8,6 @@ import { btnGreen, btnRed } from "../styles/globalStyle";
 
 export default function BasicModal({ setOpen, open, image }) {
   const handleClose = () => setOpen(false);
-
   const [postImage, setPostImage] = useState({ image: "" });
   const [secondModal, setSecondModal] = useState(false);
   const { update } = useAuthCall();
@@ -26,7 +25,6 @@ export default function BasicModal({ setOpen, open, image }) {
       console.error("Error handling file upload:", error);
     }
   };
-
 
   const handleYes = async () => {
     await update(postImage);

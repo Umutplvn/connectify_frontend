@@ -9,7 +9,7 @@ import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateC
 import BasicModal from "../components/ContactModal";
 import useAuthCall from "../hooks/useAuthCall";
 import { useNavigate } from "react-router-dom";
-import Notes from "../components/Notes";
+import { IoPersonRemoveSharp } from "react-icons/io5";
 import { addRemoveStyle } from "../styles/globalStyle";
 
 const People = () => {
@@ -167,12 +167,14 @@ const People = () => {
                 onClick={() => removeContactState(item)}
                 sx={addRemoveStyle}
               >
-                <IndeterminateCheckBoxRoundedIcon
-                  sx={{
-                    cursor: "pointer",
-                    fontSize: 30,
-                    transition: "1s",
+                <IoPersonRemoveSharp
+                size={27}
+                cursor={"pointer"}
+                sx={{
+                  cursor: "pointer",
+                  transition: "1s",  
                   }}
+                  
                 />
               </Box>
             </Box>
