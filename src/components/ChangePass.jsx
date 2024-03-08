@@ -15,37 +15,42 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { btnGreen1 } from "../styles/globalStyle";
 import PasswordStrengthBar from "react-password-strength-bar";
 import { toast } from "react-hot-toast";
-import useAuthCall from "../hooks/useAuthCall"
+import useAuthCall from "../hooks/useAuthCall";
 
 const ChangePass = ({ handleToggle, openIndex }) => {
   const [passCheck1, setPassCheck1] = useState("");
   const [passCheck2, setPassCheck2] = useState("");
   const [visible, setVisible] = useState(true);
   const [visible2, setVisible2] = useState(true);
-const {passwordUpdate}=useAuthCall()
+  const { passwordUpdate } = useAuthCall();
   const setPass = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setVisible(!visible);
   };
 
   const setPass2 = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setVisible2(!visible2);
   };
 
-
-  const handleSubmit=()=>{
-    if(!(passCheck1==passCheck2)){
-      toast("Passwords do not match!")
-    }else if(passCheck1==passCheck2 && passCheck1.length<4){
-      toast("Password must contain at least 4 characters.")
-    }else{
-      passwordUpdate({password:passCheck1})
+  const handleSubmit = () => {
+    if (!(passCheck1 == passCheck2)) {
+      toast("Passwords do not match!");
+    } else if (passCheck1 == passCheck2 && passCheck1.length < 4) {
+      toast("Password must contain at least 4 characters.");
+    } else {
+      passwordUpdate({ password: passCheck1 });
       setPassCheck1("")
       setPassCheck2("")
+      handleToggle(3)
     }
-  }
+  };
 
+  const toggle=()=>{
+   handleToggle(3)
+   setPassCheck1("")
+   setPassCheck2("")
+  }
 
   return (
     <Card
@@ -67,7 +72,7 @@ const {passwordUpdate}=useAuthCall()
         }
         action={
           <IconButton
-            onClick={() => handleToggle(3)}
+            onClick={toggle}
             aria-label="expand"
             size="small"
           >
@@ -124,210 +129,203 @@ const {passwordUpdate}=useAuthCall()
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  gap:1
+                  gap: 1,
                 }}
               >
                 {visible ? (
-                  <Box    sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "start",
-                  }}>
                   <Box
                     sx={{
                       width: "100%",
                       display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
+                      flexDirection: "column",
                       justifyContent: "start",
                     }}
                   >
-                    <TextField
-                      variant="standard"
-                      id="new_password1"
-                      label="Password"
-                      name="new_password1"
-                      type="password"
-                      sx={{ width: "100%" }}
-                      onChange={(e)=>setPassCheck1(e.target.value)}
-                      autoFocus
-                      value={passCheck1}
-
-                    />
                     <Box
                       sx={{
+                        width: "100%",
                         display: "flex",
-                        height: "30px",
-                        justifyContent: "center",
-                        alignItems: "start",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "start",
                       }}
                     >
-                      <VisibilityOffIcon onClick={setPass} />
-                    </Box>
-                  </Box>
-                    <Box sx={{ width: "92%" }}>
-                    <PasswordStrengthBar
-                      password={passCheck1}
-                      scoreWords={[]}
-                      shortScoreWord={""}
-                    />
-                  </Box>
-                  </Box>
-                ) : (
-                  <Box  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "start",
-                  }}>
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "start",
-                    }}
-                  >
-                    <TextField
-                      variant="standard"
-                      id="new_password1"
-                      label="Password"
-                      name="new_password1"
-                      type="text"
-                      sx={{ width: "100%" }}
-                      onChange={(e)=>setPassCheck1(e.target.value)}
-                      value={passCheck1}
-
-
-                    />
-                    <Box
-                      sx={{
-                        display: "flex",
-                        height: "30px",
-                        justifyContent: "center",
-                        alignItems: "start",
-                      }}
-                    >
-                      <VisibilityIcon onClick={setPass} />
-                    </Box>
-                  </Box>
-                   <Box sx={{ width: "92%" }}>
-                   <PasswordStrengthBar
-                     password={passCheck1}
-                     scoreWords={[]}
-                     shortScoreWord={""}
-                   />
-                 </Box>
-                                   </Box>
-
-                )}
-
-                {visible2 ? (
-                  <Box  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "start",
-                  }}>
-                             <Box
-                             sx={{
-                               width: "100%",
-                               display: "flex",
-                               flexDirection: "row",
-                               alignItems: "center",
-                               justifyContent: "start",
-                             }}
-                           >
-                             <TextField
-                               variant="standard"
-                               id="new_password1"
-                               label="Password"
-                               name="new_password1"
-                               type="password"
-                               sx={{ width: "100%" }}
-                               onChange={(e)=>setPassCheck2(e.target.value)}
-                               value={passCheck2}
-
-                             />
-                             <Box
-                               sx={{
-                                 display: "flex",
-                                 height: "30px",
-                                 justifyContent: "center",
-                                 alignItems: "start",
-                               }}
-                             >
-                      <VisibilityOffIcon onClick={setPass2} />
-                    </Box>
-                  </Box>
-                    <Box sx={{ width: "92%" }}>
-                    <PasswordStrengthBar
-                      password={passCheck1}
-                      scoreWords={[]}
-                      shortScoreWord={""}
-                    />
-                  </Box>
-                  </Box>
-
-                ) : (
-                  <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "start",
-                  }}>
-                
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "start",
-                    }}
-                  >
-                    <TextField
-                      variant="standard"
-                      id="new_password1"
-                      label="Password"
-                      name="new_password1"
-                      type="text"
-                      sx={{ width: "100%" }}
-                      onChange={(e)=>setPassCheck2(e.target.value)}
-                      value={passCheck2}
-
-                    />
-                      
-                    <Box
-                      sx={{
-                        display: "flex",
-                        height: "30px",
-                        justifyContent: "center",
-                        alignItems: "start",
-                      }}
-                    >
-                        <VisibilityIcon onClick={setPass2} />
+                      <TextField
+                        variant="standard"
+                        id="new_password1"
+                        label="Password"
+                        name="new_password1"
+                        type="password"
+                        sx={{ width: "100%" }}
+                        onChange={(e) => setPassCheck1(e.target.value)}
+                        autoFocus
+                        value={passCheck1}
+                      />
+                      <Box
+                        sx={{
+                          display: "flex",
+                          height: "30px",
+                          justifyContent: "center",
+                          alignItems: "start",
+                        }}
+                      >
+                        <VisibilityOffIcon onClick={setPass} />
                       </Box>
-                      
                     </Box>
-                      <Box sx={{ width: "92%" }}>
+                    <Box sx={{ width: "92%" }}>
                       <PasswordStrengthBar
                         password={passCheck1}
                         scoreWords={[]}
                         shortScoreWord={""}
                       />
                     </Box>
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "start",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "start",
+                      }}
+                    >
+                      <TextField
+                        variant="standard"
+                        id="new_password1"
+                        label="Password"
+                        name="new_password1"
+                        type="text"
+                        sx={{ width: "100%" }}
+                        onChange={(e) => setPassCheck1(e.target.value)}
+                        value={passCheck1}
+                      />
+                      <Box
+                        sx={{
+                          display: "flex",
+                          height: "30px",
+                          justifyContent: "center",
+                          alignItems: "start",
+                        }}
+                      >
+                        <VisibilityIcon onClick={setPass} />
+                      </Box>
                     </Box>
-
+                    <Box sx={{ width: "92%" }}>
+                      <PasswordStrengthBar
+                        password={passCheck1}
+                        scoreWords={[]}
+                        shortScoreWord={""}
+                      />
+                    </Box>
+                  </Box>
                 )}
-                <Button
-                  type="submit"
-                  sx={btnGreen1}
-                  onClick={handleSubmit}
-                >
+
+                {visible2 ? (
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "start",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "start",
+                      }}
+                    >
+                      <TextField
+                        variant="standard"
+                        id="new_password1"
+                        label="Password"
+                        name="new_password1"
+                        type="password"
+                        sx={{ width: "100%" }}
+                        onChange={(e) => setPassCheck2(e.target.value)}
+                        value={passCheck2}
+                      />
+                      <Box
+                        sx={{
+                          display: "flex",
+                          height: "30px",
+                          justifyContent: "center",
+                          alignItems: "start",
+                        }}
+                      >
+                        <VisibilityOffIcon onClick={setPass2} />
+                      </Box>
+                    </Box>
+                    <Box sx={{ width: "92%" }}>
+                      <PasswordStrengthBar
+                        password={passCheck2}
+                        scoreWords={[]}
+                        shortScoreWord={""}
+                      />
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "start",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "start",
+                      }}
+                    >
+                      <TextField
+                        variant="standard"
+                        id="new_password1"
+                        label="Password"
+                        name="new_password1"
+                        type="text"
+                        sx={{ width: "100%" }}
+                        onChange={(e) => setPassCheck2(e.target.value)}
+                        value={passCheck2}
+                      />
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          height: "30px",
+                          justifyContent: "center",
+                          alignItems: "start",
+                        }}
+                      >
+                        <VisibilityIcon onClick={setPass2} />
+                      </Box>
+                    </Box>
+                    <Box sx={{ width: "92%" }}>
+                      <PasswordStrengthBar
+                        password={passCheck2}
+                        scoreWords={[]}
+                        shortScoreWord={""}
+                      />
+                    </Box>
+                  </Box>
+                )}
+                <Button type="submit" sx={btnGreen1} onClick={handleSubmit}>
                   SAVE
                 </Button>
               </Box>
