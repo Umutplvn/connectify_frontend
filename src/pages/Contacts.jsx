@@ -1,11 +1,10 @@
-import { Box, Button, InputAdornment, TextField, Typography } from "@mui/material";
+import { Box, InputAdornment, TextField, Typography } from "@mui/material";
 import Footer from "../components/Footer";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useDataCall from "../hooks/useDataCall";
 import usernone from "../assets/nouser.png";
-import IndeterminateCheckBoxRoundedIcon from "@mui/icons-material/IndeterminateCheckBoxRounded";
 import BasicModal from "../components/ContactModal";
 import useAuthCall from "../hooks/useAuthCall";
 import { useNavigate } from "react-router-dom";

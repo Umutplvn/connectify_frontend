@@ -16,30 +16,54 @@ import ThumbDownAltRoundedIcon from "@mui/icons-material/ThumbDownAltRounded";
 import useAuthCall from "../hooks/useAuthCall";
 
 const UpdateProfile = ({ handleToggle, openIndex }) => {
-  const { name, username } = useSelector((state) => state.auth);
+  const { name, username, bio } = useSelector((state) => state.auth);
   const {update}=useAuthCall()
   const [firstInput, setFirstInput] = useState(true);
   const [secondInput, setSecondInput] = useState(true);
+  const [thirthInput, setThirthInput] = useState(true);
   const [newName, setNewName] = useState("")
   const [newUserName, setNewUserName] = useState("")
+  const [newBio, setNewBio] = useState("")
 
 
   const updateName=()=>{
     update({name:newName})
+    setFirstInput(true)
+    setSecondInput(true)
+    setThirthInput(true)
   }
 
   const updateUserName=()=>{
     update({username:newUserName})
+    setFirstInput(true)
+    setSecondInput(true)
+    setThirthInput(true)
+  }
+
+  const updateBio=()=>{
+    update({bio:newBio})
+    setFirstInput(true)
+    setSecondInput(true)
+    setThirthInput(true)
   }
 
   const firstClick=()=>{
     setFirstInput(false)
     setSecondInput(true)
+    setThirthInput(true)
   }
 
   const secondClick=()=>{
     setFirstInput(true)
     setSecondInput(false)
+    setThirthInput(true)
+
+  }
+
+  const thirthClick=()=>{
+    setFirstInput(true)
+    setSecondInput(true)
+    setThirthInput(false)
   }
 
   const toggle=()=>{
@@ -115,7 +139,7 @@ const UpdateProfile = ({ handleToggle, openIndex }) => {
           <CardContent>
             <Container
               sx={{
-                height: 60,
+                height: 100,
                 lineHeight: 2,              
                 }}
             >
@@ -281,6 +305,85 @@ const UpdateProfile = ({ handleToggle, openIndex }) => {
                 )}
               </Box>
 
+{/* Bio */}
+
+<Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.3rem",
+                }}
+              >
+                <Typography sx={{ fontWeight: 700, color: "#2f84e5", height:"2rem", display:"flex", alignItems:"center" }}>
+                  About:
+                </Typography>
+
+                {thirthInput ? (
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                    onClick={thirthClick}
+                  >
+                    <Typography sx={{ fontSize: "1rem", height:"2rem",  display:"flex", alignItems:"center" }}>
+                      {bio}
+                    </Typography>
+                    <EditIcon sx={{ fontSize: "1.2rem", color: "#25839b" }} />
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems:"center"
+                    }}
+                  >
+                      <Input
+                      autoFocus
+                      inputProps={{ maxLength: 30 }}
+                        disableUnderline
+                        placeholder={
+bio                        }
+                        onChange={(e)=>setNewBio(e.target.value)}
+                    /> 
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                      }}
+                    >
+                      <Box sx={{ display: "flex" }}>
+                        <ThumbUpAltRoundedIcon
+                          sx={{
+                            fontSize: "1.2rem",
+                            color: "#29a544",
+                            ml: "1rem",
+                          }}
+                          onClick={updateBio}
+                        />
+                      </Box>
+
+                      <Box sx={{ display: "flex", width: "100%" }}>
+                        <ThumbDownAltRoundedIcon
+                          sx={{
+                            fontSize: "1.2rem",
+                            color: "#9b2525",
+                            ml: "1rem",
+                          }}
+                          onClick={() => setThirthInput(true) }
+                        />
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+              </Box>
             </Container>
           </CardContent>
         </Collapse>

@@ -11,7 +11,9 @@ const appDataSlice = createSlice({
     error: false,
     notes:[],
     stories:[],
-    myStory:""
+    myStory:"",
+    chatNo:""
+
   },
 
   reducers: {
@@ -61,6 +63,12 @@ const appDataSlice = createSlice({
       state.myStory = payload?.data?.myStory
     },
 
+    findChatSuccess: (state, { payload }) => {
+      state.loading = false;
+      state.error = false;
+      state.chatNo = payload?.data?.result?.chat?._id
+    },
+
     logoutDataSuccess: (state) => {
       state.loading= false;
       state.error= false;
@@ -69,16 +77,11 @@ const appDataSlice = createSlice({
       state.users= [];
       state.error= false;
       state.notes=[];
-      state.stories=[]
-      state.users=[]
-    },
-  
+      state.stories=[];
+      state.myStory=""
+      state.chatNo=""
 
-    // getDraftSuccess: (state, { payload }) => {
-    //   state.loading = false;
-    //   state.error = true;
-    //   state.draft = payload;
-    // }
+    },
   },
 });
 
@@ -91,11 +94,8 @@ export const {
   noteSuccess,
   logoutDataSuccess,
   storySuccess,
-  createStorySuccess
-  // getDataLikeSuccess,
-  // postDataSuccess,
-  // getDraftSuccess,
-  // getDetilSuccess
+  createStorySuccess,
+  findChatSuccess
 } = appDataSlice.actions;
 
 export default appDataSlice.reducer;

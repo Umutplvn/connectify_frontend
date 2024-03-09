@@ -12,39 +12,69 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import useAuthCall from "../hooks/useAuthCall";
 
-const Chats = () => {
+const Chats = ({setSecondId}) => {
   const { getChats, deleteChat, getNotes, getStories } = useDataCall();
   const { getMyContacts } = useAuthCall();
+  const { chats } = useSelector((state) => state?.appData);
+  const { contacts,userId } = useSelector((state) => state?.auth);
+  const [display, setDisplay] = useState([]);
+  const [changed, setChanged] = useState(true);
+  const [swipe, setSwipe] = useState();
+  const [online, setOnline] = useState(false);
+  const [searchData, setSearchData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getChats();
     getMyContacts();
-    getNotes();
-    getStories();
-  }, []);
+    // getNotes();
+    // getStories();
 
-  const { chats } = useSelector((state) => state?.appData);
-  const [display, setDisplay] = useState(chats);
-  const [changed, setChanged] = useState(true);
-  const [swipe, setSwipe] = useState();
-  const navigate = useNavigate();
+    const chatData = chats?.filter(item => item?.show === true)?.map(item => item?.members);
+    const arr = [];
+    const concatted = arr?.concat(...chatData);
+    const chatRender = concatted?.filter(item => item !== userId);
+    const result = chatRender?.map(id => {
+        const foundContact = contacts?.find(contact => contact?._id === id);
+        return foundContact ? foundContact : null;
+    });
 
+    const filteredResult = result?.filter(item => item !== null);
 
-  useEffect(() => {
-    const data = chats.filter((item) => item?.show == true);
-    setDisplay(data);
+    if (filteredResult && filteredResult.length > 0) {
+        const resultSort = filteredResult.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setDisplay(resultSort);
+        setSearchData(resultSort)
+    }
   }, [chats]);
 
+
+
   const setSearch = (e) => {
-    const filterName = chats
-      .filter((item) => item?.show == true)
-      ?.filter((item) =>
-        item?.toWho?.name.toLowerCase().includes(e.target.value.toLowerCase())
+    const filterName = searchData?.filter((item) =>
+        item?.name.toLowerCase().includes(e.target.value.toLowerCase())
       );
     setDisplay(filterName);
   };
 
+  const forward = (data)=>{
+    const chatNo = chats.filter(item => item.members.includes(userId) && item.members.includes(data._id));
+    setSecondId(chatNo[0]?._id)
+    navigate(`/chat/${data?._id}`)
+  }
 
+//! Online Olma durumuna gore border rengi degisecek
+
+  const borderStyle = online ?  "3px solid #31ee44":"3px solid #d7d7d7" ;
+
+  const style = {
+    width: "53px",
+    height: "53px",
+    border: borderStyle,
+    borderRadius: "50%",
+    overflow: "hidden",
+  };
+  
   return (
     <Box>
       {/* Title */}
@@ -95,17 +125,11 @@ const Chats = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          key={item?.chatId}
+          key={item?._id}
         >
           <img
-            style={{
-              width: "50px",
-              height: "50px",
-              border: "1px solid #e0e4eb",
-              borderRadius: "50%",
-              overflow: "hidden",
-            }}
-            src={item?.toWho?.image ? item?.toWho?.image : usernone}
+         style={style}
+            src={item?.image ? item?.image : usernone}
             alt="PP"
           />
           <Box
@@ -117,11 +141,11 @@ const Chats = () => {
           >
             <Box display={"flex"} justifyContent={"space-between"}>
               <Typography
-                onClick={() => navigate(`/chat/${item?._id}`)}
+                onClick={()=>forward(item)}
                 sx={{ minWidth: "95%", fontWeight: "700" }}
               >
-                {item?.toWho?.name.charAt(0).toUpperCase() +
-                  item?.toWho?.name.slice(1).toLowerCase()}
+                {item?.name?.charAt(0).toUpperCase() +
+                  item?.name?.slice(1).toLowerCase()}
               </Typography>
               <Box
                 sx={{
@@ -134,7 +158,7 @@ const Chats = () => {
                   alignItems: "center",
                   borderBottomLeftRadius: "0.5rem",
                   borderTopLeftRadius: "0.5rem",
-                  right: swipe === item._id ? "0rem" : "-7rem",
+                  right: swipe === item?._id ? "0rem" : "-7rem",
                   transition: "1s",
                 }}
               >
@@ -152,7 +176,7 @@ const Chats = () => {
                 >
                   <DeleteIcon
                     cursor="pointer"
-                    onClick={() => deleteChat(item._id)}
+                    onClick={() => deleteChat(item?._id)}
                   />
                 </Box>
                 <Box
@@ -171,7 +195,7 @@ const Chats = () => {
                 </Box>
               </Box>
               <MoreHorizIcon
-                onClick={(e) => setSwipe(item._id)}
+                onClick={(e) => setSwipe(item?._id)}
                 sx={{ cursor: "pointer" }}
               />
             </Box>
@@ -183,8 +207,10 @@ const Chats = () => {
                 justifyContent={"space-between"}
               >
                 <Typography
-                  onClick={() => navigate(`/chat/${item?._id}`)}
-                  sx={{
+                onClick={()=>forward(item)}
+                sx={{
+                    fontSize:"0.8rem",
+                    color:"#323232dd",
                     width: "75%",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
@@ -195,10 +221,18 @@ const Chats = () => {
                   Text Message
                 </Typography>
                 <Typography
+                 sx={{
+                  fontSize:"0.8rem",
+                  color:"#323232dd",
+                  width: "75%",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
                   width={"25%"}
                   textAlign={"end"}
-                  onClick={() => navigate(`/chat/${item?._id}`)}
-                >
+                  onClick={()=>forward(item)}
+                  >
                   {formatDateTime(item?.createdAt)} {/* Format date */}
                 </Typography>
               </Box>

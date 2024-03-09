@@ -15,7 +15,6 @@ export const authSlice = createSlice({
     image:"",
     bio:"",
     name:"",
-    image: "",
     password:""
   },
 
@@ -105,7 +104,8 @@ export const authSlice = createSlice({
       state.user=[];
       state.image="";
       state.name="";
-      state.image= "";
+      state.bio= "";
+      state.password= "";
     },
 
   
