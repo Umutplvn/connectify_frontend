@@ -1,0 +1,148 @@
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import Tooltip from "@mui/material/Tooltip";
+import useDataCall from "../hooks/useDataCall";
+
+export default function AccountMenu({item}) {
+  const { deleteChat } = useDataCall();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <React.Fragment>
+      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+        <Tooltip title="Account settings">
+          <MoreHorizIcon
+            onClick={handleClick}
+            size="small"
+            sx={{ ml: 0 }}
+            aria-controls={open ? "account-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+          ></MoreHorizIcon>
+        </Tooltip>
+      </Box>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 0,
+            ml: 1,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&::before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem onClick={() => deleteChat(item._id)}
+>
+          <ListItemIcon>
+            <DeleteRoundedIcon fontSize="small" />
+          </ListItemIcon>
+          Delete Chat
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>
+            <CancelRoundedIcon fontSize="small" />
+          </ListItemIcon>
+Cancel        </MenuItem>
+      </Menu>
+    </React.Fragment>
+  );
+}
+
+{
+  /* <Box
+          sx={{
+            display: "flex",
+            position: "absolute",
+            width: "7rem",
+            height: "3rem",
+            color: "white",
+            justifyContent: "center",
+            alignItems: "center",
+            borderBottomLeftRadius: "0.5rem",
+            borderTopLeftRadius: "0.5rem",
+            right: swipe === item?._id ? "0rem" : "-7rem",
+            transition: "1s",
+          }}
+        >
+          <Box
+            sx={{
+              borderBottomLeftRadius: "0.5rem",
+              borderTopLeftRadius: "0.5rem",
+              width: "55%",
+              height: "101%",
+              backgroundColor: "#dc4b4b",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <DeleteIcon
+              sx={{ fontSize: "1.3rem" }}
+              cursor="pointer"
+              onClick={() => deleteChat(item?._id)}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "50%",
+              height: "101%",
+              fontWeight: "700",
+              backgroundColor: "#6cb753",
+              cursor: "pointer",
+            }}
+          >
+            <ClearOutlinedIcon
+              sx={{ fontSize: "1.3rem" }}
+              onClick={() => setSwipe("-7rem")}
+            />
+          </Box>
+        </Box> */
+}
+
+{
+  /* <MoreHorizIcon
+          onClick={(e) => setSwipe(item?._id)}
+          sx={{ cursor: "pointer" }}
+        /> */
+}

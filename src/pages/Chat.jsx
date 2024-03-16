@@ -9,13 +9,13 @@ const Chat = ({secondId}) => {
 
   const {getMessages, findChat}=useDataCall()
   const {_id}=useParams()
-  const {contacts, userId} =useSelector((state)=>state.auth)
-  // const { chats } = useSelector((state) => state?.appData);
-  const user= contacts.filter((contact)=>contact?._id==_id)
+  const {contacts, userId} =useSelector((state)=>state?.auth)
+  const user= contacts?.filter((contact)=>contact?._id==_id)
   const navigate=useNavigate()
-  
+console.log(user);
+
   useEffect(() => {
-    getMessages(secondId);
+    // getMessages(secondId);
   // findChat(_id)
   }, [])
 
