@@ -7,14 +7,15 @@ import useDataCall from "../hooks/useDataCall";
 import usernone from "../assets/nouser.png";
 import BasicModal from "../components/ContactModal";
 import useAuthCall from "../hooks/useAuthCall";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { IoPersonRemoveSharp } from "react-icons/io5";
 import { addRemoveStyle } from "../styles/globalStyle";
 
 const People = () => {
   const { contacts } = useSelector((state) => state?.auth);
   const { getMyContacts } = useAuthCall();
-  const { getUsers } = useDataCall();
+  const {_id}=useParams()
+  const { getUsers, createChat } = useDataCall();
   const [display, setDisplay] = useState([]);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -58,8 +59,10 @@ const People = () => {
     setDisplay(contacts);
   }, [contacts]);
 
-  console.log(contacts);
-
+  const forwardToChat=(item)=>{
+    navigate(`/chat/${item}`)
+    createChat(item)
+  }
   const contactsData = contacts?.map((item) => item?._id);
 
   return (
@@ -142,14 +145,14 @@ const People = () => {
                 justifyContent={"space-evenly"}
               >
                 <Typography sx={{ fontWeight: "700" }}
-                onClick={() => navigate(`/chat/${item?._id}`)}
+                onClick={() =>forwardToChat(item._id)}
                 >
                   {item?.name.charAt(0).toUpperCase() +
                     item?.name.slice(1).toLowerCase()}
                 </Typography>
                 <Typography
                 sx={{fontSize:"0.8rem", color:"#323232dd"}}
-                onClick={() => navigate(`/chat/${item?._id}`)}>{item?.bio}</Typography>
+                onClick={() =>forwardToChat(item._id)}>{item?.bio}</Typography>
               </Box>
 
               <BasicModal

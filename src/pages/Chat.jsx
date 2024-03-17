@@ -1,25 +1,36 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Input, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import useDataCall from "../hooks/useDataCall";
 import { MdArrowBackIos } from "react-icons/md";
+import Messages from "../components/Messages";
+import InputEmoji from "react-input-emoji";
+import useDataCall from "../hooks/useDataCall";
 
-const Chat = ({secondId}) => {
+const Chat = () => {
 
-  const {getMessages, findChat}=useDataCall()
   const {_id}=useParams()
-  const {contacts, userId} =useSelector((state)=>state?.auth)
-  const user= contacts?.filter((contact)=>contact?._id==_id)
+  const [text, setText] = useState("");
+  const{createMessages, clearMessagesState, findChat, getMessages}=useDataCall()
+  const {chatNo} =useSelector((state)=>state?.appData)
+  const {contacts} =useSelector((state)=>state?.auth)
+  const user=contacts.filter((item)=>item._id==_id)
   const navigate=useNavigate()
-console.log(user);
 
   useEffect(() => {
-    // getMessages(secondId);
-  // findChat(_id)
-  }, [])
-
+  findChat(_id)
+  getMessages(chatNo);
+  }, [chatNo])
   
+
+  const backFunc=()=>{
+  navigate(-1)
+  clearMessagesState()
+  }
+  const handleOnEnter= (text)=> {
+    createMessages({chatId:chatNo, text:text})
+  }
+
   const style = {
     width: "50px",
     height: "50px",
@@ -28,7 +39,7 @@ console.log(user);
   };
 
   return (
-    <Box>
+    <Box >
       <Box
         sx={{
           padding: "1rem 0.5rem",
@@ -40,16 +51,29 @@ console.log(user);
         }}
       >
        <Box sx={{display:"flex", alignItems:"center", gap:1}}>
-        <Box sx={{display:"flex", justifyContent:"center", alignItems:"center", width:"2rem", cursor:"pointer"}} onClick={()=>navigate("/chats")}>
+        <Box sx={{display:"flex", justifyContent:"center", alignItems:"center", width:"2rem", cursor:"pointer"}} onClick={backFunc}>
         <MdArrowBackIos /> 
         </Box>
-        <img src={user[0]?.image} alt="" style={style} />
-        <Typography>{user[0]?.name?.charAt(0).toUpperCase()+ user[0]?.name?.slice(1).toLowerCase()}</Typography>
+
+        <img src={user[0].image} alt="" style={style} />
+        <Typography>{user[0].name?.charAt(0).toUpperCase()+ user[0].name?.slice(1).toLowerCase()}</Typography>
         </Box> 
       </Box>
 
 {/* Messages */}
+<Messages/>
 
+{/* New Message */}
+<Box  sx={{position:"fixed", bottom:0, width:"100%"}}>
+  
+<InputEmoji
+      value={text}
+      onChange={setText}
+      cleanOnEnter
+      onEnter={handleOnEnter}
+      placeholder="Type a message"
+    />
+    </Box>
 
     </Box>
   );

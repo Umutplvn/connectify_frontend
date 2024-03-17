@@ -14,7 +14,7 @@ const Chats = () => {
   const { getChats } = useDataCall();
   const { getMyContacts } = useAuthCall();
   const { chats } = useSelector((state) => state?.appData);
-  const { userId } = useSelector((state) => state?.auth);
+  const { userId, contacts } = useSelector((state) => state?.auth);
   const [display, setDisplay] = useState([]);
   const [changed, setChanged] = useState(true);
   const [online, setOnline] = useState(false);
@@ -27,10 +27,12 @@ const Chats = () => {
   }, []);
 
   useEffect(() => {
-    const chatData = chats?.filter((item) => item.show === true);
+    const chatData = chats?.filter((item) => item.show === true)    
     setDisplay(chatData || []);
+    setSearchData(chatData)
   }, [chats]);
 
+  
   const setSearch = (e) => {
     const filterName = searchData?.filter((item) =>
       item?.user?.name.toLowerCase().includes(e.target.value.toLowerCase())
@@ -39,13 +41,10 @@ const Chats = () => {
   };
 
   const forward = (data) => {
-    const chatNo = chats.filter(
-      (item) =>
-        item.members.includes(userId) && item.members.includes(data.user._id)
-    );
-
-    navigate(`/chat/${data?.user?._id}`);
+    navigate(`/chat/${data}`);
   };
+
+
 
   //! Online Olma durumuna gore border rengi degisecek
 
@@ -117,9 +116,11 @@ const Chats = () => {
           }}
           key={item?._id}
         >
+          {/*  chatData[0].user.user2.id==userId ? chatData[0].user.user2: chatData[0].user.user1 ;
+ */}
           <img
             style={style}
-            src={item?.user?.image ? item?.user?.image : usernone}
+            src={item?.user?.user2.id2==userId  ? item?.user?.user1.image1 : item?.user?.user2.image2}
             alt="PP"
           />
           <Box
@@ -131,11 +132,12 @@ const Chats = () => {
           >
             <Box display={"flex"} justifyContent={"space-between"}>
               <Typography
-                onClick={() => forward(item)}
+                onClick={() => forward(item?.user?.user2.id2==userId  ? item?.user?.user1.id1 : item?.user?.user2.id2)}
                 sx={{ minWidth: "95%", fontWeight: "700" }}
               >
-                {item?.user?.name?.charAt(0).toUpperCase() +
-                  item?.user?.name?.slice(1).toLowerCase()}
+                {item?.user?.user2.id2==userId  ? item?.user?.user1.name1.charAt(0).toUpperCase()+item?.user?.user1.name1.slice(1).toLowerCase() : item?.user?.user2.name2.charAt(0).toUpperCase()+item?.user?.user2.name2.slice(1).toLowerCase()}
+
+               
               </Typography>
 
               <AccountMenu item={item} />
