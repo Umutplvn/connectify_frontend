@@ -8,27 +8,22 @@ import InputEmoji from "react-input-emoji";
 import useDataCall from "../hooks/useDataCall";
 
 const Chat = () => {
-
   const {_id}=useParams()
   const [text, setText] = useState("");
-  const{createMessages, clearMessagesState, findChat, getMessages}=useDataCall()
-  const {chatNo} =useSelector((state)=>state?.appData)
-  const {contacts} =useSelector((state)=>state?.auth)
-  const user=contacts.filter((item)=>item._id==_id)
+  const{createMessages, clearMessagesState}=useDataCall()
+  const {chats} =useSelector((state)=>state?.appData)
+  const {contacts, userId} =useSelector((state)=>state?.auth)
+  const user=contacts?.filter((item)=>item?._id==_id)
   const navigate=useNavigate()
+  const chatNumber = chats.filter(item => item?.members.includes(userId) && item?.members.includes(_id));
 
-  useEffect(() => {
-  findChat(_id)
-  getMessages(chatNo);
-  }, [chatNo])
-  
 
   const backFunc=()=>{
   navigate(-1)
   clearMessagesState()
   }
   const handleOnEnter= (text)=> {
-    createMessages({chatId:chatNo, text:text})
+    createMessages({chatId:chatNumber[0]?._id, text:text})
   }
 
   const style = {
@@ -55,8 +50,8 @@ const Chat = () => {
         <MdArrowBackIos /> 
         </Box>
 
-        <img src={user[0].image} alt="" style={style} />
-        <Typography>{user[0].name?.charAt(0).toUpperCase()+ user[0].name?.slice(1).toLowerCase()}</Typography>
+        <img src={user[0]?.image} alt="" style={style} />
+        <Typography>{user[0]?.name?.charAt(0).toUpperCase()+ user[0]?.name?.slice(1).toLowerCase()}</Typography>
         </Box> 
       </Box>
 

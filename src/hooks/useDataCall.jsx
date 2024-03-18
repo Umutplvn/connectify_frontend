@@ -1,20 +1,31 @@
 import useAxios from "./useAxios";
-import {getChatsSuccess, fetchStart, fetchFail, getMessagesSuccess, getUsersSuccess, noteSuccess, storySuccess, createStorySuccess, findChatSuccess, clearMessagesStateSuccess} from "../features/appDataSlice";
+import {
+  getChatsSuccess,
+  fetchStart,
+  fetchFail,
+  getMessagesSuccess,
+  getUsersSuccess,
+  noteSuccess,
+  storySuccess,
+  createStorySuccess,
+  findChatSuccess,
+  clearMessagesStateSuccess,
+} from "../features/appDataSlice";
 import { useDispatch, useSelector } from "react-redux";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 const useDataCall = () => {
   const { axiosWithToken } = useAxios();
   const dispatch = useDispatch();
-  const {name} =useSelector((state)=>state.auth)
+  const { name } = useSelector((state) => state.auth);
 
-//! Users
+  //! Users
 
   const getUsers = async () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken("auth/users");
-      dispatch(getUsersSuccess({data}));
+      dispatch(getUsersSuccess({ data }));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -22,13 +33,13 @@ const useDataCall = () => {
     }
   };
 
-//! Notes 
+  //! Notes
 
   const getNotes = async () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken("app/getnotes");
-      dispatch(noteSuccess({data}));
+      dispatch(noteSuccess({ data }));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -40,8 +51,8 @@ const useDataCall = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.post("app/createnote", content);
-      dispatch(noteSuccess({data}));
-      getNotes()
+      dispatch(noteSuccess({ data }));
+      getNotes();
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -49,41 +60,44 @@ const useDataCall = () => {
     }
   };
 
-
   const deleteNote = async () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.delete("app/deletenote");
-      dispatch(noteSuccess({data}));
-      getNotes()
-      } catch (error) {
+      dispatch(noteSuccess({ data }));
+      getNotes();
+    } catch (error) {
       console.log(error);
       dispatch(fetchFail());
       toast(error);
     }
   };
 
-//! Stories
+  //! Stories
 
-const getStories = async () => {
-  dispatch(fetchStart());
-  try {
-    const { data } = await axiosWithToken("app/getstories");
-    dispatch(storySuccess({data}));
-  } catch (error) {
-    console.log(error);
-    dispatch(fetchFail());
-    toast(error);
-  }
-};
-  
+  const getStories = async () => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken("app/getstories");
+      dispatch(storySuccess({ data }));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toast(error);
+    }
+  };
+
   const createStory = async (info) => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.post("app/createstory", info);
-      dispatch(createStorySuccess({data}));
-      getStories()
-      toast(`${name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}, great story!!! 🚀`)
+      dispatch(createStorySuccess({ data }));
+      getStories();
+      toast(
+        `${
+          name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+        }, great story!!! 🚀`
+      );
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -95,9 +109,8 @@ const getStories = async () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.delete("app/deletestory");
-      dispatch(storySuccess({data}));
-      getStories()
-
+      dispatch(storySuccess({ data }));
+      getStories();
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -105,14 +118,13 @@ const getStories = async () => {
     }
   };
 
-
   //! Chats
 
   const getChats = async () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken("chats/findall");
-      dispatch(getChatsSuccess({data }));
+      dispatch(getChatsSuccess({ data }));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -124,9 +136,8 @@ const getStories = async () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.post(`chats/${info}`);
-      dispatch(getChatsSuccess({data }));
-      console.log("createChat", data);
-      getChats()
+      dispatch(getChatsSuccess({ data }));
+      getChats();
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -138,7 +149,7 @@ const getStories = async () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken(`chats/find/${secondId}`);
-      dispatch(findChatSuccess({data }));
+      dispatch(findChatSuccess({ data }));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -146,13 +157,10 @@ const getStories = async () => {
     }
   };
 
-
-
-
-  const deleteChat = async (chatId) => {    
+  const deleteChat = async (chatId) => {
     dispatch(fetchStart());
     try {
-      await axiosWithToken.delete(`chats/deletechat/${chatId}` );
+      await axiosWithToken.delete(`chats/deletechat/${chatId}`);
       toast("Successfully deleted");
       getChats();
     } catch (error) {
@@ -161,13 +169,13 @@ const getStories = async () => {
     }
   };
 
-//! Messages
+  //! Messages
 
-  const getMessages = async (chatNo) => {
+  const getMessages = async (chatId) => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosWithToken(`messages/find/${chatNo}`);
-      dispatch(getMessagesSuccess({data}));
+      const { data } = await axiosWithToken(`messages/find/${chatId}`);
+      dispatch(getMessagesSuccess({ data }));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -177,7 +185,7 @@ const getStories = async () => {
 
   const clearMessagesState = async () => {
     dispatch(fetchStart());
-  try{
+    try {
       dispatch(clearMessagesStateSuccess());
     } catch (error) {
       console.log(error);
@@ -190,7 +198,7 @@ const getStories = async () => {
     dispatch(fetchStart());
     try {
       await axiosWithToken.post(`messages/`, info);
-      getMessages(info.chatId)
+      getMessages(info.chatId);
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -198,7 +206,22 @@ const getStories = async () => {
     }
   };
 
-  return {getChats, getMessages, deleteChat, getUsers, createNote, deleteNote, getNotes, createStory, getStories, deleteStory, findChat, createMessages, clearMessagesState, createChat};
+  return {
+    getChats,
+    getMessages,
+    deleteChat,
+    getUsers,
+    createNote,
+    deleteNote,
+    getNotes,
+    createStory,
+    getStories,
+    deleteStory,
+    findChat,
+    createMessages,
+    clearMessagesState,
+    createChat,
+  };
 };
 
 export default useDataCall;

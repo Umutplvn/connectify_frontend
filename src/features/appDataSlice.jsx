@@ -12,7 +12,6 @@ const appDataSlice = createSlice({
     notes:[],
     stories:[],
     myStory:"",
-    chatNo:""
 
   },
 
@@ -38,11 +37,10 @@ const appDataSlice = createSlice({
       state.messages = payload?.data;
     },
 
-    clearMessagesStateSuccess: (state, { payload }) => {
+    clearMessagesStateSuccess: (state) => {
       state.loading = false;
       state.error = false;
       state.messages = [];
-      state.chatNo=""
 
     },
 

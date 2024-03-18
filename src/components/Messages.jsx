@@ -7,11 +7,19 @@ import { MessageBox } from "react-chat-elements";
 import "react-chat-elements/dist/main.css";
 
 const Messages = () => {
+  const {_id}=useParams()
   const { getMessages } = useDataCall();
-  const { messages, chatNo } = useSelector((state) => state?.appData);
+  const { messages, chats } = useSelector((state) => state?.appData);
   const { userId } = useSelector((state) => state?.auth);
+  
+  
+  
+  useEffect(() => {
+    const chatNumber = chats.filter(item => item?.members.includes(userId) && item?.members.includes(_id));
+    getMessages(chatNumber[0]?._id); 
+  }, [])
 
- 
+
 
   return (
     <Box sx={{ maxHeight:"75vh", overflow:"scroll"}}>

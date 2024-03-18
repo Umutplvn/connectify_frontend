@@ -11,7 +11,7 @@ import useAuthCall from "../hooks/useAuthCall";
 import AccountMenu from "../components/ChatsMoreMenu";
 
 const Chats = () => {
-  const { getChats } = useDataCall();
+  const { getChats,  clearMessagesState} = useDataCall();
   const { getMyContacts } = useAuthCall();
   const { chats } = useSelector((state) => state?.appData);
   const { userId, contacts } = useSelector((state) => state?.auth);
@@ -20,8 +20,10 @@ const Chats = () => {
   const [online, setOnline] = useState(false);
   const [searchData, setSearchData] = useState([]);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
+    clearMessagesState()
     getChats();
     getMyContacts();
   }, []);
@@ -32,7 +34,7 @@ const Chats = () => {
     setSearchData(chatData)
   }, [chats]);
 
-  
+
   const setSearch = (e) => {
     const filterName = searchData?.filter((item) =>
       item?.user?.name.toLowerCase().includes(e.target.value.toLowerCase())
