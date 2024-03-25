@@ -143,16 +143,16 @@ const People = () => {
                 flexDirection={"column"}
                 width={"85%"}
                 justifyContent={"space-evenly"}
-              >
-                <Typography sx={{ fontWeight: "700" }}
                 onClick={() =>forwardToChat(item._id)}
+              >
+                <Typography sx={{ fontWeight: "700" }} 
                 >
                   {item?.name.charAt(0).toUpperCase() +
                     item?.name.slice(1).toLowerCase()}
                 </Typography>
                 <Typography
                 sx={{fontSize:"0.8rem", color:"#323232dd"}}
-                onClick={() =>forwardToChat(item._id)}>{item?.bio}</Typography>
+               >{item?.bio} </Typography>
               </Box>
 
               <BasicModal

@@ -28,11 +28,25 @@ const Chats = () => {
     getMyContacts();
   }, []);
 
+
+
   useEffect(() => {
-    const chatData = chats?.filter((item) => item.show === true)    
-    setDisplay(chatData || []);
-    setSearchData(chatData)
-  }, [chats]);
+    const chatData = chats?.filter((item) => item?.show === true) 
+    console.log("contacts", contacts);
+    const filteredContacts = [];
+    contacts.forEach(contact => {
+      const contactId = contact._id;
+        chatData.forEach(chat => {
+          const members = chat.members;
+          if (members.includes(contactId) && !filteredContacts.some(c => c._id === contactId)) {
+              filteredContacts.push(contact);
+          }
+      });
+  });  
+  setDisplay(filteredContacts || []);
+}, [chats, contacts]);
+
+
 
 
   const setSearch = (e) => {
@@ -118,11 +132,9 @@ const Chats = () => {
           }}
           key={item?._id}
         >
-          {/*  chatData[0].user.user2.id==userId ? chatData[0].user.user2: chatData[0].user.user1 ;
- */}
           <img
             style={style}
-            src={item?.user?.user2.id2==userId  ? item?.user?.user1.image1 : item?.user?.user2.image2}
+            src={item?.image}
             alt="PP"
           />
           <Box
@@ -134,10 +146,10 @@ const Chats = () => {
           >
             <Box display={"flex"} justifyContent={"space-between"}>
               <Typography
-                onClick={() => forward(item?.user?.user2.id2==userId  ? item?.user?.user1.id1 : item?.user?.user2.id2)}
+                onClick={() => forward(item?._id)}
                 sx={{ minWidth: "95%", fontWeight: "700" }}
               >
-                {item?.user?.user2.id2==userId  ? item?.user?.user1.name1.charAt(0).toUpperCase()+item?.user?.user1.name1.slice(1).toLowerCase() : item?.user?.user2.name2.charAt(0).toUpperCase()+item?.user?.user2.name2.slice(1).toLowerCase()}
+                {item?.name.charAt(0).toUpperCase()+item?.name.slice(1).toLowerCase()}
 
                
               </Typography>
@@ -150,9 +162,9 @@ const Chats = () => {
                 sx={{ width: "100%", color: "#4b4e55" }}
                 display="flex"
                 justifyContent={"space-between"}
+                onClick={() => forward(item?._id)}
               >
                 <Typography
-                  onClick={() => forward(item)}
                   sx={{
                     fontSize: "0.8rem",
                     color: "#323232dd",
@@ -176,9 +188,8 @@ const Chats = () => {
                   }}
                   width={"25%"}
                   textAlign={"end"}
-                  onClick={() => forward(item)}
                 >
-                  {formatDateTime(item?.createdAt)} {/* Format date */}
+DATE
                 </Typography>
               </Box>
             </Box>

@@ -12,10 +12,8 @@ const Messages = () => {
   const { messages, chats } = useSelector((state) => state?.appData);
   const { userId } = useSelector((state) => state?.auth);
   
-  
-  
   useEffect(() => {
-    const chatNumber = chats.filter(item => item?.members.includes(userId) && item?.members.includes(_id));
+    const chatNumber = chats?.filter(item => item?.members?.includes(userId) && item?.members?.includes(_id));
     getMessages(chatNumber[0]?._id); 
   }, [])
 

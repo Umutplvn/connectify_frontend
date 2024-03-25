@@ -176,6 +176,7 @@ const useDataCall = () => {
     try {
       const { data } = await axiosWithToken(`messages/find/${chatId}`);
       dispatch(getMessagesSuccess({ data }));
+      console.log("message data", data);
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());

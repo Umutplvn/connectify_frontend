@@ -10,19 +10,20 @@ import useDataCall from "../hooks/useDataCall";
 const Chat = () => {
   const {_id}=useParams()
   const [text, setText] = useState("");
-  const{createMessages, clearMessagesState}=useDataCall()
+  const{createMessages, clearMessagesState, getChats}=useDataCall()
   const {chats} =useSelector((state)=>state?.appData)
   const {contacts, userId} =useSelector((state)=>state?.auth)
   const user=contacts?.filter((item)=>item?._id==_id)
   const navigate=useNavigate()
-  const chatNumber = chats.filter(item => item?.members.includes(userId) && item?.members.includes(_id));
 
-
+console.log(contacts);
   const backFunc=()=>{
   navigate(-1)
   clearMessagesState()
   }
   const handleOnEnter= (text)=> {
+    const chatNumber = chats?.filter(item => item?.members?.includes(userId) && item?.members?.includes(_id));
+
     createMessages({chatId:chatNumber[0]?._id, text:text})
   }
 
