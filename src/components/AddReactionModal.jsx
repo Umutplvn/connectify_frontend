@@ -3,6 +3,9 @@ import EmojiPicker from 'emoji-picker-react';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import * as React from "react";
+import useDataCall from '../hooks/useDataCall';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const style = {
   position: 'absolute',
@@ -16,8 +19,28 @@ const style = {
   p: 4,
 };
 
-export default function AddReaction({ setOpenModal, openModal}) {
+export default function AddReaction({ setOpenModal, openModal, item, handleClose}) {
   const handleCloseModal = () => setOpenModal(false);
+  const {addReaction}=useDataCall()
+  const { _id } = useParams();
+  const { messages, chats } = useSelector((state) => state?.appData);
+  const { userId } = useSelector((state) => state?.auth);
+
+
+  console.log("messages",messages);
+
+    const chatNumber = chats?.filter(
+      (item) => item?.members?.includes(userId) && item?.members?.includes(_id)
+    );
+  
+    console.log("chatNumber",chatNumber);
+
+  const setEmoji=(e)=>{
+    handleCloseModal()
+    addReaction({ messageId:item._id, reaction:e?.emoji}, chatNumber[0]?._id);
+    handleClose()
+
+  }
 
   return (
     <Box>
@@ -33,7 +56,7 @@ export default function AddReaction({ setOpenModal, openModal}) {
       }}
     >
       <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-        <EmojiPicker reactionsDefaultOpen={true} />
+        <EmojiPicker reactionsDefaultOpen={true} onReactionClick={(e)=>setEmoji(e)}/>
       </Box>
     </Modal>
   </Box>

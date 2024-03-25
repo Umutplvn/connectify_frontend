@@ -10,14 +10,16 @@ import Tooltip from "@mui/material/Tooltip";
 import useDataCall from "../hooks/useDataCall";
 import AddReactionRoundedIcon from '@mui/icons-material/AddReactionRounded';
 import ReplyRoundedIcon from '@mui/icons-material/ReplyRounded';
-import EmojiPicker from 'emoji-picker-react';
 import AddReaction from "./AddReactionModal";
+import { useSelector } from "react-redux";
 
 export default function AccountMenu({ item }) {
   const { deleteChat } = useDataCall();
   const [emojiModal, setEmojiModal] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal , setOpenModal] = React.useState(false)
+  const { userId } = useSelector((state) => state?.auth);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -27,6 +29,8 @@ export default function AccountMenu({ item }) {
     setEmojiModal(false)
 
   };
+
+  console.log(item);
 
 const openFunc=()=>{
    setOpenModal(true)
@@ -50,7 +54,6 @@ const openFunc=()=>{
         id="account-menu"
         open={open}
         onClose={handleClose}
-        // onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -95,15 +98,15 @@ const openFunc=()=>{
         Reaction
         </MenuItem>
      
-        <AddReaction setOpenModal={setOpenModal}  openModal={openModal}/>
+        <AddReaction setOpenModal={setOpenModal} handleClose={handleClose} item={item}  openModal={openModal}/>
 
-        <MenuItem >
+     {item?.sender?._id==userId&&   <MenuItem >
           <ListItemIcon>
             <CancelRoundedIcon fontSize="small" sx={{color: "#d82b2b" }}/>
           </ListItemIcon>
         Delete
         </MenuItem>
-
+}
 
         <MenuItem >
           <ListItemIcon>

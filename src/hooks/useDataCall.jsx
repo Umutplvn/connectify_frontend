@@ -207,6 +207,19 @@ const useDataCall = () => {
     }
   };
 
+  const addReaction = async (info, chatId) => {
+    dispatch(fetchStart());
+    try {
+      await axiosWithToken.put(`messages/reaction`, info);
+      // dispatch(getMessagesSuccess());
+      getMessages(chatId)
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toast(error);
+    }
+  };
+
   return {
     getChats,
     getMessages,
@@ -222,6 +235,7 @@ const useDataCall = () => {
     createMessages,
     clearMessagesState,
     createChat,
+    addReaction
   };
 };
 
