@@ -41,11 +41,12 @@ const Chats = () => {
       });
     });
     setDisplay(filteredContacts || []);
+    setSearchData(filteredContacts||[])
   }, [chats, contacts]);
 
   const setSearch = (e) => {
     const filterName = searchData?.filter((item) =>
-      item?.user?.name.toLowerCase().includes(e.target.value.toLowerCase())
+      item?.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setDisplay(filterName);
   };
