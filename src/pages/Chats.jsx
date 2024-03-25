@@ -4,50 +4,44 @@ import { Box, InputAdornment, TextField, Typography } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useSelector } from "react-redux";
 import useDataCall from "../hooks/useDataCall";
-import usernone from "../assets/nouser.png";
 import { useNavigate } from "react-router-dom";
-import formatDateTime from "../helper/formatDateTime";
 import useAuthCall from "../hooks/useAuthCall";
 import AccountMenu from "../components/ChatsMoreMenu";
 
 const Chats = () => {
-  const { getChats,  clearMessagesState} = useDataCall();
+  const { getChats, clearMessagesState } = useDataCall();
   const { getMyContacts } = useAuthCall();
   const { chats } = useSelector((state) => state?.appData);
-  const { userId, contacts } = useSelector((state) => state?.auth);
+  const { contacts } = useSelector((state) => state?.auth);
   const [display, setDisplay] = useState([]);
   const [changed, setChanged] = useState(true);
   const [online, setOnline] = useState(false);
   const [searchData, setSearchData] = useState([]);
   const navigate = useNavigate();
-  
 
   useEffect(() => {
-    clearMessagesState()
+    clearMessagesState();
     getChats();
     getMyContacts();
   }, []);
 
-
-
   useEffect(() => {
-    const chatData = chats?.filter((item) => item?.show === true) 
-    console.log("contacts", contacts);
+    const chatData = chats?.filter((item) => item?.show === true);
     const filteredContacts = [];
-    contacts.forEach(contact => {
+    contacts.forEach((contact) => {
       const contactId = contact._id;
-        chatData.forEach(chat => {
-          const members = chat.members;
-          if (members.includes(contactId) && !filteredContacts.some(c => c._id === contactId)) {
-              filteredContacts.push(contact);
-          }
+      chatData.forEach((chat) => {
+        const members = chat.members;
+        if (
+          members.includes(contactId) &&
+          !filteredContacts.some((c) => c._id === contactId)
+        ) {
+          filteredContacts.push(contact);
+        }
       });
-  });  
-  setDisplay(filteredContacts || []);
-}, [chats, contacts]);
-
-
-
+    });
+    setDisplay(filteredContacts || []);
+  }, [chats, contacts]);
 
   const setSearch = (e) => {
     const filterName = searchData?.filter((item) =>
@@ -59,8 +53,6 @@ const Chats = () => {
   const forward = (data) => {
     navigate(`/chat/${data}`);
   };
-
-
 
   //! Online Olma durumuna gore border rengi degisecek
 
@@ -132,11 +124,7 @@ const Chats = () => {
           }}
           key={item?._id}
         >
-          <img
-            style={style}
-            src={item?.image}
-            alt="PP"
-          />
+          <img style={style} src={item?.image} alt="PP" />
           <Box
             sx={{
               width: "100%",
@@ -149,9 +137,8 @@ const Chats = () => {
                 onClick={() => forward(item?._id)}
                 sx={{ minWidth: "95%", fontWeight: "700" }}
               >
-                {item?.name.charAt(0).toUpperCase()+item?.name.slice(1).toLowerCase()}
-
-               
+                {item?.name.charAt(0).toUpperCase() +
+                  item?.name.slice(1).toLowerCase()}
               </Typography>
 
               <AccountMenu item={item} />
@@ -189,7 +176,7 @@ const Chats = () => {
                   width={"25%"}
                   textAlign={"end"}
                 >
-DATE
+                  DATE
                 </Typography>
               </Box>
             </Box>

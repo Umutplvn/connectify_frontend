@@ -8,24 +8,25 @@ import InputEmoji from "react-input-emoji";
 import useDataCall from "../hooks/useDataCall";
 
 const Chat = () => {
-  const {_id}=useParams()
+  const { _id } = useParams();
   const [text, setText] = useState("");
-  const{createMessages, clearMessagesState, getChats}=useDataCall()
-  const {chats} =useSelector((state)=>state?.appData)
-  const {contacts, userId} =useSelector((state)=>state?.auth)
-  const user=contacts?.filter((item)=>item?._id==_id)
-  const navigate=useNavigate()
+  const { createMessages, clearMessagesState, getChats } = useDataCall();
+  const { chats } = useSelector((state) => state?.appData);
+  const { contacts, userId } = useSelector((state) => state?.auth);
+  const user = contacts?.filter((item) => item?._id == _id);
+  const navigate = useNavigate();
 
-console.log(contacts);
-  const backFunc=()=>{
-  navigate(-1)
-  clearMessagesState()
-  }
-  const handleOnEnter= (text)=> {
-    const chatNumber = chats?.filter(item => item?.members?.includes(userId) && item?.members?.includes(_id));
+  const backFunc = () => {
+    navigate(-1);
+    clearMessagesState();
+  };
+  const handleOnEnter = (text) => {
+    const chatNumber = chats?.filter(
+      (item) => item?.members?.includes(userId) && item?.members?.includes(_id)
+    );
 
-    createMessages({chatId:chatNumber[0]?._id, text:text})
-  }
+    createMessages({ chatId: chatNumber[0]?._id, text: text });
+  };
 
   const style = {
     width: "50px",
@@ -35,7 +36,7 @@ console.log(contacts);
   };
 
   return (
-    <Box >
+    <Box>
       <Box
         sx={{
           padding: "1rem 0.5rem",
@@ -46,31 +47,41 @@ console.log(contacts);
           mb: "1rem",
         }}
       >
-       <Box sx={{display:"flex", alignItems:"center", gap:1}}>
-        <Box sx={{display:"flex", justifyContent:"center", alignItems:"center", width:"2rem", cursor:"pointer"}} onClick={backFunc}>
-        <MdArrowBackIos /> 
-        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "2rem",
+              cursor: "pointer",
+            }}
+            onClick={backFunc}
+          >
+            <MdArrowBackIos />
+          </Box>
 
-        <img src={user[0]?.image} alt="" style={style} />
-        <Typography>{user[0]?.name?.charAt(0).toUpperCase()+ user[0]?.name?.slice(1).toLowerCase()}</Typography>
-        </Box> 
+          <img src={user[0]?.image} alt="" style={style} />
+          <Typography>
+            {user[0]?.name?.charAt(0).toUpperCase() +
+              user[0]?.name?.slice(1).toLowerCase()}
+          </Typography>
+        </Box>
       </Box>
 
-{/* Messages */}
-<Messages/>
+      {/* Messages */}
+      <Messages />
 
-{/* New Message */}
-<Box  sx={{position:"fixed", bottom:0, width:"100%"}}>
-  
-<InputEmoji
-      value={text}
-      onChange={setText}
-      cleanOnEnter
-      onEnter={handleOnEnter}
-      placeholder="Type a message"
-    />
-    </Box>
-
+      {/* New Message */}
+      <Box sx={{ position: "fixed", bottom: 0, width: "100%" }}>
+        <InputEmoji
+          value={text}
+          onChange={setText}
+          cleanOnEnter
+          onEnter={handleOnEnter}
+          placeholder="Type a message"
+        />
+      </Box>
     </Box>
   );
 };
