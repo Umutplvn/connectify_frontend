@@ -13,15 +13,13 @@ const Messages = () => {
   const { messages, chats } = useSelector((state) => state?.appData);
   const { userId } = useSelector((state) => state?.auth);
 
-
-  console.log("messages",messages);
-
   useEffect(() => {
     const chatNumber = chats?.filter(
       (item) => item?.members?.includes(userId) && item?.members?.includes(_id)
     );
     getMessages(chatNumber[0]?._id);
   }, []);
+
 
   return (
     <Box sx={{ maxHeight: "75vh", overflow: "scroll" }}>
@@ -43,14 +41,50 @@ const Messages = () => {
                   }
             }
             text={
-              <Box sx={{ display: "flex", flexDirection: "column", position:"relative" }}>
-                <Box sx={{ display: "flex", justifyContent: "end", marginBottom: "0.1rem" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  position: "relative",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "end",
+                    marginBottom: "0.1rem",
+                  }}
+                >
                   <AccountMenu item={item} />
                 </Box>
 
-                <Typography sx={{ fontSize: "0.9rem", lineHeight: "1", marginBottom:"-0.5rem" }}>{item.text}</Typography>
-              {item.reaction&&   <Typography  sx={{position:"absolute", bottom:"-2.5rem", backgroundColor:"white", borderRadius:"50%", width:"1.5rem", height:"1.5rem", textAlign:"center"}}>{item.reaction}</Typography> }
-             
+                <Typography
+                  sx={{
+                    fontSize: "0.9rem",
+                    lineHeight: "1",
+                    marginBottom: "-0.5rem",
+                  }}
+                >
+                  {item.text}
+                </Typography>
+                {item.reaction && (
+                  <Typography
+                    sx={{
+                      position: "absolute",
+                      bottom: "-2.5rem",
+                      backgroundColor: "#fff",
+                      borderRadius: "50%",
+                      width: "1.5rem",
+                      height: "1.5rem",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    {item.reaction}
+                  </Typography>
+                )}
               </Box>
             }
             date={item?.createdAt}

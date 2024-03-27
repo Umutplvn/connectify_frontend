@@ -8,16 +8,16 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import Tooltip from "@mui/material/Tooltip";
 import useDataCall from "../hooks/useDataCall";
-import AddReactionRoundedIcon from '@mui/icons-material/AddReactionRounded';
-import ReplyRoundedIcon from '@mui/icons-material/ReplyRounded';
+import AddReactionRoundedIcon from "@mui/icons-material/AddReactionRounded";
+import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
 import AddReaction from "./AddReactionModal";
 import { useSelector } from "react-redux";
 
 export default function AccountMenu({ item }) {
-  const { deleteChat } = useDataCall();
+  const { deleteChat, favMessage } = useDataCall();
   const [emojiModal, setEmojiModal] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [openModal , setOpenModal] = React.useState(false)
+  const [openModal, setOpenModal] = React.useState(false);
   const { userId } = useSelector((state) => state?.auth);
 
   const open = Boolean(anchorEl);
@@ -26,15 +26,19 @@ export default function AccountMenu({ item }) {
   };
   const handleClose = () => {
     setAnchorEl(null);
-    setEmojiModal(false)
-
+    setEmojiModal(false);
   };
 
-  console.log(item);
+  const openFunc = () => {
+    setOpenModal(true);
+  };
 
-const openFunc=()=>{
-   setOpenModal(true)
-}
+  const addFavourite=()=>{
+    favMessage({info:item})
+    handleClose()
+    
+  }
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -84,37 +88,45 @@ const openFunc=()=>{
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => deleteChat(item._id)}>
+        <MenuItem onClick={addFavourite}>
           <ListItemIcon>
-          <StarsRoundedIcon sx={{color: "#d8d52b" }} />
+            <StarsRoundedIcon sx={{ color: "#d8d52b" }} />
           </ListItemIcon>
           Fav
         </MenuItem>
 
         <MenuItem onClick={openFunc}>
-          <ListItemIcon >
-            <AddReactionRoundedIcon fontSize="small" sx={{color: "#1961cd" }} />
-          </ListItemIcon>
-        Reaction
-        </MenuItem>
-     
-        <AddReaction setOpenModal={setOpenModal} handleClose={handleClose} item={item}  openModal={openModal}/>
-
-     {item?.sender?._id==userId&&   <MenuItem >
           <ListItemIcon>
-            <CancelRoundedIcon fontSize="small" sx={{color: "#d82b2b" }}/>
+            <AddReactionRoundedIcon
+              fontSize="small"
+              sx={{ color: "#1961cd" }}
+            />
           </ListItemIcon>
-        Delete
+          Reaction
         </MenuItem>
-}
 
-        <MenuItem >
+        <AddReaction
+          setOpenModal={setOpenModal}
+          handleClose={handleClose}
+          item={item}
+          openModal={openModal}
+        />
+
+        {item?.sender?._id == userId && (
+          <MenuItem>
+            <ListItemIcon>
+              <CancelRoundedIcon fontSize="small" sx={{ color: "#d82b2b" }} />
+            </ListItemIcon>
+            Delete
+          </MenuItem>
+        )}
+
+        <MenuItem>
           <ListItemIcon>
-            <ReplyRoundedIcon fontSize="small" sx={{color: "black" }}/>
+            <ReplyRoundedIcon fontSize="small" sx={{ color: "black" }} />
           </ListItemIcon>
-        Reply
+          Reply
         </MenuItem>
-
       </Menu>
     </React.Fragment>
   );

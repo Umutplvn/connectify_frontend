@@ -7,6 +7,7 @@ const appDataSlice = createSlice({
     error:false,
     chats: [],
     messages:[],
+    favMessages:[],
     users: [],
     error: false,
     notes:[],
@@ -41,6 +42,13 @@ const appDataSlice = createSlice({
       state.loading = false;
       state.error = false;
       state.messages = [];
+
+    },
+
+    favMessagesStateSuccess: (state, {payload}) => {
+      state.loading = false;
+      state.error = false;
+      state.favMessages = payload.data.response;
 
     },
 
@@ -102,7 +110,8 @@ export const {
   storySuccess,
   createStorySuccess,
   findChatSuccess,
-  clearMessagesStateSuccess
+  clearMessagesStateSuccess,
+  favMessagesStateSuccess
 } = appDataSlice.actions;
 
 export default appDataSlice.reducer;
