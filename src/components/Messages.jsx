@@ -41,7 +41,6 @@ const Messages = ({setInfo}) => {
                     <AccountMenu item={item} setInfo={setInfo} />
                   </Box>
 
-                  {/* reply to*/}
                   <Box
                     sx={{
                       backgroundColor: "white",
