@@ -14,7 +14,7 @@ import AddReaction from "./AddReactionModal";
 import { useSelector } from "react-redux";
 
 export default function AccountMenu({ item }) {
-  const { deleteChat, favMessage } = useDataCall();
+  const { deleteMessage, favMessage } = useDataCall();
   const [emojiModal, setEmojiModal] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = React.useState(false);
@@ -39,18 +39,24 @@ export default function AccountMenu({ item }) {
     
   }
 
+  const deleteMessageFunc=()=>{
+    deleteMessage({messageId:item?._id, chatId:item?.chatId});
+    handleClose()
+    
+  }
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Tooltip title="Account settings">
-          <MoreHorizIcon
+        {item.sender &&  <MoreHorizIcon
             onClick={handleClick}
             size="small"
             sx={{ ml: 0 }}
             aria-controls={open ? "account-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
-          ></MoreHorizIcon>
+          ></MoreHorizIcon>}
         </Tooltip>
       </Box>
       <Menu
@@ -113,7 +119,7 @@ export default function AccountMenu({ item }) {
         />
 
         {item?.sender?._id == userId && (
-          <MenuItem>
+          <MenuItem onClick={deleteMessageFunc}>
             <ListItemIcon>
               <CancelRoundedIcon fontSize="small" sx={{ color: "#d82b2b" }} />
             </ListItemIcon>

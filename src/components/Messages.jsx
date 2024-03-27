@@ -26,10 +26,10 @@ const Messages = () => {
       {messages?.map((item, index) => (
         <Box key={index} style={{ width: "100%", margin: "0.3rem auto" }}>
           <MessageBox
-            position={item.sender?._id === userId ? "right" : "left"}
+            position={(item.sender?._id === userId || item.sender=="") ? "right" : "left"}
             type={"text"}
             styles={
-              item.sender?._id === userId
+              item.sender?._id === userId || item.sender==""
                 ? {
                     background: "linear-gradient(to top right, #b6dadd, #fff",
                     maxWidth: "80%",
@@ -63,11 +63,13 @@ const Messages = () => {
                     fontSize: "0.9rem",
                     lineHeight: "1",
                     marginBottom: "-0.5rem",
+                    fontStyle: item.sender === "" ? "italic" : "normal", 
+                    color: item?.sender === "" ? "#7b7b7b" : "black", // item.sender boş ise italik yap
                   }}
                 >
                   {item.text}
                 </Typography>
-                {item.reaction && (
+                {item?.reaction && (
                   <Typography
                     sx={{
                       position: "absolute",
@@ -82,7 +84,7 @@ const Messages = () => {
                       fontSize: "0.8rem",
                     }}
                   >
-                    {item.reaction}
+                    {item?.reaction}
                   </Typography>
                 )}
               </Box>

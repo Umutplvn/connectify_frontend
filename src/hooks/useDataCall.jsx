@@ -10,7 +10,8 @@ import {
   createStorySuccess,
   findChatSuccess,
   clearMessagesStateSuccess,
-  favMessagesStateSuccess
+  favMessagesStateSuccess,
+  getProfileSuccess
 } from "../features/appDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -27,6 +28,18 @@ const useDataCall = () => {
     try {
       const { data } = await axiosWithToken("auth/users");
       dispatch(getUsersSuccess({ data }));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toast(error);
+    }
+  };
+
+  const getUser = async (userId) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken(`auth/users/${userId}`);
+      dispatch(getProfileSuccess({ data }));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -225,7 +238,6 @@ const useDataCall = () => {
       const {data} = await axiosWithToken.put(`messages/fav`, info);
       dispatch(favMessagesStateSuccess({data}))
       toast(data.message)
-      console.log("fav",data);
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -233,12 +245,13 @@ const useDataCall = () => {
     }
   };
 
-  const deleteMessage = async (messageId, chatId) => {
+  const deleteMessage = async (info) => {
     dispatch(fetchStart());
     try {
-      await axiosWithToken.put(`messages/reaction`, messageId);
-      // dispatch(getMessagesSuccess());
-      getMessages(chatId);
+      await axiosWithToken.delete(`messages/delete/${info?.messageId}`);
+      getMessages(info?.chatId);
+
+
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -251,6 +264,7 @@ const useDataCall = () => {
     getMessages,
     deleteChat,
     getUsers,
+    getUser,
     createNote,
     deleteNote,
     getNotes,
@@ -263,6 +277,7 @@ const useDataCall = () => {
     createChat,
     addReaction,
     favMessage,
+    deleteMessage
   };
 };
 

@@ -69,9 +69,9 @@ export const authSlice = createSlice({
       state.verified = payload?.result?.verified;
       state.bio=payload?.result?.bio
       state.password=payload?.result?.password
-
-
     },
+
+
 
     passwordUpdateSuccess:(state, { payload }) => {
       state.password=payload?.data?.result?.password
