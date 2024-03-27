@@ -12,14 +12,15 @@ import AddReactionRoundedIcon from "@mui/icons-material/AddReactionRounded";
 import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
 import AddReaction from "./AddReactionModal";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
-export default function AccountMenu({ item }) {
+export default function AccountMenu({ item, setInfo }) {
   const { deleteMessage, favMessage } = useDataCall();
-  const [emojiModal, setEmojiModal] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [openModal, setOpenModal] = React.useState(false);
+  const [emojiModal, setEmojiModal] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
   const { userId } = useSelector((state) => state?.auth);
-
+  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -36,18 +37,23 @@ export default function AccountMenu({ item }) {
   const addFavourite=()=>{
     favMessage({info:item})
     handleClose()
-    
   }
 
   const deleteMessageFunc=()=>{
     deleteMessage({messageId:item?._id, chatId:item?.chatId});
     handleClose()
-    
   }
+
+  const replyMessage=()=>{
+    setInfo(item)
+    handleClose()
+
+  }
+
 
   return (
     <React.Fragment>
-      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <Tooltip title="Account settings">
         {item.sender &&  <MoreHorizIcon
             onClick={handleClick}
@@ -127,7 +133,7 @@ export default function AccountMenu({ item }) {
           </MenuItem>
         )}
 
-        <MenuItem>
+        <MenuItem onClick={replyMessage}>
           <ListItemIcon>
             <ReplyRoundedIcon fontSize="small" sx={{ color: "black" }} />
           </ListItemIcon>

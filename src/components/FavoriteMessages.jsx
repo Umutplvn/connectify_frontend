@@ -22,6 +22,7 @@ const FavoriteMessages = ({ handleToggle, openIndex }) => {
     getUser(userId)
   }, [])
 
+console.log(favMessages);
 
   return (
     <Card
@@ -98,76 +99,142 @@ const FavoriteMessages = ({ handleToggle, openIndex }) => {
 
       {favMessages?.map((item, index) => (
         <Box key={index} style={{ width: "100%", margin: "0.3rem auto" }}>
-          <MessageBox
-            position={item?.info?.sender?._id === userId ? "right" : "left"}
-            type={"text"}
-            styles={
-              item?.info?.sender?._id === userId
-                ? {
-                    background: "linear-gradient(to top right, #b6dadd, #fff",
-                    maxWidth: "80%",
-                  }
-                : {
-                    background:
-                      "linear-gradient(to top left, #cde4c7, #ffffff)",
-                    maxWidth: "80%",
+             
+    {item?.info?.replyto?
+      <MessageBox
+        position={"right"}
+        type={"text"}
+        text={
+          <Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "end",
+              }}
+            >
+            </Box>
 
-                  }
-            }
-            text={
-              <Box
+            {/* reply to*/}
+            <Box
+              sx={{
+                backgroundColor: "white",
+                borderRadius: "0.4rem",
+                padding: "0.4rem",
+                borderLeft:"0.4rem solid #63a44d"
+              }}
+            >
+              <Typography
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  position: "relative",
+                  fontSize: "0.9rem",
+                  fontFamily: "halvetica",
+                  fontWeight: "900",
+                  color: "#63a44d",
+
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "end",
-                    marginBottom: "0.1rem",
-                  }}
-                >
-                </Box>
+                {item?.info?.replyto?.sender?.name}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.9rem",
+                  fontFamily: "halvetica",
+                }}
+              >
+                {item?.info?.replyto?.text}
+              </Typography>
+            </Box>
 
-                <Typography
-                  sx={{
-                    fontSize: "0.9rem",
-                    lineHeight: "1",
-                    marginBottom: "-0.5rem",
-                  }}
-                >
-                  {item?.info?.text}
-                </Typography>
-                {item?.info?.reaction && (
-                  <Typography
-                    sx={{
-                      position: "absolute",
-                      bottom: "-2.5rem",
-                      backgroundColor: "#fff",
-                      borderRadius: "50%",
-                      width: "1.5rem",
-                      height: "1.5rem",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      fontSize: "0.8rem",
-                    }}
-                  >
-                    {item?.info?.reaction}
-                  </Typography>
-                )}
-              </Box>
-            }
-            date={item?.info?.createdAt}
-            data={{
-              status: {
-                click: false,
-                loading: 0,
-              },
+            <Typography
+              sx={{
+                fontSize: "0.9rem",
+                fontFamily: "halvetica",
+                mt: "0.3rem",
+                mb:"-1rem"
+              }}
+            >
+              {item?.info?.text}
+            </Typography>
+          </Box>
+        }
+        date={item?.createdAt}
+        styles={{
+          background: "linear-gradient(to top right, #D9FDD3, #fff",
+          maxWidth: "80%",
+        }}
+      />
+    :
+    
+    <MessageBox
+    position={item?.info?.sender?._id === userId ? "right" : "left"}
+    type={"text"}
+    styles={
+      item?.info?.sender?._id === userId
+        ? {
+          background: "linear-gradient(to top right, #D9FDD3, #fff",
+          maxWidth: "80%",
+          }
+        : {
+            maxWidth: "80%",
+
+          }
+    }
+    text={
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          position: "relative",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "end",
+            marginBottom: "0.1rem",
+          }}
+        >
+        </Box>
+
+        <Typography
+          sx={{
+            fontSize: "0.9rem",
+            lineHeight: "1",
+            marginBottom: "-0.5rem",
+          }}
+        >
+          {item?.info?.text}
+        </Typography>
+        {item?.info?.reaction && (
+          <Typography
+            sx={{
+              position: "absolute",
+              bottom: "-2.5rem",
+              backgroundColor: "#fff",
+              borderRadius: "50%",
+              width: "1.5rem",
+              height: "1.5rem",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "end",
+              fontSize: "0.8rem",
+              border:"0.5px solid #edebeb"
+
             }}
-          />
+          >
+            {item?.info?.reaction}
+          </Typography>
+        )}
+      </Box>
+    }
+    date={item?.info?.createdAt}
+    data={{
+      status: {
+        click: false,
+        loading: 0,
+      },
+    }}
+  />
+    }
         </Box>
       ))}
 
