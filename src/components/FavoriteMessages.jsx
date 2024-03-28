@@ -102,8 +102,8 @@ console.log(favMessages);
              
     {item?.info?.replyto?
       <MessageBox
-        position={"right"}
-        type={"text"}
+      position={item?.info?.sender?._id === userId ? "right" : "left"}
+      type={"text"}
         text={
           <Box>
             <Box
@@ -126,7 +126,7 @@ console.log(favMessages);
               <Typography
                 sx={{
                   fontSize: "0.9rem",
-                  fontFamily: "halvetica",
+                  fontFamily: "Halvetica",
                   fontWeight: "900",
                   color: "#63a44d",
 
@@ -137,7 +137,7 @@ console.log(favMessages);
               <Typography
                 sx={{
                   fontSize: "0.9rem",
-                  fontFamily: "halvetica",
+                  fontFamily: "Halvetica",
                 }}
               >
                 {item?.info?.replyto?.text}
@@ -149,16 +149,19 @@ console.log(favMessages);
                 fontSize: "0.9rem",
                 fontFamily: "halvetica",
                 mt: "0.3rem",
-                mb:"-1rem"
+                mb:"-2rem",
+                fontFamily: "Halvetica",
+
               }}
             >
               {item?.info?.text}
             </Typography>
           </Box>
         }
-        date={item?.createdAt}
+        date={item?.info?.createdAt}
         styles={{
-          background: "linear-gradient(to top right, #D9FDD3, #fff",
+          background: item?.info?.sender?._id === userId ? 
+          "linear-gradient(to top right, #D9FDD3, #fff": "white",
           maxWidth: "80%",
         }}
       />
@@ -180,51 +183,26 @@ console.log(favMessages);
     }
     text={
       <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          position: "relative",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "end",
-            marginBottom: "0.1rem",
-          }}
-        >
-        </Box>
-
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+        mb: "-2rem",
+      }}
+    >
+      <Box sx={{ position: "relative" }}>
         <Typography
           sx={{
             fontSize: "0.9rem",
             lineHeight: "1",
-            marginBottom: "-0.5rem",
+            fontFamily: "Halvetica",
           }}
         >
           {item?.info?.text}
         </Typography>
-        {item?.info?.reaction && (
-          <Typography
-            sx={{
-              position: "absolute",
-              bottom: "-2.5rem",
-              backgroundColor: "#fff",
-              borderRadius: "50%",
-              width: "1.5rem",
-              height: "1.5rem",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "end",
-              fontSize: "0.8rem",
-              border:"0.5px solid #edebeb"
-
-            }}
-          >
-            {item?.info?.reaction}
-          </Typography>
-        )}
       </Box>
+    </Box>
+    
     }
     date={item?.info?.createdAt}
     data={{

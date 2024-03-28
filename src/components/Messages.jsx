@@ -19,7 +19,7 @@ const Messages = ({setInfo}) => {
     );
     getMessages(chatNumber[0]?._id);
   }, []);
-
+console.log(messages);
   return (
     <Box sx={{ maxHeight: "75vh", overflow: "scroll" }}>
       {messages?.map((item, index) => (
@@ -28,7 +28,9 @@ const Messages = ({setInfo}) => {
          
           {item?.replyto ? (
             <MessageBox
-              position={"right"}
+              position={  item?.sender?._id === userId
+                  ? "right"
+                  : "left"}
               type={"text"}
               text={
                 <Box>
@@ -43,10 +45,10 @@ const Messages = ({setInfo}) => {
 
                   <Box
                     sx={{
-                      backgroundColor: "white",
                       borderRadius: "0.4rem",
                       padding: "0.4rem",
-                      borderLeft:"0.4rem solid #63a44d"
+                      borderLeft:"0.4rem solid #63a44d",
+                      backgroundColor:"white"
                     }}
                   >
                     <Typography
@@ -55,7 +57,7 @@ const Messages = ({setInfo}) => {
                         fontFamily: "halvetica",
                         fontWeight: "900",
                         color: "#63a44d",
-
+                        fontFamily:"Halvetica"
                       }}
                     >
                       {item.replyto?.sender?.name}
@@ -63,7 +65,7 @@ const Messages = ({setInfo}) => {
                     <Typography
                       sx={{
                         fontSize: "0.9rem",
-                        fontFamily: "halvetica",
+                        fontFamily:"Halvetica"
                       }}
                     >
                       {item?.replyto?.text}
@@ -105,7 +107,7 @@ const Messages = ({setInfo}) => {
               }
               date={item?.createdAt}
               styles={{
-                background: "linear-gradient(to top right, #D9FDD3, #fff",
+                background: item?.sender?._id == userId ?"linear-gradient(to top right, #D9FDD3, #fff" :"white" ,
                 maxWidth: "80%",
               }}
             />
@@ -116,13 +118,13 @@ const Messages = ({setInfo}) => {
           : (
             <MessageBox
               position={
-                item.sender?._id === userId || item.sender == ""
+                item.sender?._id === userId
                   ? "right"
                   : "left"
               }
               type={"text"}
               styles={
-                item.sender?._id === userId || item.sender == ""
+                item?.sender?._id == userId
                   ? {
                       background: "linear-gradient(to top right, #D9FDD3, #fff",
                       maxWidth: "80%",
@@ -145,7 +147,8 @@ const Messages = ({setInfo}) => {
                       justifyContent: "end",
                     }}
                   >
-                    <AccountMenu item={item} setInfo={setInfo} />
+                    {item.sender.name == null && item.sender.username==null && item.sender.email==null? "":  <AccountMenu item={item} setInfo={setInfo} />}
+                  
                   </Box>
 
                   <Typography
@@ -154,8 +157,8 @@ const Messages = ({setInfo}) => {
                       fontFamily: "halvetica",
                       lineHeight: "1",
                       marginBottom: "-0.6rem",
-                      fontStyle: item.sender === "" ? "italic" : "normal",
-                      color: item?.sender === "" ? "#7b7b7b" : "black", // item.sender boş ise italik yap
+                      fontStyle: item.sender.name == null && item.sender.username==null && item.sender.email==null ? "italic" : "normal",
+                      color: item.sender.name == null && item.sender.username==null && item.sender.email==null ? "#7b7b7b" : "black", // item.sender boş ise italik yap
                     }}
                   >
                     {item?.text}
@@ -181,7 +184,7 @@ const Messages = ({setInfo}) => {
                   )}
                 </Box>
               }
-              date={item?.createdAt}
+              date={item.sender.name == null && item.sender.username==null && item.sender.email==null? "":item?.createdAt}
               data={{
                 status: {
                   click: false,
